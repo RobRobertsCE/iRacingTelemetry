@@ -31,6 +31,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.msg = new System.Windows.Forms.TextBox();
+            this.btnViewer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStart
@@ -63,11 +64,22 @@
             this.msg.Size = new System.Drawing.Size(446, 180);
             this.msg.TabIndex = 2;
             // 
+            // btnViewer
+            // 
+            this.btnViewer.Location = new System.Drawing.Point(246, 12);
+            this.btnViewer.Name = "btnViewer";
+            this.btnViewer.Size = new System.Drawing.Size(111, 38);
+            this.btnViewer.TabIndex = 3;
+            this.btnViewer.Text = "Setup Viewer";
+            this.btnViewer.UseVisualStyleBackColor = true;
+            this.btnViewer.Click += new System.EventHandler(this.btnViewer_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(446, 236);
+            this.Controls.Add(this.btnViewer);
             this.Controls.Add(this.msg);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
@@ -83,6 +95,7 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox msg;
+        private System.Windows.Forms.Button btnViewer;
     }
 }
 

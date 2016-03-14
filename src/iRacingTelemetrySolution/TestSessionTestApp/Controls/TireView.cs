@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace TestSessionTestApp.Controls
 {
-    public partial class SetupView : UserControl
+    public partial class TireView : UserControl
     {
-        public SetupView()
+        public TireView()
         {
             InitializeComponent();
         }

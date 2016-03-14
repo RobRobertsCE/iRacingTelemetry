@@ -68,5 +68,11 @@ namespace TestSessionTestApp
         {
             msg.Text += DateTime.Now.ToString() + ": " +  message + "\r\n";
         }
+
+        private void btnViewer_Click(object sender, EventArgs e)
+        {
+            var v = new SetupViewer();
+            v.ShowDialog();
+        }
     }
 }

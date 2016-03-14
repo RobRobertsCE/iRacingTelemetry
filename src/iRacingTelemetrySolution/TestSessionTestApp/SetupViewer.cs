@@ -16,5 +16,24 @@ namespace TestSessionTestApp
         {
             InitializeComponent();
         }
+
+        private void SetupViewer_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                var laps = new List<Single>();
+                var r = new Random(DateTime.Now.Millisecond);
+                for (int i = 0; i < 20; i++)
+                {
+                    var lap = (Single)(r.Next(20, 22) + r.NextDouble());
+                    laps.Add(lap);
+                }
+                lapsView1.LapTimes = laps;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }
