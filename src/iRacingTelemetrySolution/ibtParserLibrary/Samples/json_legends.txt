@@ -1,0 +1,61 @@
+CarSetup:
+ UpdateCount: 1
+ Tires:
+  LeftFront:
+   ColdPressure: 138 kPa
+   LastHotPressure: 138 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 138 kPa
+   LastHotPressure: 138 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 165 kPa
+   LastHotPressure: 165 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 13 mm
+  RightRear:
+   ColdPressure: 179 kPa
+   LastHotPressure: 179 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 19 mm
+ Chassis:
+  Front:
+   ToeIn: -4 mm
+   SteeringOffset: +0 deg
+   FrontBrakeBias: 75%
+   FrontWheelOffset: +16 mm
+  LeftFront:
+   CornerWeight: 1536 N
+   RideHeight: 92 mm
+   ShockCollarOffset: 148 mm
+   SpringRate: 35 N/mm
+   Camber: +2.1 deg
+   Caster: +2.2 deg
+  LeftRear:
+   CornerWeight: 1519 N
+   RideHeight: 90 mm
+   ShockCollarOffset: 151 mm
+   SpringRate: 39 N/mm
+  RightFront:
+   CornerWeight: 1517 N
+   RideHeight: 93 mm
+   ShockCollarOffset: 140 mm
+   SpringRate: 35 N/mm
+   Camber: -2.8 deg
+   Caster: +2.8 deg
+  RightRear:
+   CornerWeight: 1411 N
+   RideHeight: 92 mm
+   ShockCollarOffset: 158 mm
+   SpringRate: 35 N/mm
+  Rear:
+   FuelFillTo: 20.0 L
+   CrossWeight: 50.7%
+   RearEndRatio: 3.90
+
+...

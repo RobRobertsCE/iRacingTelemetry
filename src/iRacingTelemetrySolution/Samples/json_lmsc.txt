@@ -1,0 +1,81 @@
+CarSetup:
+ UpdateCount: 2
+ Tires:
+  LeftFront:
+   ColdPressure: 138 kPa
+   LastHotPressure: 138 kPa
+   LastTempsOMI: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 138 kPa
+   LastHotPressure: 138 kPa
+   LastTempsOMI: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 145 kPa
+   LastHotPressure: 145 kPa
+   LastTempsIMO: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 25 mm
+  RightRear:
+   ColdPressure: 152 kPa
+   LastHotPressure: 152 kPa
+   LastTempsIMO: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 41 mm
+ Chassis:
+  Front:
+   BallastForward: 1219 mm
+   NoseWeight: 49.6%
+   CrossWeight: 54.8%
+   ToeIn: -2 mm
+   SteeringRatio: 8:1
+   SteeringOffset: +0 deg
+   BrakeBalanceBar: 42.0%
+   SwayBarSize: 40 mm
+   SwayBarArmLength: 330 mm
+   LeftBarEndClearance: 0 mm
+   AttachLeftSide: 1
+   TapeConfiguration: 25%
+  LeftFront:
+   CornerWeight: 3507 N
+   RideHeight: 103 mm
+   SpringPerchOffset: 139 mm
+   SpringRate: 70 N/mm
+   BumpStiffness: +12 clicks
+   ReboundStiffness: +14 clicks
+   Camber: +5.7 deg
+   Caster: +2.3 deg
+  LeftRear:
+   CornerWeight: 4229 N
+   RideHeight: 106 mm
+   SpringPerchOffset: 122 mm
+   SpringRate: 61 N/mm
+   BumpStiffness: +14 clicks
+   ReboundStiffness: +16 clicks
+   TrackBarHeight: +267 mm
+   TruckArmMount: top
+  RightFront:
+   CornerWeight: 3432 N
+   RideHeight: 111 mm
+   SpringPerchOffset: 123 mm
+   SpringRate: 61 N/mm
+   BumpStiffness: +13 clicks
+   ReboundStiffness: +11 clicks
+   Camber: -2.7 deg
+   Caster: +3.1 deg
+  RightRear:
+   CornerWeight: 2812 N
+   RideHeight: 113 mm
+   SpringPerchOffset: 179 mm
+   SpringRate: 74 N/mm
+   BumpStiffness: +12 clicks
+   ReboundStiffness: +16 clicks
+   TrackBarHeight: +279 mm
+   TruckArmMount: top
+   TruckArmPreload: -2.1 Nm
+  Rear:
+   FuelFillTo: 34.1 L
+   RearEndRatio: 5.41
+
+...

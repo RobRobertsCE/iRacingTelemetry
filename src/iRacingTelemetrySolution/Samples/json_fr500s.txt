@@ -1,0 +1,58 @@
+CarSetup:
+ UpdateCount: 1
+ Suspension:
+  Front:
+   ToeIn: -0 mm
+   BrakeBias: 75.0%
+   CrossWeight: 50.2%
+   ArbArm: soft
+   ArbPreload: 7.5 Nm
+  LeftFront:
+   ColdPressure: 221 kPa
+   LastHotPressure: 221 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   CornerWeight: 4603 N
+   RideHeight: 97 mm
+   SpringPerchOffset: 23 mm
+   BumpStiffness: +15 clicks
+   ReboundStiffness: +15 degrees
+   Camber: -2.5 deg
+   Caster: +7.8 deg
+  LeftRear:
+   ColdPressure: 221 kPa
+   LastHotPressure: 221 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   CornerWeight: 3738 N
+   RideHeight: 110 mm
+   SpringPerchOffset: 76 mm
+   BumpStiffness: +20 clicks
+   ReboundStiffness: +0 degrees
+  RightFront:
+   ColdPressure: 221 kPa
+   LastHotPressure: 221 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   CornerWeight: 4410 N
+   RideHeight: 96 mm
+   SpringPerchOffset: 26 mm
+   BumpStiffness: +15 clicks
+   ReboundStiffness: +15 degrees
+   Camber: -2.5 deg
+   Caster: +7.9 deg
+  RightRear:
+   ColdPressure: 221 kPa
+   LastHotPressure: 221 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   CornerWeight: 3463 N
+   RideHeight: 110 mm
+   SpringPerchOffset: 84 mm
+   BumpStiffness: +20 clicks
+   ReboundStiffness: +0 degrees
+  Rear:
+   FuelLevel: 38.9 L
+   AntiRollBar: soft
+
+...
