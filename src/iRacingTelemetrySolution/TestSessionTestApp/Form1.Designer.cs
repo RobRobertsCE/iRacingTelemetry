@@ -31,6 +31,8 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.msg = new System.Windows.Forms.TextBox();
+            this.btnViewer = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnStart
@@ -60,14 +62,36 @@
             this.msg.Multiline = true;
             this.msg.Name = "msg";
             this.msg.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.msg.Size = new System.Drawing.Size(446, 180);
+            this.msg.Size = new System.Drawing.Size(492, 180);
             this.msg.TabIndex = 2;
+            // 
+            // btnViewer
+            // 
+            this.btnViewer.Location = new System.Drawing.Point(246, 12);
+            this.btnViewer.Name = "btnViewer";
+            this.btnViewer.Size = new System.Drawing.Size(111, 38);
+            this.btnViewer.TabIndex = 3;
+            this.btnViewer.Text = "Setup Viewer";
+            this.btnViewer.UseVisualStyleBackColor = true;
+            this.btnViewer.Click += new System.EventHandler(this.btnViewer_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(363, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(111, 38);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Setup Viewer";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(446, 236);
+            this.ClientSize = new System.Drawing.Size(492, 236);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnViewer);
             this.Controls.Add(this.msg);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
@@ -83,6 +107,8 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox msg;
+        private System.Windows.Forms.Button btnViewer;
+        private System.Windows.Forms.Button button1;
     }
 }
 

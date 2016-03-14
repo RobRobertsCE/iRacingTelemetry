@@ -1,0 +1,92 @@
+CarSetup:
+ UpdateCount: 4
+ Tires:
+  LeftFront:
+   ColdPressure: 124 kPa
+   LastHotPressure: 131 kPa
+   LastTempsOMI: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 124 kPa
+   LastHotPressure: 131 kPa
+   LastTempsOMI: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 159 kPa
+   LastHotPressure: 145 kPa
+   LastTempsIMO: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 25 mm
+  RightRear:
+   ColdPressure: 159 kPa
+   LastHotPressure: 145 kPa
+   LastTempsIMO: 27C, 27C, 27C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 29 mm
+ Chassis:
+  Front:
+   BallastForward: 0 mm
+   NoseWeight: 48.8%
+   CrossWeight: 50.9%
+   ToeIn: +1 mm
+   SteeringRatio: 14:1
+   SteeringOffset: +0 deg
+   BrakeBalanceBar: 47.6%
+   SwayBarSize: 32 mm
+   SwayBarArmLength: 330 mm
+   LeftBarEndClearance: 0 mm
+   AttachLeftSide: 1
+   TapeConfiguration: 50%
+  LeftFront:
+   CornerWeight: 3395 N
+   RideHeight: 77 mm
+   ShockDeflection: 75.9 mm 155.9 mm
+   SpringDeflection: 90.4 mm 188.9 mm
+   SpringPerchOffset: 72 mm
+   SpringRate: 44 N/mm
+   Packer: 61.9 mm shim
+   BumpStiffness: +6 clicks
+   ReboundStiffness: +8 clicks
+   Camber: +4.2 deg
+   Caster: +4.0 deg
+  LeftRear:
+   CornerWeight: 3653 N
+   RideHeight: 78 mm
+   ShockDeflection: 47.4 mm 142.0 mm
+   SpringDeflection: 69.4 mm 183.5 mm
+   SpringPerchOffset: 141 mm
+   SpringRate: 53 N/mm
+   Packer: 0.0 mm shim
+   BumpStiffness: +4 clicks
+   ReboundStiffness: +15 clicks
+   TrackBarHeight: +235 mm
+   TrailingArmMount: bottom
+  RightFront:
+   CornerWeight: 2603 N
+   RideHeight: 77 mm
+   ShockDeflection: 78.9 mm 155.9 mm
+   SpringDeflection: 63.4 mm 188.9 mm
+   SpringPerchOffset: 103 mm
+   SpringRate: 44 N/mm
+   Packer: 61.9 mm shim
+   BumpStiffness: +8 clicks
+   ReboundStiffness: +10 clicks
+   Camber: -6.0 deg
+   Caster: +5.8 deg
+  RightRear:
+   CornerWeight: 2638 N
+   RideHeight: 79 mm
+   ShockDeflection: 59.7 mm 142.0 mm
+   SpringDeflection: 35.6 mm 186.1 mm
+   SpringPerchOffset: 187 mm
+   SpringRate: 48 N/mm
+   Packer: 0.0 mm shim
+   BumpStiffness: +4 clicks
+   ReboundStiffness: +10 clicks
+   TrackBarHeight: +235 mm
+   TrailingArmMount: bottom
+  Rear:
+   FuelFillTo: 60.5 L
+   RearEndRatio: 4.89
+
+...

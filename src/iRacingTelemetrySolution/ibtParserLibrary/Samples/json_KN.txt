@@ -1,0 +1,98 @@
+CarSetup:
+ UpdateCount: 1
+ Tires:
+  LeftFront:
+   ColdPressure: 241 kPa
+   LastHotPressure: 241 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 241 kPa
+   LastHotPressure: 241 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 334 kPa
+   LastHotPressure: 334 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  RightRear:
+   ColdPressure: 334 kPa
+   LastHotPressure: 334 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+ Chassis:
+  Front:
+   BallastForward: 140 mm
+   NoseWeight: 53.4%
+   CrossWeight: 49.2%
+   ToeIn: -2 mm
+   SteeringRatio: 12:1
+   SteeringOffset: +2 deg
+   FrontBrakeBias: 65.0%
+   TapeConfiguration: Race
+  LeftFront:
+   CornerWeight: 4685 N
+   RideHeight: 129 mm
+   ShockDeflection: 100 mm 203 mm
+   SpringDeflection: 85 mm 143 mm
+   SpringPerchOffset: -134 mm
+   SpringRate: 96 N/mm
+   BumpStiffness: +8 clicks
+   ReboundStiffness: +32 clicks
+   Camber: +7.0 deg
+   Caster: +6.8 deg
+  LeftRear:
+   CornerWeight: 4035 N
+   RideHeight: 147 mm
+   ShockDeflection: 166 mm 254 mm
+   SpringDeflection: 42 mm 170 mm
+   SpringPerchOffset: -120 mm
+   SpringRate: 96 N/mm
+   BumpStiffness: +24 clicks
+   ReboundStiffness: +0 clicks
+   LeftRearToeIn: +6 mm
+   Camber: +1.6 deg
+   TrackBarHeight: +216 mm
+   TruckArmMount: top
+  FrontArb:
+   Diameter: 51 mm
+   ArmAsymmetry: None
+   ChainOrSolidLink: Solid link
+   LinkSlack: -1 mm
+   Preload: -151.6 Nm
+   Attach: 1
+  RightFront:
+   CornerWeight: 3630 N
+   RideHeight: 158 mm
+   ShockDeflection: 49 mm 203 mm
+   SpringDeflection: 75 mm 149 mm
+   SpringPerchOffset: -152 mm
+   SpringRate: 70 N/mm
+   BumpStiffness: +14 clicks
+   ReboundStiffness: +32 clicks
+   Camber: -2.3 deg
+   Caster: +5.3 deg
+  RightRear:
+   CornerWeight: 3226 N
+   RideHeight: 176 mm
+   ShockDeflection: 155 mm 254 mm
+   SpringDeflection: 14 mm 147 mm
+   SpringPerchOffset: -125 mm
+   SpringRate: 193 N/mm
+   BumpStiffness: +24 clicks
+   ReboundStiffness: +0 clicks
+   RightRearToeIn: -6 mm
+   Camber: -1.6 deg
+   TrackBarHeight: +216 mm
+   TruckArmMount: bottom
+   TruckArmPreload: 0.5 Nm
+  Rear:
+   RearEndRatio: 3.50
+   ArbDiameter: None
+   ArmAsymmetry: None
+   ChainOrSolidLink: Solid link
+   Preload: 0.0 Nm
+   LinkSlack: 6 mm
+
+...

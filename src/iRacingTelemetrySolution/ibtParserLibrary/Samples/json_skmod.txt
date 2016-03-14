@@ -1,0 +1,77 @@
+CarSetup:
+ UpdateCount: 3
+ Tires:
+  LeftFront:
+   ColdPressure: 138 kPa
+   LastHotPressure: 131 kPa
+   LastTempsOMI: 30C, 30C, 30C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 138 kPa
+   LastHotPressure: 131 kPa
+   LastTempsOMI: 30C, 30C, 30C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 172 kPa
+   LastHotPressure: 152 kPa
+   LastTempsIMO: 30C, 30C, 30C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 38 mm
+  RightRear:
+   ColdPressure: 172 kPa
+   LastHotPressure: 159 kPa
+   LastTempsIMO: 30C, 30C, 30C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 67 mm
+ Chassis:
+  Front:
+   BallastForward: -0.152 m
+   NoseWeight: 48.9%
+   CrossWeight: 48.2%
+   ToeIn: +0 mm
+   SteeringRatio: 12:1
+   SteeringOffset: +0 deg
+   FrontBrakeBias: 70%
+   SwayBarSize: 51 mm
+   SwayBarArmLength: 356 mm
+   LeftBarEndClearance: 0 mm
+   AttachLeftSide: 1
+  LeftFront:
+   CornerWeight: 3421 N
+   RideHeight: 55 mm
+   ShockCollarOffset: 105 mm
+   SpringRate: 70 N/mm
+   BumpStiffness: +2 clicks
+   ReboundStiffness: +8 clicks
+   Camber: +3.6 deg
+   Caster: +3.4 deg
+  LeftRear:
+   CornerWeight: 3329 N
+   RideHeight: 59 mm
+   ShockCollarOffset: 152 mm
+   SpringRate: 35 N/mm
+   BumpStiffness: +4 clicks
+   ReboundStiffness: +3 clicks
+   TrackBarHeight: +267 mm
+  RightFront:
+   CornerWeight: 2423 N
+   RideHeight: 68 mm
+   ShockCollarOffset: 71 mm
+   SpringRate: 88 N/mm
+   BumpStiffness: +4 clicks
+   ReboundStiffness: +5 clicks
+   Camber: -3.6 deg
+   Caster: +4.5 deg
+  RightRear:
+   CornerWeight: 2768 N
+   RideHeight: 78 mm
+   ShockCollarOffset: 168 mm
+   SpringRate: 35 N/mm
+   BumpStiffness: +8 clicks
+   ReboundStiffness: +16 clicks
+   TrackBarHeight: +279 mm
+  Rear:
+   FuelFillTo: 43.3 L
+   RearEndRatio: 5.04
+
+...

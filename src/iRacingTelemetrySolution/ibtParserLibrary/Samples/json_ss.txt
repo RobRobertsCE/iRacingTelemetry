@@ -1,0 +1,73 @@
+CarSetup:
+ UpdateCount: 3
+ Tires:
+  LeftFront:
+   ColdPressure: 165 kPa
+   LastHotPressure: 172 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 165 kPa
+   LastHotPressure: 172 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 193 kPa
+   LastHotPressure: 221 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 22 mm
+  RightRear:
+   ColdPressure: 193 kPa
+   LastHotPressure: 207 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+   Stagger: 38 mm
+ Chassis:
+  Front:
+   CrossWeight: 51.7%
+   ToeIn: -4 mm
+   SteeringRatio: 12:1
+   SteeringOffset: +0 deg
+   FrontBrakeBias: 67.00%
+   SwayBarSize: 41 mm
+   LeftBarEndClearance: -0 mm
+   AttachLeftSide: 0
+   SkirtClearance: 177 mm
+  LeftFront:
+   CornerWeight: 4222 N
+   SkirtClearance: 187 mm
+   SpringRate: 114 N/mm
+   SpringPerch: -203 mm
+   ShockCompression: build 3
+   ShockRebound: build 3
+   Camber: +7.25 deg
+   Caster: +2.45 deg
+  LeftRear:
+   CornerWeight: 4013 N
+   SkirtClearance: 192 mm
+   LeafSpringRate: 31 N/mm
+   LeafArchBlock: -168 mm
+   ShockCompression: build 1
+   ShockRebound: build 1
+  RightFront:
+   CornerWeight: 3973 N
+   SkirtClearance: 187 mm
+   SpringRate: 105 N/mm
+   SpringPerch: -221 mm
+   ShockCompression: build 4
+   ShockRebound: build 4
+   Camber: -5.20 deg
+   Caster: +2.29 deg
+  RightRear:
+   CornerWeight: 3254 N
+   SkirtClearance: 192 mm
+   LeafSpringRate: 53 N/mm
+   LeafArchBlock: -79 mm
+   ShockCompression: build 5
+   ShockRebound: build 3
+  Rear:
+   FuelFillTo: 45.4 L
+   RearEndRatio: 5.43
+
+...
