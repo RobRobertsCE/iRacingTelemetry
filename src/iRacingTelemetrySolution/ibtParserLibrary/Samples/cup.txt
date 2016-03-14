@@ -1,0 +1,469 @@
+﻿WeekendInfo:
+ TrackName: southboston
+ TrackID: 14
+ TrackLength: 0.59 km
+ TrackDisplayName: South Boston Speedway
+ TrackDisplayShortName: South Boston
+ TrackConfigName: 
+ TrackCity: South Boston
+ TrackCountry: USA
+ TrackAltitude: 126.43 m
+ TrackLatitude: 36.709879 m
+ TrackLongitude: -78.869115 m
+ TrackNorthOffset: 4.8900 rad
+ TrackNumTurns: 4
+ TrackPitSpeedLimit: 55.98 kph
+ TrackType: short oval
+ TrackWeatherType: Constant
+ TrackSkies: Partly Cloudy
+ TrackSurfaceTemp: 22.78 C
+ TrackAirTemp: 22.78 C
+ TrackAirPressure: 29.47 Hg
+ TrackWindVel: 3.13 m/s
+ TrackWindDir: 2.36 rad
+ TrackRelativeHumidity: 5 %
+ TrackFogLevel: 0 %
+ TrackCleanup: 0
+ TrackDynamicTrack: 1
+ SeriesID: 0
+ SeasonID: 0
+ SessionID: 0
+ SubSessionID: 0
+ LeagueID: 0
+ Official: 0
+ RaceWeek: 0
+ EventType: Test
+ Category: Oval
+ SimMode: full
+ TeamRacing: 0
+ MinDrivers: 0
+ MaxDrivers: 0
+ DCRuleSet: None
+ QualifierMustStartRace: 0
+ NumCarClasses: 1
+ NumCarTypes: 1
+ WeekendOptions:
+  NumStarters: 0
+  StartingGrid: single file
+  QualifyScoring: best lap
+  CourseCautions: off
+  StandingStart: 0
+  Restarts: single file
+  WeatherType: Constant
+  Skies: Partly Cloudy
+  WindDirection: SE
+  WindSpeed: 11.26 km/h
+  WeatherTemp: 22.78 C
+  RelativeHumidity: 5 %
+  FogLevel: 0 %
+  Unofficial: 0
+  CommercialMode: consumer
+  NightMode: 1
+  IsFixedSetup: 0
+  StrictLapsChecking: default
+  HasOpenRegistration: 0
+  HardcoreLevel: 1
+ TelemetryOptions:
+  TelemetryDiskFile: ""
+
+SessionInfo:
+ Sessions:
+ - SessionNum: 0
+   SessionLaps: unlimited
+   SessionTime: unlimited
+   SessionNumLapsToAvg: 0
+   SessionType: Offline Testing
+   SessionTrackRubberState: low usage
+   ResultsPositions:
+   ResultsFastestLap:
+   - CarIdx: 255
+     FastestLap: 0
+     FastestTime: -1.0000
+   ResultsAverageLapTime: -1.0000
+   ResultsNumCautionFlags: 0
+   ResultsNumCautionLaps: 0
+   ResultsNumLeadChanges: 0
+   ResultsLapsComplete: -1
+   ResultsOfficial: 0
+
+CameraInfo:
+ Groups:
+ - GroupNum: 1
+   GroupName: Nose
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamNose
+ - GroupNum: 2
+   GroupName: Gearbox
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamGearbox
+ - GroupNum: 3
+   GroupName: Roll Bar
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamRoll Bar
+ - GroupNum: 4
+   GroupName: LF Susp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamLF Susp
+ - GroupNum: 5
+   GroupName: LR Susp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamLR Susp
+ - GroupNum: 6
+   GroupName: Gyro
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamGyro
+ - GroupNum: 7
+   GroupName: RF Susp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamRF Susp
+ - GroupNum: 8
+   GroupName: RR Susp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamRR Susp
+ - GroupNum: 9
+   GroupName: Cockpit
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamCockpit
+ - GroupNum: 10
+   GroupName: Scenic
+   IsScenic: true
+   Cameras:
+   - CameraNum: 1
+     CameraName: Scenic_00
+   - CameraNum: 2
+     CameraName: Scenic_01
+   - CameraNum: 3
+     CameraName: Scenic_02
+   - CameraNum: 4
+     CameraName: Scenic_03
+   - CameraNum: 5
+     CameraName: Scenic_04
+   - CameraNum: 6
+     CameraName: Scenic_05
+ - GroupNum: 11
+   GroupName: TV1
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamTV1_00
+   - CameraNum: 2
+     CameraName: CamTV1_01
+   - CameraNum: 3
+     CameraName: CamTV1_02
+   - CameraNum: 4
+     CameraName: CamTV1_03
+ - GroupNum: 12
+   GroupName: TV2
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamTV2_00
+   - CameraNum: 2
+     CameraName: CamTV2_01
+   - CameraNum: 3
+     CameraName: CamTV2_02
+   - CameraNum: 4
+     CameraName: CamTV2_03
+   - CameraNum: 5
+     CameraName: CamTV2_04
+ - GroupNum: 13
+   GroupName: TV3
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamTV3_00
+   - CameraNum: 2
+     CameraName: CamTV3_01
+ - GroupNum: 14
+   GroupName: Pit Lane
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamPit Lane
+ - GroupNum: 15
+   GroupName: Pit Lane 2
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamPit Lane 2
+ - GroupNum: 16
+   GroupName: Chopper
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamChopper
+ - GroupNum: 17
+   GroupName: Blimp
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamBlimp
+ - GroupNum: 18
+   GroupName: Chase
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamChase
+ - GroupNum: 19
+   GroupName: Far Chase
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamFar Chase
+ - GroupNum: 20
+   GroupName: Rear Chase
+   Cameras:
+   - CameraNum: 1
+     CameraName: CamRear Chase
+
+RadioInfo:
+ SelectedRadioNum: 0
+ Radios:
+ - RadioNum: 0
+   HopCount: 1
+   NumFrequencies: 7
+   TunedToFrequencyNum: 0
+   ScanningIsOn: 1
+   Frequencies:
+   - FrequencyNum: 0
+     FrequencyName: "@ALLTEAMS"
+     Priority: 12
+     CarIdx: -1
+     EntryIdx: -1
+     ClubID: 0
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 1
+     IsDeletable: 0
+   - FrequencyNum: 1
+     FrequencyName: "@DRIVERS"
+     Priority: 15
+     CarIdx: -1
+     EntryIdx: -1
+     ClubID: 0
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 1
+     IsDeletable: 0
+   - FrequencyNum: 2
+     FrequencyName: "@TEAM"
+     Priority: 60
+     CarIdx: 0
+     EntryIdx: -1
+     ClubID: 0
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 0
+     IsDeletable: 0
+   - FrequencyNum: 3
+     FrequencyName: "@CLUB"
+     Priority: 20
+     CarIdx: -1
+     EntryIdx: -1
+     ClubID: 25
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 1
+     IsDeletable: 0
+   - FrequencyNum: 4
+     FrequencyName: "@ADMIN"
+     Priority: 90
+     CarIdx: -1
+     EntryIdx: -1
+     ClubID: 0
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 0
+     IsDeletable: 0
+   - FrequencyNum: 5
+     FrequencyName: "@RACECONTROL"
+     Priority: 80
+     CarIdx: -1
+     EntryIdx: -1
+     ClubID: 0
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 0
+     IsDeletable: 0
+   - FrequencyNum: 6
+     FrequencyName: "@PRIVATE"
+     Priority: 70
+     CarIdx: -1
+     EntryIdx: 0
+     ClubID: 0
+     CanScan: 1
+     CanSquawk: 1
+     Muted: 0
+     IsMutable: 0
+     IsDeletable: 0
+
+DriverInfo:
+ DriverCarIdx: 0
+ PaceCarIdx: -1
+ DriverHeadPosX: -0.170
+ DriverHeadPosY: 0.380
+ DriverHeadPosZ: 0.590
+ DriverCarIdleRPM: 1200.000
+ DriverCarRedLine: 9600.000
+ DriverCarFuelKgPerLtr: 0.750
+ DriverCarFuelMaxLtr: 70.753
+ DriverCarMaxFuelPct: 1.000
+ DriverCarSLFirstRPM: 8000.000
+ DriverCarSLShiftRPM: 9000.000
+ DriverCarSLLastRPM: 9000.000
+ DriverCarSLBlinkRPM: 9200.000
+ DriverPitTrkPct: 0.136026
+ DriverCarEstLapTime: 15.3207
+ DriverSetupName: richmond.sto
+ DriverSetupIsModified: 0
+ DriverSetupLoadTypeName: iracing
+ DriverSetupPassedTech: 1
+ Drivers:
+ - CarIdx: 0
+   UserName: Loren Roberts2
+   AbbrevName: 
+   Initials: 
+   UserID: 190243
+   TeamID: 0
+   TeamName: Loren Roberts2
+   CarNumber: "22"
+   CarNumberRaw: 22
+   CarPath: stockcars fordfusion
+   CarClassID: 0
+   CarID: 46
+   CarIsPaceCar: 0
+   CarIsAI: 0
+   CarScreenName: Ford Fusion-Gen6
+   CarScreenNameShort: Ford Fusion-Gen6
+   CarClassShortName: 
+   CarClassRelSpeed: 0
+   CarClassLicenseLevel: 0
+   CarClassMaxFuelPct: 1.000 %
+   CarClassWeightPenalty: 0.000 kg
+   CarClassColor: 0xffffff
+   IRating: 1
+   LicLevel: 1
+   LicSubLevel: 1
+   LicString: R 0.01
+   LicColor: 0x0153db
+   IsSpectator: 0
+   CarDesignStr: 3,000000,0097d4,6D6E71,c6a300
+   HelmetDesignStr: 61,0598d6,ffffff,666666
+   SuitDesignStr: 1,0e9add,cccccc,666666
+   CarNumberDesignStr: 40,ffffff,000000,6D6E71
+   CarSponsor_1: 0
+   CarSponsor_2: 0
+
+SplitTimeInfo:
+ Sectors:
+ - SectorNum: 0
+   SectorStartPct: 0.000000
+ - SectorNum: 1
+   SectorStartPct: 0.500000
+
+CarSetup:
+ UpdateCount: 3
+ Tires:
+  LeftFront:
+   ColdPressure: 172 kPa
+   LastHotPressure: 241 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  LeftRear:
+   ColdPressure: 172 kPa
+   LastHotPressure: 241 kPa
+   LastTempsOMI: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  RightFront:
+   ColdPressure: 234 kPa
+   LastHotPressure: 334 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+  RightRear:
+   ColdPressure: 234 kPa
+   LastHotPressure: 334 kPa
+   LastTempsIMO: 23C, 23C, 23C
+   TreadRemaining: 100%, 100%, 100%
+ Chassis:
+  Front:
+   BallastForward: 610 mm
+   NoseWeight: 52.2%
+   CrossWeight: 49.2%
+   SteeringRatio: 12:1
+   SteeringOffset: +6 deg
+   FrontBrakeBias: 65.0%
+   TapeConfiguration: 25%
+  LeftFront:
+   CornerWeight: 4195 N
+   RideHeight: 95 mm
+   ShockDeflection: 169 mm 284 mm
+   SpringDeflection: 108 mm 148 mm
+   SpringPerchOffset: -114 mm
+   SpringRate: 74 N/mm
+   ShockSpringRate: 88 N/mm
+   Packer: 31.8 mm shim
+   BumpStiffness: +32 clicks
+   ReboundStiffness: +32 clicks
+   Camber: +6.9 deg
+   Caster: +6.7 deg
+   ToeIn: -1 mm
+  LeftRear:
+   CornerWeight: 3725 N
+   RideHeight: 120 mm
+   ShockDeflection: 198 mm 254 mm
+   SpringDeflection: 75 mm 280 mm
+   SpringPerchOffset: -53 mm
+   SpringRate: 48 N/mm
+   BumpStiffness: +32 clicks
+   ReboundStiffness: +32 clicks
+   Camber: +3.4 deg
+   ToeIn: +1 mm
+   TrackBarHeight: +299 mm
+   TruckArmMount: bottom
+  FrontArb:
+   Diameter: 57 mm
+   ArmAsymmetry: 3
+   Preload: -379.6 Nm
+   Attach: 1
+  RightFront:
+   CornerWeight: 3836 N
+   RideHeight: 115 mm
+   ShockDeflection: 113 mm 243 mm
+   SpringDeflection: 63 mm 149 mm
+   SpringPerchOffset: -97 mm
+   SpringRate: 70 N/mm
+   ShockSpringRate: 245 N/mm
+   Packer: 36.5 mm shim
+   BumpStiffness: +32 clicks
+   ReboundStiffness: +32 clicks
+   Camber: -5.8 deg
+   Caster: +5.0 deg
+   ToeIn: -0 mm
+  RightRear:
+   CornerWeight: 3615 N
+   RideHeight: 140 mm
+   ShockDeflection: 186 mm 254 mm
+   SpringDeflection: 32 mm 170 mm
+   SpringPerchOffset: -95 mm
+   SpringRate: 96 N/mm
+   BumpStiffness: +32 clicks
+   ReboundStiffness: +32 clicks
+   Camber: -3.3 deg
+   ToeIn: -3 mm
+   TrackBarHeight: +305 mm
+   TruckArmMount: bottom
+   TruckArmPreload: -7.4 Nm
+  Rear:
+   FuelLevel: 70.8 L
+   RearEndRatio: 4.86
+   ArbDiameter: None
+   Preload: 0.0 Nm
+   Attach: 0
+
+...

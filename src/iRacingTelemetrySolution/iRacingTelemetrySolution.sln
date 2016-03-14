@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtAnalysis", "ibtAnalysis\ibtAnalysis.csproj", "{FE8E3600-5538-43F5-80CB-1301DC84D958}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtParser.WinApp", "ibtParser.WinApp\ibtParser.WinApp.csproj", "{20279F34-50F4-4F80-A07B-5FAE885858C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtParserLibrary", "ibtParserLibrary\ibtParserLibrary.csproj", "{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtSessionLibrary", "ibtSessionLibrary\ibtSessionLibrary.csproj", "{278C681F-6026-4539-8695-5F85DBACC27F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.Common", "iRacing.Common\iRacing.Common.csproj", "{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSessionLibrary", "TestSessionLibrary\TestSessionLibrary.csproj", "{5942FFAF-92D8-442A-BE17-D92FF1353816}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSessionTestApp", "TestSessionTestApp\TestSessionTestApp.csproj", "{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C057D489-C6BB-4014-ACC8-F1B9E625F183}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EEC8A578-D1F2-4F81-9870-EE8343C0F5B5}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\cup.txt = Samples\cup.txt
+		Samples\fr500s.txt = Samples\fr500s.txt
+		Samples\json_cup.txt = Samples\json_cup.txt
+		Samples\json_fr500s.txt = Samples\json_fr500s.txt
+		Samples\json_KN.txt = Samples\json_KN.txt
+		Samples\json_legends.txt = Samples\json_legends.txt
+		Samples\json_lmsc.txt = Samples\json_lmsc.txt
+		Samples\json_mx5.txt = Samples\json_mx5.txt
+		Samples\json_nationwide2011.txt = Samples\json_nationwide2011.txt
+		Samples\json_silverado2013.txt = Samples\json_silverado2013.txt
+		Samples\json_skmod.txt = Samples\json_skmod.txt
+		Samples\json_slm.txt = Samples\json_slm.txt
+		Samples\json_sprintCOT2013.txt = Samples\json_sprintCOT2013.txt
+		Samples\json_ss.txt = Samples\json_ss.txt
+		Samples\json_truck.txt = Samples\json_truck.txt
+		Samples\json_xfinity.txt = Samples\json_xfinity.txt
+		Samples\KN.txt = Samples\KN.txt
+		Samples\legends.txt = Samples\legends.txt
+		Samples\lmsc.txt = Samples\lmsc.txt
+		Samples\mx5.txt = Samples\mx5.txt
+		Samples\nationwide2011.txt = Samples\nationwide2011.txt
+		Samples\silverado2013.txt = Samples\silverado2013.txt
+		Samples\skmod.txt = Samples\skmod.txt
+		Samples\slm.txt = Samples\slm.txt
+		Samples\sprintCOT2013.txt = Samples\sprintCOT2013.txt
+		Samples\ss.txt = Samples\ss.txt
+		Samples\truck.txt = Samples\truck.txt
+		Samples\xfinity.txt = Samples\xfinity.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE8E3600-5538-43F5-80CB-1301DC84D958}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE8E3600-5538-43F5-80CB-1301DC84D958}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE8E3600-5538-43F5-80CB-1301DC84D958}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE8E3600-5538-43F5-80CB-1301DC84D958}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20279F34-50F4-4F80-A07B-5FAE885858C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20279F34-50F4-4F80-A07B-5FAE885858C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20279F34-50F4-4F80-A07B-5FAE885858C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20279F34-50F4-4F80-A07B-5FAE885858C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{278C681F-6026-4539-8695-5F85DBACC27F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{278C681F-6026-4539-8695-5F85DBACC27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{278C681F-6026-4539-8695-5F85DBACC27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{278C681F-6026-4539-8695-5F85DBACC27F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EEC8A578-D1F2-4F81-9870-EE8343C0F5B5} = {C057D489-C6BB-4014-ACC8-F1B9E625F183}
+	EndGlobalSection
+EndGlobal
