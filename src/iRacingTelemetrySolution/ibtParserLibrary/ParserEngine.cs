@@ -1,5 +1,6 @@
 ﻿using ibtSessionLibrary;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -42,8 +43,8 @@ namespace ibtParserLibrary
         {
             byte[] telemetryFileBytes = System.IO.File.ReadAllBytes(fileName);
             return ParseTelemetryBytes(fileName, telemetryFileBytes, metadataOnly);
-        }     
-        public TelemetrySession ParseTelemetryBytes(string fileName, byte[] telemetryFileBytes,  bool metadataOnly)
+        }
+        public TelemetrySession ParseTelemetryBytes(string fileName, byte[] telemetryFileBytes, bool metadataOnly)
         {
             _metaOnly = metadataOnly;
             int idx = 0;
@@ -58,16 +59,56 @@ namespace ibtParserLibrary
                 Session.RawHeader = new byte[idx];
                 Array.Copy(telemetryFileBytes, 0, Session.RawHeader, 0, idx);
             }
-            
+
             ParseYamlSection(telemetryFileBytes, ref idx);
 
-            Session.TelemetrySessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(Session.Yaml);
+           // Session.TelemetrySessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(Session.Yaml);
 
             if (!_metaOnly)
             {
                 ParseValueSection(telemetryFileBytes, ref idx);
                 ParseLaps();
             }
+
+            return Session;
+        }
+
+        public ITelemetrySessionInfo ParseTelemetrySessionInfo(string fileName, byte[] telemetryFileBytes)
+        {
+            int idx = 0;
+            Session = new TelemetrySession(fileName);
+
+            _fieldCount = GetIntFromBytes(telemetryFileBytes, FieldCountStart, FieldCountLength);
+            _frameCount = GetIntFromBytes(telemetryFileBytes, FrameCountStart, FrameCountLength);
+
+            ParseFieldDescriptionSection(telemetryFileBytes, ref idx);
+            Session.RawHeader = new byte[idx];
+            Array.Copy(telemetryFileBytes, 0, Session.RawHeader, 0, idx);
+
+            ParseYamlSection(telemetryFileBytes, ref idx);
+
+            var info = TelemetrySessionInfoFactory.GetSessionInfo(Session.Yaml);
+            
+            return info;
+        }
+
+        public TelemetrySession ParseTelemetryBytes(byte[] telemetryFileBytes)
+        {
+            Session = new TelemetrySession();
+
+            int idx = 0;
+
+            _fieldCount = GetIntFromBytes(telemetryFileBytes, FieldCountStart, FieldCountLength);
+            _frameCount = GetIntFromBytes(telemetryFileBytes, FrameCountStart, FrameCountLength);
+
+            ParseFieldDescriptionSection(telemetryFileBytes, ref idx);
+            Session.RawHeader = new byte[idx];
+            Array.Copy(telemetryFileBytes, 0, Session.RawHeader, 0, idx);
+
+            ParseYamlSection(telemetryFileBytes, ref idx);
+
+            ParseValueSection(telemetryFileBytes, ref idx);
+            ParseLaps();
 
             return Session;
         }
@@ -135,12 +176,12 @@ namespace ibtParserLibrary
             }
             int yamlLength = idx - yamlStartIdx - 3; // exclude the three '.' characters on the end.
             Session.Yaml = GetTextFromBytes(telemetryFileBytes, yamlStartIdx, yamlLength);
-            
+
             Session.RawYaml = new byte[yamlLength + 7];
             Array.Copy(telemetryFileBytes, yamlStartIdx - 3, Session.RawYaml, 0, yamlLength + 7);
         }
         #endregion
-        
+
         #region Value Section
         int ParseValueSection(byte[] telemetryFileBytes, ref int dataStartIdx)
         {
@@ -151,7 +192,7 @@ namespace ibtParserLibrary
 
             Session.RawFrames = new byte[valueLength];
             Array.Copy(telemetryFileBytes, dataStartIdx, Session.RawFrames, 0, valueLength);
-            
+
             return ParseValues(frameBytes);
         }
 
@@ -241,7 +282,7 @@ namespace ibtParserLibrary
                 }
                 currentLap.Frames.Add(frame);
             }
-        }
+        }      
         #endregion
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TestSessionTestApp
+namespace iRacing.Common
 {
     public static class TestSessionExtensions
     {
@@ -99,5 +99,6 @@ namespace TestSessionTestApp
             }
             return result;
         }
+
     }
 }

@@ -46,7 +46,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -79,7 +79,6 @@
     <Compile Include="Controls\TireView.Designer.cs">
       <DependentUpon>TireView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,6 +132,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ibtAnalysis\ibtAnalysis.csproj">
+      <Project>{fe8e3600-5538-43f5-80cb-1301dc84d958}</Project>
+      <Name>ibtAnalysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ibtParserLibrary\ibtParserLibrary.csproj">
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
       <Name>ibtParserLibrary</Name>

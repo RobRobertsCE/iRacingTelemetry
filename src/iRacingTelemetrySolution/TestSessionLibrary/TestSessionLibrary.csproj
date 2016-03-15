@@ -42,6 +42,10 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -76,14 +80,21 @@
     <Compile Include="ManagerStatus.cs" />
     <Compile Include="ManagerStatusChangedArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionRunCompleteArgs.cs" />
     <Compile Include="TrackSessionEngine.cs" />
     <Compile Include="TrackSessionManager.cs" />
+    <Compile Include="Views\TireSheetView.cs" />
+    <Compile Include="Views\TrackSessionRunView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ibtAnalysis\ibtAnalysis.csproj">
+      <Project>{fe8e3600-5538-43f5-80cb-1301dc84d958}</Project>
+      <Name>ibtAnalysis</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ibtParserLibrary\ibtParserLibrary.csproj">
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
       <Name>ibtParserLibrary</Name>

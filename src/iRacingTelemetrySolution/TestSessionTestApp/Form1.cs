@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ibtAnalysis.Laps;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TestSessionLibrary;
+using TestSessionLibrary.Data.Models;
+using TestSessionLibrary.Views;
 
 namespace TestSessionTestApp
 {
@@ -22,6 +25,14 @@ namespace TestSessionTestApp
             _manager.ManagerStatusChanged += _manager_ManagerStatusChanged;
             _manager.EngineStatusChanged += _manager_EngineStatusChanged;
             _manager.EngineException += _manager_EngineException;
+            _manager.SessionRunComplete += _manager_SessionRunComplete;
+        }
+
+        private void _manager_SessionRunComplete(object sender, SessionRunCompleteArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate {
+                DisplayRun(e.Run); // runs on UI thread
+            });
         }
 
         private void _manager_EngineException(object sender, EngineExceptionArgs e)
@@ -74,60 +85,13 @@ namespace TestSessionTestApp
             var v = new SetupViewer();
             v.ShowDialog();
         }
-
-        private void button1_Click_1(object sender, EventArgs e)
+        
+        private void DisplayRun(TrackSessionRunView run)
         {
-            try
-            {
-                var laps = new List<Single>();
-                var r = new Random(DateTime.Now.Millisecond);
-                for (int i = 0; i < 20; i++)
-                {
-                    var lap = (Single)(r.Next(20, 22) + r.NextDouble());
-                    laps.Add(lap);
-                }
-
-                // raw laps
-                Console.WriteLine();
-                Console.WriteLine("Laps");
-                foreach (var lap in laps.OrderBy(l => l))
-                {
-                    Console.WriteLine(lap.ToString());
-                }
-
-                // core laps
-                var core = laps.CoreLaps();
-                Console.WriteLine();
-                Console.WriteLine("CoreLaps");
-                foreach (var lap in core)
-                {
-                    Console.WriteLine(lap.ToString());
-                }
-
-                // stats
-                Console.WriteLine("Core Laps Average: {0}",core.Average());
-                Console.WriteLine("Core Laps Median: {0}", core.Median());
-                Console.WriteLine("Core Laps StdDev: {0}", core.StdDev());
-                Console.WriteLine("Core Laps Range: {0}", core.Range());
-
-                Console.WriteLine("Core Laps Frequency Distribution:");
-                var fd = core.FrequencyDistribution();
-                foreach (var item in fd.OrderBy(v=> v.Key))
-                {
-                    Console.WriteLine("{0,-6}: {1} {2}%", item.Key, item.Value, (((Single)item.Value / fd.Count) * 100));
-                }
-
-                Console.WriteLine("Core Laps Dropoff:");
-                var drop = core.Dropoff();
-                foreach (var item in drop)
-                {
-                    Console.WriteLine(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
+            var telemetryParser = new ibtParserLibrary.ParserEngine();
+            var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
+            var lapAnalysis = new LapTimeAnalysis(session.Laps);
+            lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
+        }        
     }
 }

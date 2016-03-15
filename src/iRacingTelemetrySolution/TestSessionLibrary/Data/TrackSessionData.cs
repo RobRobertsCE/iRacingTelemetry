@@ -98,7 +98,7 @@ namespace TestSessionLibrary.Data
         #region track
         public virtual TrackModel GetTrack(int trackNumber, string trackName, double length)
         {
-            var model = Context.Tracks.FirstOrDefault(v => v.TrackNumber == trackNumber && v.Name == trackName && v.Length == length);
+            var model = Context.Tracks.FirstOrDefault(v => v.TrackNumber == trackNumber);
             if (null == model)
             {
                 model = new TrackModel()

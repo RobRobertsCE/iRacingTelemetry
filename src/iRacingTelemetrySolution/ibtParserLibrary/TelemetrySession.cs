@@ -7,11 +7,12 @@ using System.IO;
 using System.Globalization;
 
 namespace ibtParserLibrary
-{
+{    
     public class TelemetrySession
     {
         #region props
         public IList<TelemetryLap> Laps { get; set; }
+        public Dictionary<int, Single> LapTimes { get; set; }
         [Browsable(false)]
         public IList<TelemetryFrame> Frames { get; set; }
         public IList<TelemetryFieldDefinition> Fields { get; set; }
@@ -22,9 +23,6 @@ namespace ibtParserLibrary
         public byte[] RawYaml { get; set; }
         public byte[] RawFrames { get; set; }
         public DateTime Timestamp { get; set; }
-
-        public ITelemetrySessionInfo TelemetrySessionInfo { get; set; }
-
         #endregion
 
         #region ctor

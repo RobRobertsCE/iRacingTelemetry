@@ -1,4 +1,5 @@
 ﻿using ibtParserLibrary;
+using ibtSessionLibrary;
 using iRacing;
 using System;
 using System.Collections.Generic;
@@ -7,12 +8,25 @@ using System.Globalization;
 using System.IO;
 using TestSessionLibrary.Data;
 using TestSessionLibrary.Data.Models;
+using TestSessionLibrary.Views;
 
 namespace TestSessionLibrary
-{
+{   
     public class TrackSessionManager : IDisposable
     {
         #region events
+        public event EventHandler<SessionRunCompleteArgs> SessionRunComplete;
+        protected virtual void OnSessionRunComplete(TrackSessionRunView run)
+        {
+            EventHandler<SessionRunCompleteArgs> handler = SessionRunComplete;
+            if (handler != null)
+            {
+                var e = new SessionRunCompleteArgs(run);
+                handler(this, e);
+                WriteLog("OnSessionRunComplete");
+            }
+        }
+
         public event EventHandler<EngineExceptionArgs> EngineException;
         protected virtual void OnEngineException(Exception ex)
         {
@@ -292,28 +306,28 @@ namespace TestSessionLibrary
             {
                 using (var data = new TrackSessionData())
                 {
-
-                    // get the current setup file
                     // get the telemetry file
                     var telemetry = GetTelemetryModel(telemetryFile);
 
                     // parse the telemetry file
                     var telemetryParser = new ParserEngine();
-                    var telemetrySession = telemetryParser.ParseTelemetryBytes(telemetry.TelemetryDiskFile, telemetry.BinaryData, true);
-
+                    //var telemetrySession = telemetryParser.ParseTelemetryBytes(telemetry.TelemetryDiskFile, telemetry.BinaryData, false);
+                    //return;
+                    var info = telemetryParser.ParseTelemetrySessionInfo(telemetry.TelemetryDiskFile, telemetry.BinaryData);
+                    
                     // get the session run details
                     var season = data.GetSeason(telemetry.Timestamp);
-                    var sessionType = data.GetSessionType(telemetrySession.TelemetrySessionInfo.SessionInfo.Sessions[0].SessionType );
-                    var vehicle = data.GetVehicle(Convert.ToInt32(telemetrySession.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarID),
-                        telemetrySession.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarScreenNameShort,
-                        telemetrySession.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarPath,
-                        telemetrySession.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarScreenName);
-                    var track = data.GetTrack(Convert.ToInt32(telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackID),
-                        telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackName, 
-                        Convert.ToDouble(telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackLength));
+                    var sessionType = data.GetSessionType(info.SessionInfo.Sessions[0].SessionType );
+                    var vehicle = data.GetVehicle(Convert.ToInt32(info.DriverInfo.CurrentDriver().CarID),
+                        info.DriverInfo.CurrentDriver().CarScreenNameShort,
+                        info.DriverInfo.CurrentDriver().CarPath,
+                        info.DriverInfo.CurrentDriver().CarScreenName);
+                    var track = data.GetTrack(Convert.ToInt32(info.WeekendInfo.TrackID),
+                        info.WeekendInfo.TrackName, 
+                        Convert.ToDouble(info.WeekendInfo.TrackLength.Substring(0, info.WeekendInfo.TrackLength.Length-3)));
 
                     // get the setup model
-                    var setup = GetSetupModel(telemetrySession);
+                    var setup = GetSetupModel(info);
 
                     // prep the session
                     if ((null != Session) && (Session.TrackNumber != track.TrackNumber ||
@@ -325,7 +339,7 @@ namespace TestSessionLibrary
 
                     if (null == Session)
                     {
-                        Session = GetTrackSessionModel(season, vehicle, track, sessionType, telemetrySession);
+                        Session = GetTrackSessionModel(season, vehicle, track, sessionType, info);
                         data.SaveTrackSession(Session);
                     }
 
@@ -335,6 +349,9 @@ namespace TestSessionLibrary
                     data.SaveTrackSessionRun(run);
 
                     Session = data.GetTrackSession(Session.TrackSessionId);
+
+                    var view = new TrackSessionRunView(run);
+                    OnSessionRunComplete(view);
                 }
             }
             catch (Exception ex)
@@ -439,7 +456,7 @@ namespace TestSessionLibrary
             return model;
         }
 
-        private TrackSessionModel GetTrackSessionModel(SeasonModel season, VehicleModel vehicle, TrackModel track, SessionTypeModel sessionType, TelemetrySession telemetrySession)
+        private TrackSessionModel GetTrackSessionModel(SeasonModel season, VehicleModel vehicle, TrackModel track, SessionTypeModel sessionType, ITelemetrySessionInfo info)
         {
             var model = new TrackSessionModel()
             {
@@ -447,15 +464,32 @@ namespace TestSessionLibrary
                 SessionType = sessionType,
                 Track = track,
                 Vehicle = vehicle,
-                Timestamp = telemetrySession.Timestamp,
-                TrackTemp = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackSurfaceTemp,
-                AirTemp = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackAirTemp,
-                Skies = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackSkies,
-                Night = (telemetrySession.TelemetrySessionInfo.WeekendInfo.WeekendOptions.NightMode.Trim() == "1"),
-                Humidity = Convert.ToSingle(telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackRelativeHumidity)
+                Timestamp = DateTime.Now,
+                TrackTemp = info.WeekendInfo.TrackSurfaceTemp,
+                AirTemp = info.WeekendInfo.TrackAirTemp,
+                Skies = info.WeekendInfo.TrackSkies,
+                Night = (info.WeekendInfo.WeekendOptions.NightMode.Trim() == "1"),
+                Humidity = Convert.ToSingle(info.WeekendInfo.TrackRelativeHumidity.TrimEnd('%'))
             };
             return model;
         }
+        //private TrackSessionModel GetTrackSessionModel(SeasonModel season, VehicleModel vehicle, TrackModel track, SessionTypeModel sessionType, TelemetrySession telemetrySession)
+        //{
+        //    var model = new TrackSessionModel()
+        //    {
+        //        Season = season,
+        //        SessionType = sessionType,
+        //        Track = track,
+        //        Vehicle = vehicle,
+        //        Timestamp = telemetrySession.Timestamp,
+        //        TrackTemp = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackSurfaceTemp,
+        //        AirTemp = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackAirTemp,
+        //        Skies = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackSkies,
+        //        Night = (telemetrySession.TelemetrySessionInfo.WeekendInfo.WeekendOptions.NightMode.Trim() == "1"),
+        //        Humidity = Convert.ToSingle(telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackRelativeHumidity)
+        //    };
+        //    return model;
+        //}
 
         private TrackSessionRunModel GetTrackSessionRunModel(TrackSessionModel session, SetupModel setup, TelemetryModel telemetry)
         {
@@ -469,17 +503,28 @@ namespace TestSessionLibrary
             return model;
         }
 
-        private SetupModel GetSetupModel(TelemetrySession telemetry)
+        private SetupModel GetSetupModel(ITelemetrySessionInfo info)
         {
             var model = new SetupModel()
             {
-                Name = telemetry.TelemetrySessionInfo.DriverInfo.DriverSetupName,
-                VehicleNumber = Convert.ToInt32(telemetry.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarID),
-                SetupJSON = telemetry.TelemetrySessionInfo.SetupJSON,
-                SetupBinary = GetSetupBinary(telemetry.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarPath)
+                Name = info.DriverInfo.DriverSetupName,
+                VehicleNumber = Convert.ToInt32(info.DriverInfo.CurrentDriver().CarID),
+                SetupJSON = info.SetupJSON,
+                SetupBinary = GetSetupBinary(info.DriverInfo.CurrentDriver().CarPath)
             };
             return model;
         }
+        //private SetupModel GetSetupModel(TelemetrySession telemetry)
+        //{
+        //    var model = new SetupModel()
+        //    {
+        //        Name = telemetry.TelemetrySessionInfo.DriverInfo.DriverSetupName,
+        //        VehicleNumber = Convert.ToInt32(telemetry.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarID),
+        //        SetupJSON = telemetry.TelemetrySessionInfo.SetupJSON,
+        //        SetupBinary = GetSetupBinary(telemetry.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarPath)
+        //    };
+        //    return model;
+        //}
         protected virtual byte[] GetSetupBinary(string carPath)
         {
             var setupDirectory = Path.Combine(iRacing.Constants.iRacingSetupDirectory, carPath);
