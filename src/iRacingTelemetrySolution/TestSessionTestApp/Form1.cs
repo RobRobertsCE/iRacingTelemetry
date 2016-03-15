@@ -1,9 +1,11 @@
 ﻿using ibtAnalysis.Laps;
+using iRacing.SetupLibrary.Parsers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -82,8 +84,7 @@ namespace TestSessionTestApp
 
         private void btnViewer_Click(object sender, EventArgs e)
         {
-            var v = new SetupViewer();
-            v.ShowDialog();
+           
         }
         
         private void DisplayRun(TrackSessionRunView run)
@@ -92,6 +93,30 @@ namespace TestSessionTestApp
             var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
             var lapAnalysis = new LapTimeAnalysis(session.Laps);
             lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
-        }        
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                HtmlExportParser htmlParser = new HtmlExportParser();
+                var htmlExport = File.ReadAllText(@"C:\Users\rroberts\Source\Repos\iRacingTelemetry\src\iRacingTelemetrySolution\Samples\SetupExports\cupat5flags.htm");
+                var tireSheet = htmlParser.GetTireSheet(htmlExport);
+                tireSheetView1.tireSheetBindingSource.DataSource = tireSheet;
+                Console.WriteLine(tireSheet.ToJson());
+
+                Random rnd = new Random(DateTime.Now.Millisecond);
+                var lapTimes = new List<Single>();
+                for (int i = 0; i < 30; i++)
+                {
+                    lapTimes.Add((Single)rnd.Next(15, 18) + (Single)rnd.NextDouble());
+                }
+                this.lapsView1.LapTimes = lapTimes;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
     }
 }

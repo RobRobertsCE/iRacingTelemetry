@@ -34,7 +34,7 @@ namespace TestSessionTestApp.Controls
         protected virtual void UpdateDisplay(IList<Single> laps)
         {
             txtBestLapAll.Clear();
-            txtBestLapAll.Clear();
+            txtAverageLapAll.Clear();
 
             lvLaps.Items.Clear();
 
@@ -55,10 +55,8 @@ namespace TestSessionTestApp.Controls
             {
                 var bestLapItem = lvLaps.Items[bestLapIdx];
                 bestLapItem.BackColor = Color.LimeGreen;
-                txtBestLapAll.Text = String.Format("{0}: {1}", bestLapIdx+1, bestLap);
-                txtAverageLapAll.Text = laps.Average().ToString();
-                txtBestLapClean.Text = "";
-                txtAverageLapClean.Text = "";
+                txtBestLapAll.Text = String.Format("[{0}]: {1}", bestLapIdx+1, bestLap);
+                txtAverageLapAll.Text = laps.Average().ToString();       
             }
         }
     }

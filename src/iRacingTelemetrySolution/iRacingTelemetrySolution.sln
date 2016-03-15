@@ -53,6 +53,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{EEC8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.SetupLibrary", "iRacing.SetupLibrary\iRacing.SetupLibrary.csproj", "{F430EAE0-A9A6-45BB-827C-BCB99907A8C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SetupExports", "SetupExports", "{0122E32E-6779-4549-97B5-E7CAA139BF4D}"
+	ProjectSection(SolutionItems) = preProject
+		Samples\SetupExports\cupat5flags.htm = Samples\SetupExports\cupat5flags.htm
+		Samples\SetupExports\fiveflags.htm = Samples\SetupExports\fiveflags.htm
+		Samples\SetupExports\lakeland-race2postrace.htm = Samples\SetupExports\lakeland-race2postrace.htm
+		Samples\SetupExports\langley-2016s1-80-2.1.htm = Samples\SetupExports\langley-2016s1-80-2.1.htm
+		Samples\SetupExports\missile_SLMnewsmyrna2015S4-night.htm = Samples\SetupExports\missile_SLMnewsmyrna2015S4-night.htm
+		Samples\SetupExports\rockingham_oval-firstpostrace.htm = Samples\SetupExports\rockingham_oval-firstpostrace.htm
+		Samples\SetupExports\snmp-2016s1-111-1-race2.htm = Samples\SetupExports\snmp-2016s1-111-1-race2.htm
+		Samples\SetupExports\snmp-2016s1-112-race1.htm = Samples\SetupExports\snmp-2016s1-112-race1.htm
+		Samples\SetupExports\sobo-race-awesome-dev.htm = Samples\SetupExports\sobo-race-awesome-dev.htm
+		Samples\SetupExports\stockcars2.htm = Samples\SetupExports\stockcars2.htm
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,5 +111,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EEC8A578-D1F2-4F81-9870-EE8343C0F5B5} = {C057D489-C6BB-4014-ACC8-F1B9E625F183}
+		{0122E32E-6779-4549-97B5-E7CAA139BF4D} = {EEC8A578-D1F2-4F81-9870-EE8343C0F5B5}
 	EndGlobalSection
 EndGlobal

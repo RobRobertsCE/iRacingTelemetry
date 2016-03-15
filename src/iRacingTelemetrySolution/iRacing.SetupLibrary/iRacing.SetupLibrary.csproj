@@ -76,6 +76,7 @@
     <Compile Include="SSSetup.cs" />
     <Compile Include="CClassSetup.cs" />
     <Compile Include="BClassSetup.cs" />
+    <Compile Include="Tires\TireSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

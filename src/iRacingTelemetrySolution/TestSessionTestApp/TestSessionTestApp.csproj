@@ -73,11 +73,11 @@
     <Compile Include="Controls\LapsView.Designer.cs">
       <DependentUpon>LapsView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\TireView.cs">
+    <Compile Include="Controls\TireSheetView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\TireView.Designer.cs">
-      <DependentUpon>TireView.cs</DependentUpon>
+    <Compile Include="Controls\TireSheetView.Designer.cs">
+      <DependentUpon>TireSheetView.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -87,17 +87,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetupViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SetupViewer.Designer.cs">
-      <DependentUpon>SetupViewer.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Controls\LapsView.resx">
       <DependentUpon>LapsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TireView.resx">
-      <DependentUpon>TireView.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\TireSheetView.resx">
+      <DependentUpon>TireSheetView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -111,13 +105,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="SetupViewer.resx">
-      <DependentUpon>SetupViewer.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup+SetupChassis.datasource" />
     <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup+SetupTires.datasource" />
     <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup.datasource" />
+    <None Include="Properties\DataSources\iRacing.SetupLibrary.Tires.TireDetails.datasource" />
+    <None Include="Properties\DataSources\iRacing.SetupLibrary.Tires.TireSheet.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
