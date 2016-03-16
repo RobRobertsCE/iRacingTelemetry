@@ -57,7 +57,7 @@ namespace iRacing.SetupLibrary.Parsers
         {
             var line = lines[(int)LineContent.Setup].Replace(tab.ToString(), "");
             var idx = line.IndexOf(" setup:");
-            var setup = line.Substring(idx + 7).Replace(tab.ToString(),"").Replace(@"&gt;<br>", "").Replace(@"&lt;", "").Replace("\r", "").Trim();
+            var setup = line.Substring(idx + 7).Replace(tab.ToString(),"").Replace(@"&gt;<br>", "").Replace(@"&lt;", "").Replace("\r", "").Replace("<br>", "").Trim();
             return setup;
         }
         private string GetTrackName(IList<string> lines)

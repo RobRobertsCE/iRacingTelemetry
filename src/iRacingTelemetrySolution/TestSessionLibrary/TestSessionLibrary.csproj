@@ -79,6 +79,7 @@
     <Compile Include="FileClosedMonitor.cs" />
     <Compile Include="ManagerStatus.cs" />
     <Compile Include="ManagerStatusChangedArgs.cs" />
+    <Compile Include="NewTireSheetArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionRunCompleteArgs.cs" />
     <Compile Include="TrackSessionEngine.cs" />

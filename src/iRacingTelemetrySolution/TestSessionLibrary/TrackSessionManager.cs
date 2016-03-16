@@ -1,11 +1,14 @@
 ﻿using ibtParserLibrary;
 using ibtSessionLibrary;
 using iRacing;
+using iRacing.SetupLibrary.Parsers;
+using iRacing.SetupLibrary.Tires;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using TestSessionLibrary.Data;
 using TestSessionLibrary.Data.Models;
 using TestSessionLibrary.Views;
@@ -15,6 +18,18 @@ namespace TestSessionLibrary
     public class TrackSessionManager : IDisposable
     {
         #region events
+        public event EventHandler<NewTireSheetArgs> NewTireSheet;
+        protected virtual void OnNewTireSheet(TireSheet newTireSheet)
+        {
+            EventHandler<NewTireSheetArgs> handler = NewTireSheet;
+            if (handler != null)
+            {
+                var e = new NewTireSheetArgs(newTireSheet);
+                handler(this, e);
+                WriteLog("Manager:OnSetupFileExported");
+            }
+        }
+
         public event EventHandler<SessionRunCompleteArgs> SessionRunComplete;
         protected virtual void OnSessionRunComplete(TrackSessionRunView run)
         {
@@ -140,10 +155,15 @@ namespace TestSessionLibrary
             _engine.TelemetryFileClosed += _engine_TelemetryFileClosed;
             _engine.iRacingProcessStarted += _engine_ProcessStarted;
             _engine.iRacingProcessStopped += _engine_ProcessStopped;
+            _engine.SetupFileExported += _engine_SetupFileExported;
         }
         #endregion
 
         #region engine events
+        private void _engine_SetupFileExported(object sender, EngineFileCreatedArgs e)
+        {
+            GetTireSheet(e.FullPath);
+        }
         private void _engine_TelemetryFileOpened(object sender, EngineFileCreatedArgs e)
         {
             RunStarted();
@@ -282,6 +302,36 @@ namespace TestSessionLibrary
             OnManagerStatusChanged(oldStatus, newStatus);
         }
 
+        protected virtual void GetTireSheet(string htmlSetupExportFile)
+        {
+            var htmlParser = new HtmlExportParser();
+            var htmlSetupExport = File.ReadAllText(htmlSetupExportFile);
+            var tireSheet = htmlParser.GetTireSheet(htmlSetupExport);
+            if (null!= Session)
+            {
+                try
+                {
+                    var lastRun = Session.Runs.LastOrDefault();
+                    if (null != lastRun)
+                    {
+                        lastRun.TireSheet = tireSheet;
+                        using (var data = new TrackSessionData())
+                        {
+                            data.SaveTrackSessionRun(lastRun);
+                            Session = data.GetTrackSession(Session.TrackSessionId);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    WriteErrorLog(ex);
+                    Console.WriteLine(ex.ToString());
+                }
+            }
+
+            OnNewTireSheet(tireSheet);
+        }
+
         protected virtual void iRacingProcessRunning()
         {
             SetManagerStatus(ManagerStatus.Monitoring);
@@ -311,8 +361,7 @@ namespace TestSessionLibrary
 
                     // parse the telemetry file
                     var telemetryParser = new ParserEngine();
-                    //var telemetrySession = telemetryParser.ParseTelemetryBytes(telemetry.TelemetryDiskFile, telemetry.BinaryData, false);
-                    //return;
+                   
                     var info = telemetryParser.ParseTelemetrySessionInfo(telemetry.TelemetryDiskFile, telemetry.BinaryData);
                     
                     // get the session run details
@@ -368,83 +417,7 @@ namespace TestSessionLibrary
         {
             Session = null;
         }
-
-        //public virtual void EndOfRunProcess()
-        //{
-        //    try
-        //    {
-        //        if (!String.IsNullOrEmpty(_currentTelemetryFile))
-        //        {
-        //            // TODO: Need to populate the session, and runs.
-        //            ////TestSessionRun run = new TestSessionRun();
-        //            ////run.LoadTelemetryFile(_currentTelemetryFile);
-
-        //            ////if (!String.IsNullOrEmpty(_currentExportFile))
-        //            ////{
-        //            ////    run.LoadExportFile(_currentExportFile);
-        //            ////    var setupDirectory = Path.GetDirectoryName(_currentExportFile);
-        //            ////    run.LoadCurrentSetupFile(setupDirectory);
-        //            ////}
-
-        //            // NEW
-        //            var data = new TrackSessionData();
-
-        //            var telemetryModel = GetTelemetryModel(_currentTelemetryFile);
-        //            telemetryModel = data.SaveTelemetry(telemetryModel);
-
-        //            var telemetryParser = new ParserEngine();
-        //            var telemetrySession = telemetryParser.ParseTelemetryBytes(telemetryModel.TelemetryDiskFile, telemetryModel.BinaryData, false);
-
-        //            var season = data.GetSeason(telemetryModel.Timestamp);
-        //            var sessionType = data.GetSessionType(telemetrySession.SessionType);
-        //            var vehicle = data.GetVehicle(Convert.ToInt32(telemetrySession.CarIdNumber), telemetrySession.CarName, telemetrySession.CarPath, telemetrySession.CarScreenName);
-        //            var track = data.GetTrack(Convert.ToInt32(telemetrySession.TrackIdNumber), telemetrySession.TrackName, Convert.ToDouble(telemetrySession.TrackLength));
-
-        //            var sessionModel = new TrackSessionModel()
-        //            {
-        //                Season = season,
-        //                SessionType = sessionType,
-        //                Vehicle = vehicle,
-        //                Track = track,
-        //                Timestamp = telemetryModel.Timestamp,
-        //                TrackTemp = telemetrySession.TrackTemp,
-        //                AirTemp = telemetrySession.AirTemp,
-        //                Skies = telemetrySession.Skies,
-        //                Night = telemetrySession.Night,
-        //                Humidity = Convert.ToSingle(telemetrySession.RelativeHumidity)
-        //            };
-        //            sessionModel = data.SaveTrackSession(sessionModel);
-
-        //            var setupDirectory = Path.GetDirectoryName(_currentExportFile);
-        //            var currentSetupFile = Path.Combine(setupDirectory, Constants.iRacingDefaultCurrentSetupFile);
-        //            var setupModel = new SetupModel()
-        //            {
-        //                Name = telemetrySession.SetupName,
-        //                VehicleNumber = vehicle.VehicleNumber,
-        //                SetupData = File.ReadAllBytes(currentSetupFile),
-        //                SetupExport = File.ReadAllText(_currentExportFile)
-        //            };
-        //            setupModel = data.SaveSetup(setupModel);
-
-        //            var runModel = new TrackSessionRunModel()
-        //            {
-        //                SetupId = setupModel.SetupId,
-        //                TelemetryId = telemetryModel.TelemetryId,
-        //                TrackSessionId = sessionModel.TrackSessionId
-        //            };
-        //            runModel = data.SaveSessionRun(runModel);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        ExceptionHandler(ex);
-        //    }
-        //    finally
-        //    {
-        //        ResetRunState();
-        //    }
-        //}
-
+        
         private TelemetryModel GetTelemetryModel(string fullPath)
         {
             var model = new TelemetryModel();
@@ -473,24 +446,7 @@ namespace TestSessionLibrary
             };
             return model;
         }
-        //private TrackSessionModel GetTrackSessionModel(SeasonModel season, VehicleModel vehicle, TrackModel track, SessionTypeModel sessionType, TelemetrySession telemetrySession)
-        //{
-        //    var model = new TrackSessionModel()
-        //    {
-        //        Season = season,
-        //        SessionType = sessionType,
-        //        Track = track,
-        //        Vehicle = vehicle,
-        //        Timestamp = telemetrySession.Timestamp,
-        //        TrackTemp = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackSurfaceTemp,
-        //        AirTemp = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackAirTemp,
-        //        Skies = telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackSkies,
-        //        Night = (telemetrySession.TelemetrySessionInfo.WeekendInfo.WeekendOptions.NightMode.Trim() == "1"),
-        //        Humidity = Convert.ToSingle(telemetrySession.TelemetrySessionInfo.WeekendInfo.TrackRelativeHumidity)
-        //    };
-        //    return model;
-        //}
-
+       
         private TrackSessionRunModel GetTrackSessionRunModel(TrackSessionModel session, SetupModel setup, TelemetryModel telemetry)
         {
             var model = new TrackSessionRunModel()
@@ -514,17 +470,7 @@ namespace TestSessionLibrary
             };
             return model;
         }
-        //private SetupModel GetSetupModel(TelemetrySession telemetry)
-        //{
-        //    var model = new SetupModel()
-        //    {
-        //        Name = telemetry.TelemetrySessionInfo.DriverInfo.DriverSetupName,
-        //        VehicleNumber = Convert.ToInt32(telemetry.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarID),
-        //        SetupJSON = telemetry.TelemetrySessionInfo.SetupJSON,
-        //        SetupBinary = GetSetupBinary(telemetry.TelemetrySessionInfo.DriverInfo.CurrentDriver().CarPath)
-        //    };
-        //    return model;
-        //}
+       
         protected virtual byte[] GetSetupBinary(string carPath)
         {
             var setupDirectory = Path.Combine(iRacing.Constants.iRacingSetupDirectory, carPath);

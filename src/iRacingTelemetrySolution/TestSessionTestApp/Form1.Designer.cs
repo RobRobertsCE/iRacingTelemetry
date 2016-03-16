@@ -34,10 +34,10 @@
             this.msg = new System.Windows.Forms.TextBox();
             this.tabRuns = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.tireSheetView1 = new TestSessionTestApp.Controls.TireSheetView();
             this.lapsView1 = new TestSessionTestApp.Controls.LapsView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabRuns.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -95,27 +95,6 @@
             this.tabPage1.Text = "Run 1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.btnStart);
-            this.panel1.Controls.Add(this.btnStop);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1010, 48);
-            this.panel1.TabIndex = 6;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(184, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(80, 24);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Stop";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
             // tireSheetView1
             // 
             this.tireSheetView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -133,6 +112,27 @@
             this.lapsView1.Padding = new System.Windows.Forms.Padding(4);
             this.lapsView1.Size = new System.Drawing.Size(202, 417);
             this.lapsView1.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.btnStart);
+            this.panel1.Controls.Add(this.btnStop);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1010, 48);
+            this.panel1.TabIndex = 6;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(918, 12);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(80, 24);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Test";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 

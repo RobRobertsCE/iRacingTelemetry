@@ -1,4 +1,6 @@
-﻿using System;
+﻿using iRacing.SetupLibrary.Tires;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,5 +31,28 @@ namespace TestSessionLibrary.Data.Models
         public SetupModel Setup { get; set; }
         public TelemetryModel Telemetry { get; set; }
         public TrackSessionModel TrackSession { get; set; }
+
+        private string _tireSheetJson;
+        public string TireSheetJson
+        {
+            get
+            {
+                if (null!= TireSheet)
+                {
+                    _tireSheetJson = TireSheet.ToJson();
+                }
+                return _tireSheetJson;
+            }
+            set
+            {
+                _tireSheetJson = value;
+                TireSheet = (TireSheet)JsonConvert.DeserializeObject(_tireSheetJson, typeof(TireSheet),
+                                                      new JsonSerializerSettings()
+                                                      { TypeNameHandling = TypeNameHandling.All });
+            }
+        }
+
+        [NotMapped]
+        public TireSheet TireSheet { get; set; }
     }
 }

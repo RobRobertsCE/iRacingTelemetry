@@ -54,6 +54,7 @@
             System.Windows.Forms.Label label3;
             System.Windows.Forms.Label label4;
             this.setupNameTextBox = new System.Windows.Forms.TextBox();
+            this.tireSheetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.trackNameTextBox = new System.Windows.Forms.TextBox();
             this.vehicleNameTextBox = new System.Windows.Forms.TextBox();
             this.coldPsiTextBox = new System.Windows.Forms.TextBox();
@@ -101,7 +102,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label8 = new System.Windows.Forms.Label();
-            this.tireSheetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             setupNameLabel = new System.Windows.Forms.Label();
             timestampLabel = new System.Windows.Forms.Label();
             trackNameLabel = new System.Windows.Forms.Label();
@@ -126,11 +126,11 @@
             label2 = new System.Windows.Forms.Label();
             label3 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.tireSheetBindingSource)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tireSheetBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // setupNameLabel
@@ -141,15 +141,6 @@
             setupNameLabel.Size = new System.Drawing.Size(69, 13);
             setupNameLabel.TabIndex = 1;
             setupNameLabel.Text = "Setup Name:";
-            // 
-            // setupNameTextBox
-            // 
-            this.setupNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "SetupName", true));
-            this.setupNameTextBox.Location = new System.Drawing.Point(8, 22);
-            this.setupNameTextBox.Name = "setupNameTextBox";
-            this.setupNameTextBox.ReadOnly = true;
-            this.setupNameTextBox.Size = new System.Drawing.Size(185, 20);
-            this.setupNameTextBox.TabIndex = 2;
             // 
             // timestampLabel
             // 
@@ -169,15 +160,6 @@
             trackNameLabel.TabIndex = 5;
             trackNameLabel.Text = "Track Name:";
             // 
-            // trackNameTextBox
-            // 
-            this.trackNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "TrackName", true));
-            this.trackNameTextBox.Location = new System.Drawing.Point(7, 61);
-            this.trackNameTextBox.Name = "trackNameTextBox";
-            this.trackNameTextBox.ReadOnly = true;
-            this.trackNameTextBox.Size = new System.Drawing.Size(186, 20);
-            this.trackNameTextBox.TabIndex = 6;
-            // 
             // vehicleNameLabel
             // 
             vehicleNameLabel.AutoSize = true;
@@ -186,15 +168,6 @@
             vehicleNameLabel.Size = new System.Drawing.Size(76, 13);
             vehicleNameLabel.TabIndex = 7;
             vehicleNameLabel.Text = "Vehicle Name:";
-            // 
-            // vehicleNameTextBox
-            // 
-            this.vehicleNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "VehicleName", true));
-            this.vehicleNameTextBox.Location = new System.Drawing.Point(213, 61);
-            this.vehicleNameTextBox.Name = "vehicleNameTextBox";
-            this.vehicleNameTextBox.ReadOnly = true;
-            this.vehicleNameTextBox.Size = new System.Drawing.Size(184, 20);
-            this.vehicleNameTextBox.TabIndex = 8;
             // 
             // coldPsiLabel
             // 
@@ -205,15 +178,6 @@
             coldPsiLabel.TabIndex = 9;
             coldPsiLabel.Text = "Cold Psi:";
             // 
-            // coldPsiTextBox
-            // 
-            this.coldPsiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "LF.ColdPsi", true));
-            this.coldPsiTextBox.Location = new System.Drawing.Point(8, 46);
-            this.coldPsiTextBox.Name = "coldPsiTextBox";
-            this.coldPsiTextBox.ReadOnly = true;
-            this.coldPsiTextBox.Size = new System.Drawing.Size(51, 20);
-            this.coldPsiTextBox.TabIndex = 10;
-            // 
             // hotPsiLabel
             // 
             hotPsiLabel.AutoSize = true;
@@ -222,6 +186,208 @@
             hotPsiLabel.Size = new System.Drawing.Size(44, 13);
             hotPsiLabel.TabIndex = 11;
             hotPsiLabel.Text = "Hot Psi:";
+            // 
+            // outsideTempLabel
+            // 
+            outsideTempLabel.AutoSize = true;
+            outsideTempLabel.Location = new System.Drawing.Point(5, 69);
+            outsideTempLabel.Name = "outsideTempLabel";
+            outsideTempLabel.Size = new System.Drawing.Size(37, 13);
+            outsideTempLabel.TabIndex = 21;
+            outsideTempLabel.Text = "Temp:";
+            // 
+            // outsideWearLabel
+            // 
+            outsideWearLabel.AutoSize = true;
+            outsideWearLabel.Location = new System.Drawing.Point(5, 108);
+            outsideWearLabel.Name = "outsideWearLabel";
+            outsideWearLabel.Size = new System.Drawing.Size(36, 13);
+            outsideWearLabel.TabIndex = 23;
+            outsideWearLabel.Text = "Wear:";
+            // 
+            // coldPsiLabel1
+            // 
+            coldPsiLabel1.AutoSize = true;
+            coldPsiLabel1.Location = new System.Drawing.Point(6, 28);
+            coldPsiLabel1.Name = "coldPsiLabel1";
+            coldPsiLabel1.Size = new System.Drawing.Size(48, 13);
+            coldPsiLabel1.TabIndex = 25;
+            coldPsiLabel1.Text = "Cold Psi:";
+            // 
+            // hotPsiLabel1
+            // 
+            hotPsiLabel1.AutoSize = true;
+            hotPsiLabel1.Location = new System.Drawing.Point(63, 28);
+            hotPsiLabel1.Name = "hotPsiLabel1";
+            hotPsiLabel1.Size = new System.Drawing.Size(44, 13);
+            hotPsiLabel1.TabIndex = 27;
+            hotPsiLabel1.Text = "Hot Psi:";
+            // 
+            // insideTempLabel1
+            // 
+            insideTempLabel1.AutoSize = true;
+            insideTempLabel1.Location = new System.Drawing.Point(6, 67);
+            insideTempLabel1.Name = "insideTempLabel1";
+            insideTempLabel1.Size = new System.Drawing.Size(37, 13);
+            insideTempLabel1.TabIndex = 29;
+            insideTempLabel1.Text = "Temp:";
+            // 
+            // insideWearLabel1
+            // 
+            insideWearLabel1.AutoSize = true;
+            insideWearLabel1.Location = new System.Drawing.Point(7, 106);
+            insideWearLabel1.Name = "insideWearLabel1";
+            insideWearLabel1.Size = new System.Drawing.Size(36, 13);
+            insideWearLabel1.TabIndex = 31;
+            insideWearLabel1.Text = "Wear:";
+            // 
+            // coldPsiLabel2
+            // 
+            coldPsiLabel2.AutoSize = true;
+            coldPsiLabel2.Location = new System.Drawing.Point(6, 28);
+            coldPsiLabel2.Name = "coldPsiLabel2";
+            coldPsiLabel2.Size = new System.Drawing.Size(48, 13);
+            coldPsiLabel2.TabIndex = 41;
+            coldPsiLabel2.Text = "Cold Psi:";
+            // 
+            // hotPsiLabel2
+            // 
+            hotPsiLabel2.AutoSize = true;
+            hotPsiLabel2.Location = new System.Drawing.Point(63, 28);
+            hotPsiLabel2.Name = "hotPsiLabel2";
+            hotPsiLabel2.Size = new System.Drawing.Size(44, 13);
+            hotPsiLabel2.TabIndex = 43;
+            hotPsiLabel2.Text = "Hot Psi:";
+            // 
+            // insideTempLabel2
+            // 
+            insideTempLabel2.AutoSize = true;
+            insideTempLabel2.Location = new System.Drawing.Point(5, 67);
+            insideTempLabel2.Name = "insideTempLabel2";
+            insideTempLabel2.Size = new System.Drawing.Size(37, 13);
+            insideTempLabel2.TabIndex = 45;
+            insideTempLabel2.Text = "Temp:";
+            // 
+            // insideWearLabel2
+            // 
+            insideWearLabel2.AutoSize = true;
+            insideWearLabel2.Location = new System.Drawing.Point(6, 109);
+            insideWearLabel2.Name = "insideWearLabel2";
+            insideWearLabel2.Size = new System.Drawing.Size(36, 13);
+            insideWearLabel2.TabIndex = 47;
+            insideWearLabel2.Text = "Wear:";
+            // 
+            // coldPsiLabel3
+            // 
+            coldPsiLabel3.AutoSize = true;
+            coldPsiLabel3.Location = new System.Drawing.Point(5, 27);
+            coldPsiLabel3.Name = "coldPsiLabel3";
+            coldPsiLabel3.Size = new System.Drawing.Size(48, 13);
+            coldPsiLabel3.TabIndex = 57;
+            coldPsiLabel3.Text = "Cold Psi:";
+            // 
+            // hotPsiLabel3
+            // 
+            hotPsiLabel3.AutoSize = true;
+            hotPsiLabel3.Location = new System.Drawing.Point(62, 27);
+            hotPsiLabel3.Name = "hotPsiLabel3";
+            hotPsiLabel3.Size = new System.Drawing.Size(44, 13);
+            hotPsiLabel3.TabIndex = 59;
+            hotPsiLabel3.Text = "Hot Psi:";
+            // 
+            // insideTempLabel3
+            // 
+            insideTempLabel3.AutoSize = true;
+            insideTempLabel3.Location = new System.Drawing.Point(4, 66);
+            insideTempLabel3.Name = "insideTempLabel3";
+            insideTempLabel3.Size = new System.Drawing.Size(37, 13);
+            insideTempLabel3.TabIndex = 61;
+            insideTempLabel3.Text = "Temp:";
+            // 
+            // insideWearLabel3
+            // 
+            insideWearLabel3.AutoSize = true;
+            insideWearLabel3.Location = new System.Drawing.Point(4, 105);
+            insideWearLabel3.Name = "insideWearLabel3";
+            insideWearLabel3.Size = new System.Drawing.Size(36, 13);
+            insideWearLabel3.TabIndex = 63;
+            insideWearLabel3.Text = "Wear:";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new System.Drawing.Point(120, 28);
+            label1.Name = "label1";
+            label1.Size = new System.Drawing.Size(32, 13);
+            label1.TabIndex = 74;
+            label1.Text = "Gain:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(119, 29);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(32, 13);
+            label2.TabIndex = 76;
+            label2.Text = "Gain:";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(118, 27);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(32, 13);
+            label3.TabIndex = 78;
+            label3.Text = "Gain:";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(120, 28);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(32, 13);
+            label4.TabIndex = 80;
+            label4.Text = "Gain:";
+            // 
+            // setupNameTextBox
+            // 
+            this.setupNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "SetupName", true));
+            this.setupNameTextBox.Location = new System.Drawing.Point(8, 22);
+            this.setupNameTextBox.Name = "setupNameTextBox";
+            this.setupNameTextBox.ReadOnly = true;
+            this.setupNameTextBox.Size = new System.Drawing.Size(185, 20);
+            this.setupNameTextBox.TabIndex = 2;
+            // 
+            // tireSheetBindingSource
+            // 
+            this.tireSheetBindingSource.DataSource = typeof(iRacing.SetupLibrary.Tires.TireSheet);
+            // 
+            // trackNameTextBox
+            // 
+            this.trackNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "TrackName", true));
+            this.trackNameTextBox.Location = new System.Drawing.Point(7, 61);
+            this.trackNameTextBox.Name = "trackNameTextBox";
+            this.trackNameTextBox.ReadOnly = true;
+            this.trackNameTextBox.Size = new System.Drawing.Size(186, 20);
+            this.trackNameTextBox.TabIndex = 6;
+            // 
+            // vehicleNameTextBox
+            // 
+            this.vehicleNameTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "VehicleName", true));
+            this.vehicleNameTextBox.Location = new System.Drawing.Point(213, 61);
+            this.vehicleNameTextBox.Name = "vehicleNameTextBox";
+            this.vehicleNameTextBox.ReadOnly = true;
+            this.vehicleNameTextBox.Size = new System.Drawing.Size(184, 20);
+            this.vehicleNameTextBox.TabIndex = 8;
+            // 
+            // coldPsiTextBox
+            // 
+            this.coldPsiTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "LF.ColdPsi", true));
+            this.coldPsiTextBox.Location = new System.Drawing.Point(8, 46);
+            this.coldPsiTextBox.Name = "coldPsiTextBox";
+            this.coldPsiTextBox.ReadOnly = true;
+            this.coldPsiTextBox.Size = new System.Drawing.Size(51, 20);
+            this.coldPsiTextBox.TabIndex = 10;
             // 
             // hotPsiTextBox
             // 
@@ -268,15 +434,6 @@
             this.middleWearTextBox.Size = new System.Drawing.Size(51, 20);
             this.middleWearTextBox.TabIndex = 20;
             // 
-            // outsideTempLabel
-            // 
-            outsideTempLabel.AutoSize = true;
-            outsideTempLabel.Location = new System.Drawing.Point(5, 69);
-            outsideTempLabel.Name = "outsideTempLabel";
-            outsideTempLabel.Size = new System.Drawing.Size(37, 13);
-            outsideTempLabel.TabIndex = 21;
-            outsideTempLabel.Text = "Temp:";
-            // 
             // outsideTempTextBox
             // 
             this.outsideTempTextBox.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "LF.OutsideTemp", true));
@@ -285,15 +442,6 @@
             this.outsideTempTextBox.ReadOnly = true;
             this.outsideTempTextBox.Size = new System.Drawing.Size(51, 20);
             this.outsideTempTextBox.TabIndex = 22;
-            // 
-            // outsideWearLabel
-            // 
-            outsideWearLabel.AutoSize = true;
-            outsideWearLabel.Location = new System.Drawing.Point(5, 108);
-            outsideWearLabel.Name = "outsideWearLabel";
-            outsideWearLabel.Size = new System.Drawing.Size(36, 13);
-            outsideWearLabel.TabIndex = 23;
-            outsideWearLabel.Text = "Wear:";
             // 
             // outsideWearTextBox
             // 
@@ -304,15 +452,6 @@
             this.outsideWearTextBox.Size = new System.Drawing.Size(51, 20);
             this.outsideWearTextBox.TabIndex = 24;
             // 
-            // coldPsiLabel1
-            // 
-            coldPsiLabel1.AutoSize = true;
-            coldPsiLabel1.Location = new System.Drawing.Point(6, 28);
-            coldPsiLabel1.Name = "coldPsiLabel1";
-            coldPsiLabel1.Size = new System.Drawing.Size(48, 13);
-            coldPsiLabel1.TabIndex = 25;
-            coldPsiLabel1.Text = "Cold Psi:";
-            // 
             // coldPsiTextBox1
             // 
             this.coldPsiTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "LR.ColdPsi", true));
@@ -321,15 +460,6 @@
             this.coldPsiTextBox1.ReadOnly = true;
             this.coldPsiTextBox1.Size = new System.Drawing.Size(51, 20);
             this.coldPsiTextBox1.TabIndex = 26;
-            // 
-            // hotPsiLabel1
-            // 
-            hotPsiLabel1.AutoSize = true;
-            hotPsiLabel1.Location = new System.Drawing.Point(63, 28);
-            hotPsiLabel1.Name = "hotPsiLabel1";
-            hotPsiLabel1.Size = new System.Drawing.Size(44, 13);
-            hotPsiLabel1.TabIndex = 27;
-            hotPsiLabel1.Text = "Hot Psi:";
             // 
             // hotPsiTextBox1
             // 
@@ -340,15 +470,6 @@
             this.hotPsiTextBox1.Size = new System.Drawing.Size(51, 20);
             this.hotPsiTextBox1.TabIndex = 28;
             // 
-            // insideTempLabel1
-            // 
-            insideTempLabel1.AutoSize = true;
-            insideTempLabel1.Location = new System.Drawing.Point(6, 67);
-            insideTempLabel1.Name = "insideTempLabel1";
-            insideTempLabel1.Size = new System.Drawing.Size(37, 13);
-            insideTempLabel1.TabIndex = 29;
-            insideTempLabel1.Text = "Temp:";
-            // 
             // insideTempTextBox1
             // 
             this.insideTempTextBox1.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "LR.InsideTemp", true));
@@ -357,15 +478,6 @@
             this.insideTempTextBox1.ReadOnly = true;
             this.insideTempTextBox1.Size = new System.Drawing.Size(51, 20);
             this.insideTempTextBox1.TabIndex = 30;
-            // 
-            // insideWearLabel1
-            // 
-            insideWearLabel1.AutoSize = true;
-            insideWearLabel1.Location = new System.Drawing.Point(7, 106);
-            insideWearLabel1.Name = "insideWearLabel1";
-            insideWearLabel1.Size = new System.Drawing.Size(36, 13);
-            insideWearLabel1.TabIndex = 31;
-            insideWearLabel1.Text = "Wear:";
             // 
             // insideWearTextBox1
             // 
@@ -412,15 +524,6 @@
             this.outsideWearTextBox1.Size = new System.Drawing.Size(51, 20);
             this.outsideWearTextBox1.TabIndex = 40;
             // 
-            // coldPsiLabel2
-            // 
-            coldPsiLabel2.AutoSize = true;
-            coldPsiLabel2.Location = new System.Drawing.Point(6, 28);
-            coldPsiLabel2.Name = "coldPsiLabel2";
-            coldPsiLabel2.Size = new System.Drawing.Size(48, 13);
-            coldPsiLabel2.TabIndex = 41;
-            coldPsiLabel2.Text = "Cold Psi:";
-            // 
             // coldPsiTextBox2
             // 
             this.coldPsiTextBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "RF.ColdPsi", true));
@@ -429,15 +532,6 @@
             this.coldPsiTextBox2.ReadOnly = true;
             this.coldPsiTextBox2.Size = new System.Drawing.Size(51, 20);
             this.coldPsiTextBox2.TabIndex = 42;
-            // 
-            // hotPsiLabel2
-            // 
-            hotPsiLabel2.AutoSize = true;
-            hotPsiLabel2.Location = new System.Drawing.Point(63, 28);
-            hotPsiLabel2.Name = "hotPsiLabel2";
-            hotPsiLabel2.Size = new System.Drawing.Size(44, 13);
-            hotPsiLabel2.TabIndex = 43;
-            hotPsiLabel2.Text = "Hot Psi:";
             // 
             // hotPsiTextBox2
             // 
@@ -448,15 +542,6 @@
             this.hotPsiTextBox2.Size = new System.Drawing.Size(51, 20);
             this.hotPsiTextBox2.TabIndex = 44;
             // 
-            // insideTempLabel2
-            // 
-            insideTempLabel2.AutoSize = true;
-            insideTempLabel2.Location = new System.Drawing.Point(5, 67);
-            insideTempLabel2.Name = "insideTempLabel2";
-            insideTempLabel2.Size = new System.Drawing.Size(37, 13);
-            insideTempLabel2.TabIndex = 45;
-            insideTempLabel2.Text = "Temp:";
-            // 
             // insideTempTextBox2
             // 
             this.insideTempTextBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "RF.InsideTemp", true));
@@ -465,15 +550,6 @@
             this.insideTempTextBox2.ReadOnly = true;
             this.insideTempTextBox2.Size = new System.Drawing.Size(51, 20);
             this.insideTempTextBox2.TabIndex = 46;
-            // 
-            // insideWearLabel2
-            // 
-            insideWearLabel2.AutoSize = true;
-            insideWearLabel2.Location = new System.Drawing.Point(6, 109);
-            insideWearLabel2.Name = "insideWearLabel2";
-            insideWearLabel2.Size = new System.Drawing.Size(36, 13);
-            insideWearLabel2.TabIndex = 47;
-            insideWearLabel2.Text = "Wear:";
             // 
             // insideWearTextBox2
             // 
@@ -520,15 +596,6 @@
             this.outsideWearTextBox2.Size = new System.Drawing.Size(51, 20);
             this.outsideWearTextBox2.TabIndex = 56;
             // 
-            // coldPsiLabel3
-            // 
-            coldPsiLabel3.AutoSize = true;
-            coldPsiLabel3.Location = new System.Drawing.Point(5, 27);
-            coldPsiLabel3.Name = "coldPsiLabel3";
-            coldPsiLabel3.Size = new System.Drawing.Size(48, 13);
-            coldPsiLabel3.TabIndex = 57;
-            coldPsiLabel3.Text = "Cold Psi:";
-            // 
             // coldPsiTextBox3
             // 
             this.coldPsiTextBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "RR.ColdPsi", true));
@@ -537,15 +604,6 @@
             this.coldPsiTextBox3.ReadOnly = true;
             this.coldPsiTextBox3.Size = new System.Drawing.Size(51, 20);
             this.coldPsiTextBox3.TabIndex = 58;
-            // 
-            // hotPsiLabel3
-            // 
-            hotPsiLabel3.AutoSize = true;
-            hotPsiLabel3.Location = new System.Drawing.Point(62, 27);
-            hotPsiLabel3.Name = "hotPsiLabel3";
-            hotPsiLabel3.Size = new System.Drawing.Size(44, 13);
-            hotPsiLabel3.TabIndex = 59;
-            hotPsiLabel3.Text = "Hot Psi:";
             // 
             // hotPsiTextBox3
             // 
@@ -556,15 +614,6 @@
             this.hotPsiTextBox3.Size = new System.Drawing.Size(51, 20);
             this.hotPsiTextBox3.TabIndex = 60;
             // 
-            // insideTempLabel3
-            // 
-            insideTempLabel3.AutoSize = true;
-            insideTempLabel3.Location = new System.Drawing.Point(4, 66);
-            insideTempLabel3.Name = "insideTempLabel3";
-            insideTempLabel3.Size = new System.Drawing.Size(37, 13);
-            insideTempLabel3.TabIndex = 61;
-            insideTempLabel3.Text = "Temp:";
-            // 
             // insideTempTextBox3
             // 
             this.insideTempTextBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "RR.InsideTemp", true));
@@ -573,15 +622,6 @@
             this.insideTempTextBox3.ReadOnly = true;
             this.insideTempTextBox3.Size = new System.Drawing.Size(51, 20);
             this.insideTempTextBox3.TabIndex = 62;
-            // 
-            // insideWearLabel3
-            // 
-            insideWearLabel3.AutoSize = true;
-            insideWearLabel3.Location = new System.Drawing.Point(4, 105);
-            insideWearLabel3.Name = "insideWearLabel3";
-            insideWearLabel3.Size = new System.Drawing.Size(36, 13);
-            insideWearLabel3.TabIndex = 63;
-            insideWearLabel3.Text = "Wear:";
             // 
             // insideWearTextBox3
             // 
@@ -637,15 +677,6 @@
             this.txtTimestamp.Size = new System.Drawing.Size(186, 20);
             this.txtTimestamp.TabIndex = 73;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(120, 28);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(32, 13);
-            label1.TabIndex = 74;
-            label1.Text = "Gain:";
-            // 
             // gainTxtBox2
             // 
             this.gainTxtBox2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "RF.Gain", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "N2"));
@@ -654,15 +685,6 @@
             this.gainTxtBox2.ReadOnly = true;
             this.gainTxtBox2.Size = new System.Drawing.Size(51, 20);
             this.gainTxtBox2.TabIndex = 75;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(119, 29);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(32, 13);
-            label2.TabIndex = 76;
-            label2.Text = "Gain:";
             // 
             // gainTxtBox
             // 
@@ -673,15 +695,6 @@
             this.gainTxtBox.Size = new System.Drawing.Size(51, 20);
             this.gainTxtBox.TabIndex = 77;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(118, 27);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(32, 13);
-            label3.TabIndex = 78;
-            label3.Text = "Gain:";
-            // 
             // gainTxtBox3
             // 
             this.gainTxtBox3.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.tireSheetBindingSource, "RR.Gain", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "N2"));
@@ -690,15 +703,6 @@
             this.gainTxtBox3.ReadOnly = true;
             this.gainTxtBox3.Size = new System.Drawing.Size(51, 20);
             this.gainTxtBox3.TabIndex = 79;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(120, 28);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(32, 13);
-            label4.TabIndex = 80;
-            label4.Text = "Gain:";
             // 
             // gainTxtBox1
             // 
@@ -857,10 +861,6 @@
             this.label8.Text = "RR";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tireSheetBindingSource
-            // 
-            this.tireSheetBindingSource.DataSource = typeof(iRacing.SetupLibrary.Tires.TireSheet);
-            // 
             // TireSheetView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -879,6 +879,7 @@
             this.Controls.Add(this.vehicleNameTextBox);
             this.Name = "TireSheetView";
             this.Size = new System.Drawing.Size(406, 421);
+            ((System.ComponentModel.ISupportInitialize)(this.tireSheetBindingSource)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -887,7 +888,6 @@
             this.panel3.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.tireSheetBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

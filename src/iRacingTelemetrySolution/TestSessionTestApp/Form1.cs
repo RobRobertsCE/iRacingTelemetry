@@ -1,5 +1,6 @@
 ﻿using ibtAnalysis.Laps;
 using iRacing.SetupLibrary.Parsers;
+using iRacing.SetupLibrary.Tires;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +29,14 @@ namespace TestSessionTestApp
             _manager.EngineStatusChanged += _manager_EngineStatusChanged;
             _manager.EngineException += _manager_EngineException;
             _manager.SessionRunComplete += _manager_SessionRunComplete;
+            _manager.NewTireSheet += _manager_NewTireSheet;
+        }
+
+        private void _manager_NewTireSheet(object sender, NewTireSheetArgs e)
+        {           
+            this.Invoke((MethodInvoker)delegate {
+                DisplayTireSheet(e.TireSheet); // runs on UI thread
+            });
         }
 
         private void _manager_SessionRunComplete(object sender, SessionRunCompleteArgs e)
@@ -81,11 +90,6 @@ namespace TestSessionTestApp
         {
             msg.Text += DateTime.Now.ToString() + ": " +  message + "\r\n";
         }
-
-        private void btnViewer_Click(object sender, EventArgs e)
-        {
-           
-        }
         
         private void DisplayRun(TrackSessionRunView run)
         {
@@ -93,6 +97,11 @@ namespace TestSessionTestApp
             var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
             var lapAnalysis = new LapTimeAnalysis(session.Laps);
             lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
+        }
+
+        private void DisplayTireSheet(TireSheet tireSheet)
+        {
+            tireSheetView1.tireSheetBindingSource.DataSource = tireSheet;
         }
 
         private void button1_Click_1(object sender, EventArgs e)
