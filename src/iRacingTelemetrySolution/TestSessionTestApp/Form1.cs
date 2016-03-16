@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using TestSessionLibrary;
 using TestSessionLibrary.Data.Models;
 using TestSessionLibrary.Views;
+using TestSessionTestApp.Controls;
 
 namespace TestSessionTestApp
 {
@@ -93,15 +94,26 @@ namespace TestSessionTestApp
         
         private void DisplayRun(TrackSessionRunView run)
         {
+            var newTab = new TabPage();
+            newTab.Text = "Run " + tabRuns.TabPages.Count + 1;
+            var newView = new TrackRunResultsView();
+            newTab.Controls.Add(newView);
+            newView.Dock = DockStyle.Fill;
+            tabRuns.TabPages.Add(newTab);
+            tabRuns.SelectedTab = newTab;
+
             var telemetryParser = new ibtParserLibrary.ParserEngine();
             var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
             var lapAnalysis = new LapTimeAnalysis(session.Laps);
-            lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
+
+            newView.lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
         }
 
         private void DisplayTireSheet(TireSheet tireSheet)
         {
-            tireSheetView1.tireSheetBindingSource.DataSource = tireSheet;
+            var selectedTab = tabRuns.SelectedTab;
+            var view = (TrackRunResultsView)selectedTab.Controls[0];
+            view.tireSheetView1.tireSheetBindingSource.DataSource = tireSheet;
         }
 
         private void button1_Click_1(object sender, EventArgs e)

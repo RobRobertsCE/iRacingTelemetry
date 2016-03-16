@@ -5,7 +5,6 @@
         skmodified = 2,
         legends = 5,
         latemodel = 12,
-        superlatemodel,
         truck,
         xfinity,
         cup,
@@ -44,7 +43,7 @@
         xfinityFordMustang = 51,
 
 
-
+        superlatemodel = 54,
 
 
 

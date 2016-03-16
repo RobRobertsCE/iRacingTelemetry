@@ -1,6 +1,7 @@
 ﻿using iRacing;
 using System;
 using System.IO;
+using System.Threading;
 
 namespace TestSessionLibrary
 {
@@ -37,6 +38,7 @@ namespace TestSessionLibrary
             EventHandler<EngineFileCreatedArgs> handler = SetupFileExported;
             if (handler != null)
             {
+                Thread.Sleep(1000);
                 var e = new EngineFileCreatedArgs(fullFilePath);
                 handler(this, e);
                 WriteLog("OnSetupFileExported: {0}", fullFilePath);
