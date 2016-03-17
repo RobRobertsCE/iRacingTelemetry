@@ -1,6 +1,6 @@
 ﻿namespace TrackSession
 {
-    partial class TrackSessionManager
+    partial class TrackSessionManagerForm
     {
         /// <summary>
         /// Required designer variable.

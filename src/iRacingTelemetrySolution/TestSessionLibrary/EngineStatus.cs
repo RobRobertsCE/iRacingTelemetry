@@ -2,11 +2,10 @@
 {
     public enum EngineStatus
     {
-        Off,
-        Monitoring,
-        SessionStarted,
+        Initializing,
+        WaitingForApp,
+        AppRunning,
         RunInProgress,
-        WaitingForExport,
-        Error
+        WaitingForExport
     }
 }

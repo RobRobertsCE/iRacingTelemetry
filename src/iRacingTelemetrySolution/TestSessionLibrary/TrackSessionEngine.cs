@@ -7,6 +7,11 @@ namespace TestSessionLibrary
 {
     internal class TrackSessionEngine : IDisposable
     {
+        #region consts
+        private const bool DefaultLogging_On = true;
+        private const bool DefaultTestMode_Off = false;
+        #endregion
+
         #region events   
         public event EventHandler<EngineFileCreatedArgs> TelemetryFileOpened;
         protected virtual void OnTelemetryFileOpened(string fullFilePath)
@@ -93,14 +98,18 @@ namespace TestSessionLibrary
         #endregion
 
         #region fields
+        private bool _exportFileLock = false;
+        private string _exportFileName = String.Empty;
+        private object _exportFileLockObject = new object();
         protected FileSystemWatcher _telemetryDirectoryWatcher;
-        protected FileSystemWatcher _setupExportWatcher;
+        protected FileSystemWatcher _setupExportDirectoryWatcher;
         private FileClosedMonitor _telemetryFileClosedMonitor;
+        private FileClosedMonitor _setupExportFileClosedMonitor;
         private EngineProcessMonitor _iRacingProcessMonitor;
         #endregion
 
         #region properties
-        private EngineStatus _status;
+        private EngineStatus _status = EngineStatus.Initializing;
         public EngineStatus Status
         {
             get
@@ -109,28 +118,44 @@ namespace TestSessionLibrary
             }
         }
         public bool EnableLogging { get; set; }
+        private bool _enableTestMode;
+        public bool EnableTestMode
+        {
+            get
+            {
+                return _enableTestMode;
+            }
+            set
+            {
+                if (value)
+                { // Request test mode on.
+                    if (!_enableTestMode)
+                    {// Test mode was off.
+                        DisableProcessMonitors();
+                        SetStatusAppRunning();
+                    }
+                }
+                else
+                { // Request test mode off.
+                    if (_enableTestMode)
+                    {// Test mode was on.
+                        SetStatusWaitingForApp();
+                        EnableProcessMonitors();
+                    }
+                }
+                _enableTestMode = value;
+            }
+        }
         #endregion
 
         #region ctor
-        public TrackSessionEngine() : this(true) { }
-        public TrackSessionEngine(bool loggingOn)
+        public TrackSessionEngine() : this(DefaultLogging_On) { }
+        public TrackSessionEngine(bool loggingOn) : this(loggingOn, DefaultTestMode_Off) { }
+        public TrackSessionEngine(bool loggingOn, bool testModeOn)
         {
             EnableLogging = loggingOn;
             InitializeEngine();
-        }
-        #endregion
-
-        #region public
-        public virtual bool Start()
-        {
-            if (Status == EngineStatus.Error)
-                return false;
-
-            return SetStatusMonitoring();
-        }
-        public virtual void Stop()
-        {
-            SetStatusOff();
+            EnableTestMode = testModeOn;
         }
         #endregion
 
@@ -150,9 +175,9 @@ namespace TestSessionLibrary
 
             _telemetryDirectoryWatcher.Created += _telemetryDirectoryWatcher_Created;
 
-            _setupExportWatcher = new FileSystemWatcher(Constants.iRacingSetupDirectory, Constants.iRacingSetupExportFileFilter);
-            _setupExportWatcher.IncludeSubdirectories = true;
-            _setupExportWatcher.NotifyFilter = NotifyFilters.Attributes |
+            _setupExportDirectoryWatcher = new FileSystemWatcher(Constants.iRacingSetupDirectory, Constants.iRacingSetupExportFileFilter);
+            _setupExportDirectoryWatcher.IncludeSubdirectories = true;
+            _setupExportDirectoryWatcher.NotifyFilter = NotifyFilters.Attributes |
                                                 NotifyFilters.CreationTime |
                                                 NotifyFilters.FileName |
                                                 NotifyFilters.LastAccess |
@@ -160,27 +185,49 @@ namespace TestSessionLibrary
                                                 NotifyFilters.Size |
                                                 NotifyFilters.Security;
 
-            _setupExportWatcher.Created += _setupExportWatcher_Created;
-            _setupExportWatcher.Changed += _setupExportWatcher_Changed;
+            _setupExportDirectoryWatcher.Created += _setupExportWatcher_Created;
+            _setupExportDirectoryWatcher.Changed += _setupExportWatcher_Changed;
 
             _iRacingProcessMonitor = new EngineProcessMonitor(Constants.iRacingProcessName);
             _iRacingProcessMonitor.EnableLogging = this.EnableLogging;
             _iRacingProcessMonitor.ProcessStarted += _iRacingProcessMonitor_ProcessStarted;
             _iRacingProcessMonitor.ProcessStopped += _iRacingProcessMonitor_ProcessStopped;
+
+            EnableProcessMonitors();
+        }
+        #endregion
+
+        #region //*** Monitors On/Off ***//
+        protected virtual void EnableProcessMonitors()
+        {
+            _iRacingProcessMonitor.Start();
+        }
+        protected virtual void DisableProcessMonitors()
+        {
+            _iRacingProcessMonitor.Stop();
+        }
+        protected virtual void EnableFileSystemMonitors()
+        {
+            _telemetryDirectoryWatcher.EnableRaisingEvents = true;
+            _setupExportDirectoryWatcher.EnableRaisingEvents = true;
+        }
+        protected virtual void DisableFileSystemMonitors()
+        {
+            _telemetryDirectoryWatcher.EnableRaisingEvents = false;
+            _setupExportDirectoryWatcher.EnableRaisingEvents = false;
         }
         #endregion
 
         #region //*** Process Monitor ***//
         private void _iRacingProcessMonitor_ProcessStopped(object sender, EventArgs e)
         {
-            SetStatusMonitoring();
             OniRacingProcessStopped();
+            SetStatusWaitingForApp();
         }
-
         private void _iRacingProcessMonitor_ProcessStarted(object sender, EventArgs e)
         {
-            SetStatusSessionStarted();
             OniRacingProcessStarted();
+            SetStatusAppRunning();
         }
         #endregion
 
@@ -190,7 +237,7 @@ namespace TestSessionLibrary
             try
             {
                 OnTelemetryFileOpened(e.FullPath);
-                SetStatusWaitingForExport();
+                SetStatusRunInProgress();
                 // wait for telemetry file to be closed
                 _telemetryFileClosedMonitor = new FileClosedMonitor();
                 _telemetryFileClosedMonitor.FileClosed += TelemetryMonitor_FileClosed;
@@ -203,45 +250,84 @@ namespace TestSessionLibrary
         }
         private void TelemetryMonitor_FileClosed(object sender, string e)
         {
+            Console.WriteLine("Telemetry File Closed");
             ((FileClosedMonitor)sender).FileClosed -= TelemetryMonitor_FileClosed;
             OnTelemetryFileClosed(e);
+            SetStatusWaitingForExport();
         }
         #endregion
 
         #region //*** Export Directory Watcher ***//
+        /// <summary>
+        /// Handler to catch overwriting an existing export file.
+        /// </summary>
         private void _setupExportWatcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Console.WriteLine("Changed");
+            if (_exportFileLock) return;
+            if (_exportFileName == e.FullPath) return;
+
+            lock(_exportFileLockObject)
+            {
+                _exportFileLock = true;
+                _exportFileName = e.FullPath;
+            }
+
+            Console.WriteLine("Setup Export File Changed");
+            // wait for setup export file to be closed
+            _setupExportFileClosedMonitor = new FileClosedMonitor();
+            _setupExportFileClosedMonitor.FileClosed += SetupExportMonitorMonitor_FileClosed;
+            _setupExportFileClosedMonitor.StartMonitor(e.FullPath);
         }
+        /// <summary>
+        /// Handler for creating a new export file.
+        /// </summary>
         protected virtual void _setupExportWatcher_Created(object sender, FileSystemEventArgs e)
         {
             try
             {
-                Console.WriteLine("Created");
-                OnSetupFileExported(e.FullPath);
+                if (_exportFileLock) return;
+                if (_exportFileName == e.FullPath) return;
+
+                lock (_exportFileLockObject)
+                {
+                    _exportFileLock = true;
+                    _exportFileName = e.FullPath;
+                }
+                Console.WriteLine("Setup Export File Created");
+                // wait for setup export file to be closed
+                _setupExportFileClosedMonitor = new FileClosedMonitor();
+                _setupExportFileClosedMonitor.FileClosed += SetupExportMonitorMonitor_FileClosed;
+                _setupExportFileClosedMonitor.StartMonitor(e.FullPath);              
             }
             catch (Exception ex)
             {
                 ExceptionHandler(ex);
             }
         }
+        private void SetupExportMonitorMonitor_FileClosed(object sender, string e)
+        {
+            Console.WriteLine("Setup Export File Closed");
+            ((FileClosedMonitor)sender).FileClosed -= SetupExportMonitorMonitor_FileClosed;
+            OnSetupFileExported(e);
+            SetStatusAppRunning();
+            lock (_exportFileLockObject)
+            {
+                _exportFileLock = false;
+                _exportFileName = String.Empty;
+            }
+        }
         #endregion
 
         #region //*** Status ***//
-        protected virtual bool SetStatusMonitoring()
+        protected virtual void SetStatusWaitingForApp()
         {
-            _telemetryDirectoryWatcher.EnableRaisingEvents = true;
-            _setupExportWatcher.EnableRaisingEvents = true;
-            _iRacingProcessMonitor.Start();
-            SetStatus(EngineStatus.Monitoring);
-            return true;
+            DisableFileSystemMonitors();
+            SetStatus(EngineStatus.WaitingForApp);
         }
-        protected virtual bool SetStatusSessionStarted()
+        protected virtual void SetStatusAppRunning()
         {
-            _telemetryDirectoryWatcher.EnableRaisingEvents = true;
-            _setupExportWatcher.EnableRaisingEvents = true;
-            SetStatus(EngineStatus.SessionStarted);
-            return true;
+            EnableFileSystemMonitors();
+            SetStatus(EngineStatus.AppRunning);
         }
         protected virtual void SetStatusRunInProgress()
         {
@@ -251,32 +337,20 @@ namespace TestSessionLibrary
         {
             SetStatus(EngineStatus.WaitingForExport);
         }
-        protected virtual void SetStatusOff()
-        {
-            _telemetryDirectoryWatcher.EnableRaisingEvents = false;
-            _setupExportWatcher.EnableRaisingEvents = false;
-            _iRacingProcessMonitor.Stop();
-            SetStatus(EngineStatus.Off);
-        }
-        protected virtual void SetStatusError(Exception ex)
-        {
-            SetStatus(EngineStatus.Error);
-        }
-        #endregion
-
-        #region // Common //
-        protected virtual void ExceptionHandler(Exception ex)
-        {
-            OnEngineException(ex);
-            WriteErrorLog(ex);
-            SetStatusError(ex);
-        }
         protected virtual void SetStatus(EngineStatus newStatus)
         {
             var originalStatus = _status;
             _status = newStatus;
             OnEngineStatusChanged(originalStatus, newStatus);
             WriteLog("Status Change: {0}->{1}", originalStatus, newStatus);
+        }
+        #endregion
+
+        #region //*** Common ***//
+        protected virtual void ExceptionHandler(Exception ex)
+        {
+            OnEngineException(ex);
+            WriteErrorLog(ex);
         }
         protected virtual void WriteLog(string format, params object[] args)
         {
@@ -306,8 +380,8 @@ namespace TestSessionLibrary
             }
             catch
             {
-                
-            }           
+
+            }
         }
         #endregion
     }

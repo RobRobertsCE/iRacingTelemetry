@@ -29,39 +29,17 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.btnStart = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
             this.msg = new System.Windows.Forms.TextBox();
             this.tabRuns = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.tireSheetView1 = new TestSessionTestApp.Controls.TireSheetView();
             this.lapsView1 = new TestSessionTestApp.Controls.LapsView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.tabRuns.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // btnStart
-            // 
-            this.btnStart.Location = new System.Drawing.Point(12, 12);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(80, 24);
-            this.btnStart.TabIndex = 0;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnStop
-            // 
-            this.btnStop.Location = new System.Drawing.Point(98, 12);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(80, 24);
-            this.btnStop.TabIndex = 1;
-            this.btnStop.Text = "Stop";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // msg
             // 
@@ -77,10 +55,10 @@
             // 
             this.tabRuns.Controls.Add(this.tabPage1);
             this.tabRuns.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabRuns.Location = new System.Drawing.Point(0, 48);
+            this.tabRuns.Location = new System.Drawing.Point(0, 23);
             this.tabRuns.Name = "tabRuns";
             this.tabRuns.SelectedIndex = 0;
-            this.tabRuns.Size = new System.Drawing.Size(816, 565);
+            this.tabRuns.Size = new System.Drawing.Size(816, 590);
             this.tabRuns.TabIndex = 5;
             // 
             // tabPage1
@@ -90,20 +68,40 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(808, 539);
+            this.tabPage1.Size = new System.Drawing.Size(808, 564);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Run 1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // tireSheetView1
+            // 
+            this.tireSheetView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tireSheetView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tireSheetView1.Location = new System.Drawing.Point(253, 6);
+            this.tireSheetView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tireSheetView1.Name = "tireSheetView1";
+            this.tireSheetView1.Size = new System.Drawing.Size(539, 520);
+            this.tireSheetView1.TabIndex = 2;
+            // 
+            // lapsView1
+            // 
+            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
+            this.lapsView1.Location = new System.Drawing.Point(8, 6);
+            this.lapsView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lapsView1.Name = "lapsView1";
+            this.lapsView1.Padding = new System.Windows.Forms.Padding(4);
+            this.lapsView1.Size = new System.Drawing.Size(237, 520);
+            this.lapsView1.TabIndex = 1;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.btnStart);
-            this.panel1.Controls.Add(this.btnStop);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(816, 48);
+            this.panel1.Size = new System.Drawing.Size(816, 23);
             this.panel1.TabIndex = 6;
             // 
             // button1
@@ -115,28 +113,6 @@
             this.button1.Text = "Test";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // tireSheetView1
-            // 
-            this.tireSheetView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tireSheetView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tireSheetView1.Location = new System.Drawing.Point(253, 6);
-            this.tireSheetView1.Margin = new System.Windows.Forms.Padding(4);
-            this.tireSheetView1.Name = "tireSheetView1";
-            this.tireSheetView1.Size = new System.Drawing.Size(539, 520);
-            this.tireSheetView1.TabIndex = 2;
-            // 
-            // lapsView1
-            // 
-            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
-            this.lapsView1.Location = new System.Drawing.Point(8, 6);
-            this.lapsView1.Margin = new System.Windows.Forms.Padding(4);
-            this.lapsView1.Name = "lapsView1";
-            this.lapsView1.Padding = new System.Windows.Forms.Padding(4);
-            this.lapsView1.Size = new System.Drawing.Size(237, 520);
-            this.lapsView1.TabIndex = 1;
             // 
             // Form1
             // 
@@ -157,9 +133,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.TextBox msg;
         private System.Windows.Forms.TabControl tabRuns;
         private System.Windows.Forms.TabPage tabPage1;

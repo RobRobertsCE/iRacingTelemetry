@@ -14,19 +14,19 @@ using TestSessionLibrary.Data.Models;
 using TestSessionLibrary.Views;
 
 namespace TestSessionLibrary
-{   
+{
     public class TrackSessionManager : IDisposable
     {
         #region events
         public event EventHandler<NewTireSheetArgs> NewTireSheet;
-        protected virtual void OnNewTireSheet(TireSheet newTireSheet)
+        protected virtual void OnNewTireSheet(TireSheet newTireSheet, Guid? trackSessionRunId)
         {
             EventHandler<NewTireSheetArgs> handler = NewTireSheet;
             if (handler != null)
             {
-                var e = new NewTireSheetArgs(newTireSheet);
+                var e = new NewTireSheetArgs(newTireSheet, trackSessionRunId);
                 handler(this, e);
-                WriteLog("Manager:OnSetupFileExported");
+                WriteLog("Manager:OnNewTireSheet");
             }
         }
 
@@ -62,22 +62,6 @@ namespace TestSessionLibrary
             }
         }
 
-        public event EventHandler<EngineStatusChangedArgs> EngineStatusChanged;
-        protected virtual void OnEngineStatusChanged(EngineStatus oldStatus, EngineStatus newStatus)
-        {
-            var e = new EngineStatusChangedArgs(oldStatus, newStatus);
-            OnEngineStatusChanged(e);
-        }
-        protected virtual void OnEngineStatusChanged(EngineStatusChangedArgs e)
-        {
-            EventHandler<EngineStatusChangedArgs> handler = EngineStatusChanged;
-            if (handler != null)
-            {
-                handler(this, e);
-                WriteLog("TrackSessionManager:OnEngineStatusChanged:  {0}->{1}", e.OldStatus, e.NewStatus);
-            }
-        }
-
         public event EventHandler<ManagerStatusChangedArgs> ManagerStatusChanged;
         protected virtual void OnManagerStatusChanged(ManagerStatus oldStatus, ManagerStatus newStatus)
         {
@@ -98,6 +82,7 @@ namespace TestSessionLibrary
 
         #region properties
         public bool EnableLogging { get; set; }
+        public bool EnableTestMode { get; set; }
 
         private TrackSessionModel _session;
         public TrackSessionModel Session
@@ -112,12 +97,14 @@ namespace TestSessionLibrary
             }
         }
 
-        private EngineStatus _status;
+        public TrackSessionRunView CurrentRun { get; set; }
+
+        private EngineStatus _engineStatus;
         public EngineStatus EngineStatus
         {
             get
             {
-                return _status;
+                return _engineStatus;
             }
         }
 
@@ -131,6 +118,7 @@ namespace TestSessionLibrary
             private set
             {
                 if (_managerStatus == value) return;
+                OnManagerStatusChanged(_managerStatus, value);
                 _managerStatus = value;
             }
         }
@@ -138,23 +126,22 @@ namespace TestSessionLibrary
 
         #region ctor
         public TrackSessionManager() : this(true)
-        {
-
-        }
-        public TrackSessionManager(bool loggingOn)
+        { }
+        public TrackSessionManager(bool loggingOn) : this(loggingOn, false)
+        { }
+        public TrackSessionManager(bool loggingOn, bool useTestMode)
         {
             EnableLogging = loggingOn;
+            EnableTestMode = useTestMode;
             InitializeEngine();
+            SetManagerStatus(ManagerStatus.Idle);
         }
         protected virtual void InitializeEngine()
         {
-            _engine = new TrackSessionEngine();
+            _engine = new TrackSessionEngine(EnableLogging, EnableTestMode);
             _engine.EngineException += _engine_EngineException;
             _engine.EngineStatusChanged += _engine_EngineStatusChanged;
-            _engine.TelemetryFileOpened += _engine_TelemetryFileOpened;
             _engine.TelemetryFileClosed += _engine_TelemetryFileClosed;
-            _engine.iRacingProcessStarted += _engine_ProcessStarted;
-            _engine.iRacingProcessStopped += _engine_ProcessStopped;
             _engine.SetupFileExported += _engine_SetupFileExported;
         }
         #endregion
@@ -164,48 +151,49 @@ namespace TestSessionLibrary
         {
             GetTireSheet(e.FullPath);
         }
-        private void _engine_TelemetryFileOpened(object sender, EngineFileCreatedArgs e)
-        {
-            RunStarted();
-        }
         private void _engine_TelemetryFileClosed(object sender, EngineFileCreatedArgs e)
         {
             RunEnded(e.FullPath);
         }
         private void _engine_EngineStatusChanged(object sender, EngineStatusChangedArgs e)
         {
-            _status = e.NewStatus;
-            OnEngineStatusChanged(e);
+            _engineStatus = e.NewStatus;
+            switch (_engineStatus)
+            {
+                case EngineStatus.Initializing:
+                    {
+                        SetManagerStatus(ManagerStatus.Off);
+                        break;
+                    }
+                case EngineStatus.WaitingForApp:
+                    {
+                        SetManagerStatus(ManagerStatus.Idle);
+                        break;
+                    }
+                case EngineStatus.AppRunning:
+                    {
+                        SetManagerStatus(ManagerStatus.Monitoring);
+                        break;
+                    }
+                case EngineStatus.RunInProgress:
+                    {
+                        SetManagerStatus(ManagerStatus.Busy);
+                        break;
+                    }
+                case EngineStatus.WaitingForExport:
+                    {
+                        SetManagerStatus(ManagerStatus.Monitoring);
+                        break;
+                    }
+            }
         }
         private void _engine_EngineException(object sender, EngineExceptionArgs e)
         {
             OnEngineException(e);
         }
-        private void _engine_ProcessStopped(object sender, EventArgs e)
-        {
-            iRacingProcessEnded();
-        }
-        private void _engine_ProcessStarted(object sender, EventArgs e)
-        {
-            iRacingProcessRunning();
-        }
         #endregion
 
-        #region public
-        public void StartManager()
-        {
-            SetManagerStatus(ManagerStatus.Idle);
-            _engine.Start();
-        }
-        public void StopManager()
-        {
-            _engine.Stop();
-            if (ManagerStatus == ManagerStatus.RunInProgress)
-            {
-                RunEnded(String.Empty, true);
-            }
-            SetManagerStatus(ManagerStatus.Off);
-        }
+        #region public      
         #region archive
         private int _count;
         private int _maxCount;
@@ -297,9 +285,7 @@ namespace TestSessionLibrary
         #region protected
         protected virtual void SetManagerStatus(ManagerStatus newStatus)
         {
-            var oldStatus = ManagerStatus;
             ManagerStatus = newStatus;
-            OnManagerStatusChanged(oldStatus, newStatus);
         }
 
         protected virtual void GetTireSheet(string htmlSetupExportFile)
@@ -307,14 +293,21 @@ namespace TestSessionLibrary
             var htmlParser = new HtmlExportParser();
             var htmlSetupExport = File.ReadAllText(htmlSetupExportFile);
             var tireSheet = htmlParser.GetTireSheet(htmlSetupExport);
-            if (null!= Session)
+            SetCurrentRunTireSheet(tireSheet);
+        }
+
+        protected virtual void SetCurrentRunTireSheet(TireSheet tireSheet)
+        {
+            if (null != Session)
             {
+                Guid? runId = null;
                 try
                 {
                     var lastRun = Session.Runs.LastOrDefault();
                     if (null != lastRun)
                     {
-                        lastRun.TireSheet = tireSheet;
+                        runId = lastRun.TrackSessionRunId;
+                        lastRun.TireSheetJson = tireSheet.ToJson();
                         using (var data = new TrackSessionData())
                         {
                             data.SaveTrackSessionRun(lastRun);
@@ -327,30 +320,14 @@ namespace TestSessionLibrary
                     WriteErrorLog(ex);
                     Console.WriteLine(ex.ToString());
                 }
+                finally
+                {
+                    OnNewTireSheet(tireSheet, runId);
+                }
             }
-
-            OnNewTireSheet(tireSheet);
-        }
-
-        protected virtual void iRacingProcessRunning()
-        {
-            SetManagerStatus(ManagerStatus.Monitoring);
-        }
-        protected virtual void iRacingProcessEnded()
-        {
-            SetManagerStatus(ManagerStatus.Idle);
-        }
-
-        protected virtual void RunStarted()
-        {
-            SetManagerStatus(ManagerStatus.RunInProgress);
         }
 
         protected virtual void RunEnded(string telemetryFile)
-        {
-            RunEnded(telemetryFile, false);
-        }
-        protected virtual void RunEnded(string telemetryFile, bool forceEnd)
         {
             try
             {
@@ -361,19 +338,19 @@ namespace TestSessionLibrary
 
                     // parse the telemetry file
                     var telemetryParser = new ParserEngine();
-                   
+
                     var info = telemetryParser.ParseTelemetrySessionInfo(telemetry.TelemetryDiskFile, telemetry.BinaryData);
-                    
+
                     // get the session run details
                     var season = data.GetSeason(telemetry.Timestamp);
-                    var sessionType = data.GetSessionType(info.SessionInfo.Sessions[0].SessionType );
+                    var sessionType = data.GetSessionType(info.SessionInfo.Sessions[0].SessionType);
                     var vehicle = data.GetVehicle(Convert.ToInt32(info.DriverInfo.CurrentDriver().CarID),
                         info.DriverInfo.CurrentDriver().CarScreenNameShort,
                         info.DriverInfo.CurrentDriver().CarPath,
                         info.DriverInfo.CurrentDriver().CarScreenName);
                     var track = data.GetTrack(Convert.ToInt32(info.WeekendInfo.TrackID),
-                        info.WeekendInfo.TrackName, 
-                        Convert.ToDouble(info.WeekendInfo.TrackLength.Substring(0, info.WeekendInfo.TrackLength.Length-3)));
+                        info.WeekendInfo.TrackName,
+                        Convert.ToDouble(info.WeekendInfo.TrackLength.Substring(0, info.WeekendInfo.TrackLength.Length - 3)));
 
                     // get the setup model
                     var setup = GetSetupModel(info);
@@ -399,8 +376,8 @@ namespace TestSessionLibrary
 
                     Session = data.GetTrackSession(Session.TrackSessionId);
 
-                    var view = new TrackSessionRunView(run);
-                    OnSessionRunComplete(view);
+                    CurrentRun = new TrackSessionRunView(run);
+                    OnSessionRunComplete(CurrentRun);
                 }
             }
             catch (Exception ex)
@@ -417,7 +394,7 @@ namespace TestSessionLibrary
         {
             Session = null;
         }
-        
+
         private TelemetryModel GetTelemetryModel(string fullPath)
         {
             var model = new TelemetryModel();
@@ -446,7 +423,7 @@ namespace TestSessionLibrary
             };
             return model;
         }
-       
+
         private TrackSessionRunModel GetTrackSessionRunModel(TrackSessionModel session, SetupModel setup, TelemetryModel telemetry)
         {
             var model = new TrackSessionRunModel()
@@ -470,7 +447,7 @@ namespace TestSessionLibrary
             };
             return model;
         }
-       
+
         protected virtual byte[] GetSetupBinary(string carPath)
         {
             var setupDirectory = Path.Combine(iRacing.Constants.iRacingSetupDirectory, carPath);
@@ -513,8 +490,9 @@ namespace TestSessionLibrary
             {
                 _engine.EngineException -= _engine_EngineException;
                 _engine.EngineStatusChanged -= _engine_EngineStatusChanged;
-                _engine.TelemetryFileOpened -= _engine_TelemetryFileOpened;
                 _engine.TelemetryFileClosed -= _engine_TelemetryFileClosed;
+                _engine.SetupFileExported -= _engine_SetupFileExported;
+
                 _engine = null;
             }
         }

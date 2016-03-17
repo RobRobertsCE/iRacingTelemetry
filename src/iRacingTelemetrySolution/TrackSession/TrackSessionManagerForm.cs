@@ -1,15 +1,14 @@
 ﻿using ibtAnalysis.Laps;
 using iRacing.Common;
+using iRacing.SetupLibrary.Tires;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestSessionLibrary;
 using TestSessionLibrary.Data;
 using TestSessionLibrary.Views;
 using TrackSession.Dialogs;
@@ -17,14 +16,17 @@ using TrackSession.Views;
 
 namespace TrackSession
 {
-    public partial class TrackSessionManager : Form
+    public partial class TrackSessionManagerForm : Form
     {
         #region constants 
         private const string MessageLogFile = @"Messages.txt";
         #endregion
 
         #region fields 
-        private Size _messageDisplaySize;
+        Size _messageDisplaySize;
+
+        TrackSessionManager _manager;
+
         protected IList<ITrackSessionRunDisplay> Displays { get; set; }
         #endregion
 
@@ -33,7 +35,7 @@ namespace TrackSession
         #endregion
 
         #region ctor / init / load
-        public TrackSessionManager()
+        public TrackSessionManagerForm()
         {
             InitializeComponent();
 
@@ -43,6 +45,12 @@ namespace TrackSession
         {
             try
             {
+                _manager = new TrackSessionManager();
+                _manager.ManagerStatusChanged += _manager_ManagerStatusChanged;
+                _manager.EngineException += _manager_EngineException;
+                _manager.SessionRunComplete += _manager_SessionRunComplete;
+                _manager.NewTireSheet += _manager_NewTireSheet;
+
                 Displays = new List<ITrackSessionRunDisplay>();
                 lstRuns.DisplayMember = "Caption";
             }
@@ -57,7 +65,6 @@ namespace TrackSession
             try
             {
                 ClearRunList();
-                PrintMessage("Loaded");
             }
             catch (Exception ex)
             {
@@ -368,6 +375,45 @@ namespace TrackSession
             {
                 ExceptionHandler(ex);
             }
+        }
+        #endregion
+
+        #region manager events
+        private void _manager_NewTireSheet(object sender, NewTireSheetArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                DisplayTireSheet(e.TireSheet); // runs on UI thread
+            });
+        }
+
+        private void _manager_SessionRunComplete(object sender, SessionRunCompleteArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                DisplayRun(e.Run); // runs on UI thread
+            });
+        }
+
+        private void _manager_EngineException(object sender, EngineExceptionArgs e)
+        {
+            ExceptionHandler(e.Exception);
+        }
+
+        private void _manager_EngineStatusChanged(object sender, EngineStatusChangedArgs e)
+        {
+            Console.WriteLine("Engine Status Changed: {0}->{1}", e.OldStatus, e.NewStatus);
+        }
+        private void _manager_ManagerStatusChanged(object sender, ManagerStatusChangedArgs e)
+        {
+            Console.WriteLine("Manager Status Changed: {0}->{1}", e.OldStatus, e.NewStatus);
+        }
+        #endregion
+
+        #region tire sheet
+        protected virtual void DisplayTireSheet(TireSheet tireSheet)
+        {
+            trackRunResultsView1.tireSheetView1.tireSheetBindingSource.DataSource = tireSheet;
         }
         #endregion
 

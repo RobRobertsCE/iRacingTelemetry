@@ -5,15 +5,20 @@ namespace TestSessionLibrary
 {
     public class NewTireSheetArgs : EventArgs
     {
+        public Guid? TrackSessionRunId { get; set; }
         public TireSheet TireSheet { get; set; }
 
         public NewTireSheetArgs()
         {
 
         }
-        public NewTireSheetArgs(TireSheet newTireSheet)
+        public NewTireSheetArgs(TireSheet newTireSheet):this(newTireSheet, null)
+        {
+        }
+        public NewTireSheetArgs(TireSheet newTireSheet, Guid? trackSessionRunid)
         {
             TireSheet = newTireSheet;
+            TrackSessionRunId = trackSessionRunid;
         }
     }
 }

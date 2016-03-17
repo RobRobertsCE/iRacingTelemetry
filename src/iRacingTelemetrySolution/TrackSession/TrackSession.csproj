@@ -89,11 +89,11 @@
     <Compile Include="Dialogs\OpenTrackSessionRun.Designer.cs">
       <DependentUpon>OpenTrackSessionRun.cs</DependentUpon>
     </Compile>
-    <Compile Include="TrackSessionManager.cs">
+    <Compile Include="TrackSessionManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TrackSessionManager.Designer.cs">
-      <DependentUpon>TrackSessionManager.cs</DependentUpon>
+    <Compile Include="TrackSessionManagerForm.Designer.cs">
+      <DependentUpon>TrackSessionManagerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,8 +113,8 @@
     <EmbeddedResource Include="Dialogs\OpenTrackSessionRun.resx">
       <DependentUpon>OpenTrackSessionRun.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TrackSessionManager.resx">
-      <DependentUpon>TrackSessionManager.cs</DependentUpon>
+    <EmbeddedResource Include="TrackSessionManagerForm.resx">
+      <DependentUpon>TrackSessionManagerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

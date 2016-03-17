@@ -16,7 +16,7 @@ namespace TrackSession
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TrackSessionManager());
+            Application.Run(new TrackSessionManagerForm());
         }
     }
 }

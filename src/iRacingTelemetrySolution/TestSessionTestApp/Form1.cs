@@ -27,7 +27,6 @@ namespace TestSessionTestApp
             InitializeComponent();
             _manager = new TrackSessionManager();
             _manager.ManagerStatusChanged += _manager_ManagerStatusChanged;
-            _manager.EngineStatusChanged += _manager_EngineStatusChanged;
             _manager.EngineException += _manager_EngineException;
             _manager.SessionRunComplete += _manager_SessionRunComplete;
             _manager.NewTireSheet += _manager_NewTireSheet;
@@ -61,32 +60,7 @@ namespace TestSessionTestApp
         {
             Console.WriteLine("Manager Status Changed: {0}->{1}", e.OldStatus, e.NewStatus);
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _manager.EnableLogging = true;
-                _manager.StartManager();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                _manager.StopManager();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
-
+              
         private void ShowMessage(string message)
         {
             msg.Text += DateTime.Now.ToString() + ": " +  message + "\r\n";
