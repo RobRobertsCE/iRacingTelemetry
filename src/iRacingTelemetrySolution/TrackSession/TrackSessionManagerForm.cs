@@ -1,4 +1,5 @@
 ﻿using ibtAnalysis.Laps;
+using iRacing;
 using iRacing.Common;
 using iRacing.SetupLibrary.Tires;
 using System;
@@ -196,7 +197,11 @@ namespace TrackSession
         #region logging
         protected virtual void LogMessage(string message)
         {
-
+            Logger.Log.Info(message);
+        }
+        protected virtual void LogErrorMessage(string message)
+        {
+            Logger.Log.Error(message);
         }
         #endregion
 
@@ -423,6 +428,16 @@ namespace TrackSession
             var telemetryParser = new ibtParserLibrary.ParserEngine();
             var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
             return new LapTimeAnalysis(session.Laps);
+        }
+        #endregion
+
+        #region telemetry
+        private void openTelemetryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new TelemetryDialog())
+            {
+                dialog.ShowDialog(this);
+            }
         }
         #endregion
     }

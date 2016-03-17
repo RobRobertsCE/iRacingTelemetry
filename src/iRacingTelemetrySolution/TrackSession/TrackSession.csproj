@@ -89,6 +89,12 @@
     <Compile Include="Dialogs\OpenTrackSessionRun.Designer.cs">
       <DependentUpon>OpenTrackSessionRun.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\TelemetryDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\TelemetryDialog.Designer.cs">
+      <DependentUpon>TelemetryDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrackSessionManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,6 +118,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\OpenTrackSessionRun.resx">
       <DependentUpon>OpenTrackSessionRun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\TelemetryDialog.resx">
+      <DependentUpon>TelemetryDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TrackSessionManagerForm.resx">
       <DependentUpon>TrackSessionManagerForm.cs</DependentUpon>

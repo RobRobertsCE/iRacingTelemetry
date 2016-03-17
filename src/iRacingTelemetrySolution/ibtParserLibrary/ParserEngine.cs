@@ -132,7 +132,7 @@ namespace ibtParserLibrary
 
             Array.Copy(telemetryFileBytes, idx, fieldDescriptionBytes, 0, FieldDescriptionLength);
 
-            TelemetryFieldDefinition field = new TelemetryFieldDefinition();
+            TelemetryChannelDefinition field = new TelemetryChannelDefinition();
 
             field.DataType = GetIntFromBytes(fieldDescriptionBytes, FieldDescriptionLengthStart, FieldDescriptionLengthLength);
             field.Position = GetIntFromBytes(fieldDescriptionBytes, FieldDescriptionPositionStart, FieldDescriptionPositionLength);
@@ -211,12 +211,12 @@ namespace ibtParserLibrary
                     Array.Copy(valueSectionBytes, frameByteIndex, frameBytes, 0, frameSize);
 
                     var frame = new TelemetryFrame(frameIdx);
-                    foreach (TelemetryFieldDefinition field in Session.Fields)
+                    foreach (TelemetryChannelDefinition field in Session.Fields)
                     {
-                        TelemetryFieldValue fieldValue = new TelemetryFieldValue(field);
+                        TelemetryChannelValue fieldValue = new TelemetryChannelValue(field);
                         fieldValue.Bytes = new byte[field.Size];
                         Array.Copy(frameBytes, field.Position, fieldValue.Bytes, 0, field.Size);
-                        frame.FieldValues.Add(fieldValue);
+                        frame.ChannelValues.Add(fieldValue);
                     }
 
                     Session.Frames.Add(frame);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TrackSession.Dialogs;
 
 namespace TrackSession
 {
@@ -16,7 +17,8 @@ namespace TrackSession
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TrackSessionManagerForm());
+            Application.Run(new TelemetryDialog());
+            // Application.Run(new TrackSessionManagerForm());
         }
     }
 }

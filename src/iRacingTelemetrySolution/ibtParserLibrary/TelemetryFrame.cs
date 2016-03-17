@@ -10,11 +10,11 @@ namespace ibtParserLibrary
         public int FrameIndex { get; set; }
 
         [Browsable(false)]
-        public IList<TelemetryFieldValue> FieldValues { get; set; }
+        public IList<TelemetryChannelValue> ChannelValues { get; set; }
 
         public TelemetryFrame()
         {
-            FieldValues = new List<TelemetryFieldValue>();
+            ChannelValues = new List<TelemetryChannelValue>();
         }
 
         public TelemetryFrame(int frameIdx) : this()
@@ -24,19 +24,19 @@ namespace ibtParserLibrary
 
         public string GetValue(string key)
         {
-            var returnValue = FieldValues.FirstOrDefault(v => v.Definition.Name == key);
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key);
             return returnValue.Value;
         }
 
         public Single GetSingleValue(string key)
         {
-            var returnValue = FieldValues.FirstOrDefault(v => v.Definition.Name == key);
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key);
             return Convert.ToSingle(returnValue.Value);
         }
 
         public int GetIntValue(string key)
         {
-            var returnValue = FieldValues.FirstOrDefault(v => v.Definition.Name == key);
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key);
             return Convert.ToInt32(returnValue.Value);
         }
 
@@ -44,7 +44,7 @@ namespace ibtParserLibrary
         // TelemetryKeys
         public string GetValue(TelemetryKeys key)
         {
-            var returnValue = FieldValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
             if (null == returnValue)
                 return String.Empty;
             else
@@ -53,7 +53,7 @@ namespace ibtParserLibrary
 
         public Single GetSingleValue(TelemetryKeys key)
         {
-            var returnValue = FieldValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
             if (null == returnValue)
                 return (Single)GetIntValue(key);
             else
@@ -62,7 +62,7 @@ namespace ibtParserLibrary
 
         public int GetIntValue(TelemetryKeys key)
         {
-            var returnValue = FieldValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
             if (null == returnValue)
                 return -9999;
             else

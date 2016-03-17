@@ -196,8 +196,8 @@ namespace ibtParser.WinApp
                 currentSelectedRow = dataGridView3.SelectedRows[0].Index;
             }
             dataGridView3.ClearSelection();
-            this.dataGridView3.DataSource = _session.Laps[lapIdx].Frames[frameIdx].FieldValues;
-            if (_session.Laps[lapIdx].Frames[frameIdx].FieldValues.Count < currentSelectedRow)
+            this.dataGridView3.DataSource = _session.Laps[lapIdx].Frames[frameIdx].ChannelValues;
+            if (_session.Laps[lapIdx].Frames[frameIdx].ChannelValues.Count < currentSelectedRow)
                 currentSelectedRow = 0;
             dataGridView3.Rows[currentSelectedRow].Selected = true;
             dataGridView3.FirstDisplayedScrollingRowIndex = currentSelectedRow;
