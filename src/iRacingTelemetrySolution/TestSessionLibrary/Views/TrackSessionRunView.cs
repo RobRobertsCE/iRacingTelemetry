@@ -1,9 +1,5 @@
-﻿using ibtAnalysis.Laps;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TestSessionLibrary.Data.Models;
 
 namespace TestSessionLibrary.Views
@@ -20,6 +16,16 @@ namespace TestSessionLibrary.Views
         public string Skies { get; set; }
         public bool IsNight { get; set; }
         public int RunNumber { get; set; }
+        public int LapCount { get; set; }
+        public List<LapModel> Laps { get; set; }
+
+        public string Caption
+        {
+            get
+            {
+                return String.Format("[{0,2}] {1} Laps", RunNumber, LapCount);
+            }
+        }
 
         public SetupModel Setup { get; set; }
         public TelemetryModel Telemetry { get; private set; }
@@ -38,6 +44,8 @@ namespace TestSessionLibrary.Views
             RunNumber = model.RunNumber;
             Telemetry = model.Telemetry;
             Setup = model.Setup;
+            LapCount = model.LapCount;
+            Laps = model.Laps;
         }
     }
 }

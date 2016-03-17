@@ -33,7 +33,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,6 +59,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\LapsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LapsView.Designer.cs">
+      <DependentUpon>LapsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TireSheetView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TireSheetView.Designer.cs">
+      <DependentUpon>TireSheetView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TrackRunResultsView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TrackRunResultsView.Designer.cs">
+      <DependentUpon>TrackRunResultsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OpenTrackSession.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OpenTrackSession.Designer.cs">
+      <DependentUpon>OpenTrackSession.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\OpenTrackSessionRun.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\OpenTrackSessionRun.Designer.cs">
+      <DependentUpon>OpenTrackSessionRun.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrackSessionManager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -54,6 +97,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\ITrackSessionRunDisplay.cs" />
+    <EmbeddedResource Include="Controls\LapsView.resx">
+      <DependentUpon>LapsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TireSheetView.resx">
+      <DependentUpon>TireSheetView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TrackRunResultsView.resx">
+      <DependentUpon>TrackRunResultsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OpenTrackSession.resx">
+      <DependentUpon>OpenTrackSession.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\OpenTrackSessionRun.resx">
+      <DependentUpon>OpenTrackSessionRun.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TrackSessionManager.resx">
       <DependentUpon>TrackSessionManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -66,6 +125,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -78,6 +138,32 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ibtAnalysis\ibtAnalysis.csproj">
+      <Project>{fe8e3600-5538-43f5-80cb-1301dc84d958}</Project>
+      <Name>ibtAnalysis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ibtParserLibrary\ibtParserLibrary.csproj">
+      <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
+      <Name>ibtParserLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ibtSessionLibrary\ibtSessionLibrary.csproj">
+      <Project>{278c681f-6026-4539-8695-5f85dbacc27f}</Project>
+      <Name>ibtSessionLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iRacing.Common\iRacing.Common.csproj">
+      <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>
+      <Name>iRacing.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iRacing.SetupLibrary\iRacing.SetupLibrary.csproj">
+      <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
+      <Name>iRacing.SetupLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestSessionLibrary\TestSessionLibrary.csproj">
+      <Project>{5942ffaf-92d8-442a-be17-d92ff1353816}</Project>
+      <Name>TestSessionLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

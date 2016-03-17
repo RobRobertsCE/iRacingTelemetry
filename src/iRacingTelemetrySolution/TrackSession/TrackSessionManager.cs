@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ibtAnalysis.Laps;
+using iRacing.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TestSessionLibrary.Data;
+using TestSessionLibrary.Views;
+using TrackSession.Dialogs;
+using TrackSession.Views;
 
 namespace TrackSession
 {
@@ -19,10 +25,11 @@ namespace TrackSession
 
         #region fields 
         private Size _messageDisplaySize;
+        protected IList<ITrackSessionRunDisplay> Displays { get; set; }
         #endregion
 
         #region properties 
-        
+
         #endregion
 
         #region ctor / init / load
@@ -49,50 +56,14 @@ namespace TrackSession
         {
             try
             {
-                AddTestData();
+                ClearRunList();
                 PrintMessage("Loaded");
             }
             catch (Exception ex)
             {
                 ExceptionHandler(ex);
             }
-        }
-
-        protected virtual void AddTestData()
-        {
-            lstRuns.Items.Clear();
-            var r1 = new TrackSessionRun();
-            r1.RunNumber = 1;
-            r1.LapCount = 12;
-            r1.Bestlap = 15.345F;
-            r1.AverageLap = 16.556F;
-            AddRunToList(r1);
-
-            var r2 = new TrackSessionRun();
-            r2.RunNumber = 2;
-            r2.LapCount = 12;
-            r2.Bestlap = 16.221F;
-            r2.AverageLap = 17.192F;
-            AddRunToList(r2);
-
-            var r3 = new TrackSessionRun()
-            {
-                RunNumber = 3,
-                LapCount = 7,
-                Bestlap = 15.399F,
-                AverageLap = 16.935F
-            };
-            AddRunToList(r3);
-
-            AddRunToList(new TrackSessionRun()
-            {
-                RunNumber = 4,
-                LapCount = 23,
-                Bestlap = 18.848F,
-                AverageLap = 19.125F
-            });
-
-        }
+        }        
         #endregion
 
         #region messages
@@ -155,14 +126,16 @@ namespace TrackSession
         #endregion
         protected virtual void DisplayMessage(string message)
         {
-            this.Invoke((MethodInvoker)delegate {
+            this.Invoke((MethodInvoker)delegate
+            {
                 MessageBox.Show(message);
             });
             PrintMessage(message);
         }
         protected virtual void PrintMessage(string message)
         {
-            this.Invoke((MethodInvoker)delegate {
+            this.Invoke((MethodInvoker)delegate
+            {
                 var newMessage = String.Format("{0}: {1}\r\n", DateTime.Now, message);
                 txtMessages.AppendText(newMessage);
                 txtMessages.SelectionStart = txtMessages.TextLength;
@@ -216,7 +189,7 @@ namespace TrackSession
         #region logging
         protected virtual void LogMessage(string message)
         {
-          
+
         }
         #endregion
 
@@ -229,25 +202,35 @@ namespace TrackSession
         {
             this.Close();
         }
-
         #endregion
 
+        #region run list
+        protected virtual void ClearRunList()
+        {
+            lstRuns.Items.Clear();
+        }
+        protected virtual void AddRunsToList(IList<TrackSessionRunView> runs)
+        {
+            ClearRunList();
+            foreach (var run in runs)
+            {
+                AddRunToList(run);
+            }
+        }
+        protected virtual void AddRunToList(TrackSessionRunView run)
+        {
+            lstRuns.Items.Add(run);
+            lstRuns.SelectedItems.Add(run);
+        }
         private void lstRuns_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (lstRuns.SelectedItems.Count < 1)
                 return;
 
-            var lastRun = (TrackSessionRun)lstRuns.SelectedItems[lstRuns.SelectedItems.Count - 1];
+            var lastRun = (TrackSessionRunView)lstRuns.SelectedItems[lstRuns.SelectedItems.Count - 1];
             DisplayRun(lastRun);
         }
-
-        protected virtual void AddRunToList(TrackSessionRun run)
-        {
-            lstRuns.Items.Add(run);
-            lstRuns.SelectedItems.Add(run);
-        }
-
-        protected virtual void DisplayRun(TrackSessionRun run)
+        protected virtual void DisplayRun(TrackSessionRunView run)
         {
             DisplayRunDetails(run);
             foreach (var display in Displays)
@@ -256,38 +239,145 @@ namespace TrackSession
                     display.DisplayRun(run);
             }
         }
-
-        protected virtual void DisplayRunDetails(TrackSessionRun run)
+        protected virtual void DisplayRunDetails(TrackSessionRunView run)
         {
             this.lblRunNumber.Text = String.Format("Run {0}", run.RunNumber);
-            this.lblRunLapCount.Text = String.Format("{0} Laps", run.LapCount);
-            this.lblBestLap.Text = run.Bestlap.ToString();
-            this.lblAverageLap.Text = run.AverageLap.ToString();
-        }
-        
-        protected IList<ITrackSessionRunDisplay> Displays { get; set; }
-    }
-
-    public class TrackSessionRun
-    {
-        public int RunNumber { get; set; }
-        public int LapCount { get; set; }
-        public float Bestlap { get; set; }
-        public float AverageLap { get; set; }
-
-        public string Caption
-        {
-            get
+           
+            var analysis = GetLapTimesAnalysis(run);
+            if (analysis.LapTimes.Count>0)
             {
-                return String.Format("{0} {1} Laps", RunNumber, LapCount);
+                this.lblRunLapCount.Text = String.Format("{0} Laps", analysis.LapTimes.Count);
+                trackRunResultsView1.lapsView1.LapTimes = analysis.LapTimes.CoreLaps();
+                var validLaps = analysis.LapTimes.CoreLaps().Where(l => l > 0);
+                if (validLaps.Count() > 0)
+                {
+                    this.lblBestLap.Text = analysis.LapTimes.Where(l => l > 0).Min().ToString();
+                    this.lblAverageLap.Text = analysis.LapTimes.CoreLaps().Average().ToString();
+                }
+                else
+                {
+                    this.lblBestLap.Text = "-";
+                    this.lblAverageLap.Text = "-";
+                }
+            }
+            else
+            {
+                this.lblRunLapCount.Text = "-";
+                this.lblBestLap.Text = "-";
+                this.lblAverageLap.Text = "-";
             }
         }
+        #endregion
 
-    }
+        #region open session       
+        private void openSessionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenTrackSession();
+        }
+        protected virtual void OpenTrackSession()
+        {
+            var trackSessionId = DisplayOpenSessionDialog();
+            if (trackSessionId.HasValue)
+                LoadTrackSession(trackSessionId.Value);
+        }
+        protected virtual Guid? DisplayOpenSessionDialog()
+        {
+            try
+            {
+                using (var dialog = new OpenTrackSession())
+                {
+                    if (dialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        return dialog.TrackSessionId;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+            return null;
+        }
+        protected virtual void LoadTrackSession(Guid trackSessionId)
+        {
+            try
+            {
+                using (var data = new TrackSessionData())
+                {
+                    var model = data.GetTrackSession(trackSessionId);
+                    if (null != model)
+                    {
+                        var runViews = model.Runs.Select(r => new TrackSessionRunView(r)).ToList();
+                        AddRunsToList(runViews);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+        #endregion
 
-    public interface ITrackSessionRunDisplay
-    {
-        bool IsActive { get; set; }
-        void DisplayRun(TrackSessionRun run);
+        #region open run
+        private void openRunToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenTrackSessionRun();
+        }
+        protected virtual void OpenTrackSessionRun()
+        {
+            var trackSessionRunId = DisplayOpenRunDialog();
+            if (trackSessionRunId.HasValue)
+                LoadTrackSessionRun(trackSessionRunId.Value);
+        }
+        protected virtual Guid? DisplayOpenRunDialog()
+        {
+            try
+            {
+                using (var dialog = new OpenTrackSessionRun())
+                {
+                    if (dialog.ShowDialog(this) == DialogResult.OK)
+                    {
+                        return dialog.TrackSessionRunId;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+            return null;
+        }
+        protected virtual void LoadTrackSessionRun(Guid trackSessionRunId)
+        {
+            try
+            {
+                using (var data = new TrackSessionData())
+                {
+                    var model = data.GetTrackSessionRun(trackSessionRunId);
+                    if (null != model)
+                    {
+                        Console.WriteLine(model.TrackSessionRunId.ToString());
+                        var view = new TrackSessionRunView(model);
+                        ClearRunList();
+                        AddRunToList(view);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler(ex);
+            }
+        }
+        #endregion
+
+        #region laps
+        protected virtual LapTimeAnalysis GetLapTimesAnalysis(TrackSessionRunView run)
+        {
+            var telemetryParser = new ibtParserLibrary.ParserEngine();
+            var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
+            return new LapTimeAnalysis(session.Laps);
+        }
+        #endregion
     }
 }

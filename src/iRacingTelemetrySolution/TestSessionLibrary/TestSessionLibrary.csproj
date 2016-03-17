@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Data\Models\LapModel.cs" />
     <Compile Include="Data\TrackSessionData.cs" />
     <Compile Include="EngineProcessMonitor.cs" />
     <Compile Include="Data\iRacingDbContext.cs" />

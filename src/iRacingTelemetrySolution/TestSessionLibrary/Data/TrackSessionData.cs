@@ -142,7 +142,7 @@ namespace TestSessionLibrary.Data
         }
         public virtual TrackSessionModel GetTrackSession(Guid trackSessionId)
         {
-            return Context.Sessions.FirstOrDefault(s => s.TrackSessionId == trackSessionId);
+            return Context.Sessions.Include("Vehicle").Include("Track").Include("Runs").Include("Runs.Telemetry").FirstOrDefault(s => s.TrackSessionId == trackSessionId);
         }
         #endregion
 
@@ -159,7 +159,11 @@ namespace TestSessionLibrary.Data
             Context.SaveChanges();
 
             return run;
-        }     
+        }
+        public virtual TrackSessionRunModel GetTrackSessionRun(Guid trackSessionRunId)
+        {
+            return Context.Runs.Include("TrackSession").Include("TrackSession.Vehicle").Include("TrackSession.Track").Include("Telemetry").FirstOrDefault(s => s.TrackSessionRunId == trackSessionRunId);
+        }
         #endregion
 
         #region setup
