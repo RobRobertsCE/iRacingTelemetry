@@ -9,11 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtParser.WinApp", "ibtPars
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtParserLibrary", "ibtParserLibrary\ibtParserLibrary.csproj", "{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtSessionLibrary", "ibtSessionLibrary\ibtSessionLibrary.csproj", "{278C681F-6026-4539-8695-5F85DBACC27F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.Common", "iRacing.Common\iRacing.Common.csproj", "{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSessionLibrary", "TestSessionLibrary\TestSessionLibrary.csproj", "{5942FFAF-92D8-442A-BE17-D92FF1353816}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackSessionLibrary", "TestSessionLibrary\TrackSessionLibrary.csproj", "{5942FFAF-92D8-442A-BE17-D92FF1353816}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSessionTestApp", "TestSessionTestApp\TestSessionTestApp.csproj", "{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}"
 EndProject
@@ -96,10 +94,6 @@ Global
 		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{278C681F-6026-4539-8695-5F85DBACC27F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{278C681F-6026-4539-8695-5F85DBACC27F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{278C681F-6026-4539-8695-5F85DBACC27F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{278C681F-6026-4539-8695-5F85DBACC27F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
