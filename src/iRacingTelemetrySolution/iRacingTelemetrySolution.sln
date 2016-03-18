@@ -3,17 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtAnalysis", "ibtAnalysis\ibtAnalysis.csproj", "{FE8E3600-5538-43F5-80CB-1301DC84D958}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.TelemetryAnalysis", "ibtAnalysis\iRacing.TelemetryAnalysis.csproj", "{FE8E3600-5538-43F5-80CB-1301DC84D958}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtParser.WinApp", "ibtParser.WinApp\ibtParser.WinApp.csproj", "{20279F34-50F4-4F80-A07B-5FAE885858C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibtParserLibrary", "ibtParserLibrary\ibtParserLibrary.csproj", "{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.TelemetryParser", "ibtParserLibrary\iRacing.TelemetryParser.csproj", "{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.Common", "iRacing.Common\iRacing.Common.csproj", "{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackSessionLibrary", "TestSessionLibrary\TrackSessionLibrary.csproj", "{5942FFAF-92D8-442A-BE17-D92FF1353816}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSessionTestApp", "TestSessionTestApp\TestSessionTestApp.csproj", "{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iRacing.TrackSession", "TestSessionLibrary\iRacing.TrackSession.csproj", "{5942FFAF-92D8-442A-BE17-D92FF1353816}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C057D489-C6BB-4014-ACC8-F1B9E625F183}"
 EndProject
@@ -76,6 +74,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Telemetry", "Telemetry", "{
 		Samples\Telemetry\skmodified_langley 2015-08-24 20-48-50.ibt = Samples\Telemetry\skmodified_langley 2015-08-24 20-48-50.ibt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{2674E9C7-3AB7-4E2B-932D-E3E68341568B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{8520B3C0-6426-4D48-B0BB-C9CD4520DC6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{9D434983-8774-4974-8D68-08C3188C943B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,10 +106,6 @@ Global
 		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5942FFAF-92D8-442A-BE17-D92FF1353816}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F430EAE0-A9A6-45BB-827C-BCB99907A8C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F430EAE0-A9A6-45BB-827C-BCB99907A8C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F430EAE0-A9A6-45BB-827C-BCB99907A8C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -119,8 +119,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{FE8E3600-5538-43F5-80CB-1301DC84D958} = {8520B3C0-6426-4D48-B0BB-C9CD4520DC6A}
+		{20279F34-50F4-4F80-A07B-5FAE885858C4} = {2674E9C7-3AB7-4E2B-932D-E3E68341568B}
+		{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D} = {8520B3C0-6426-4D48-B0BB-C9CD4520DC6A}
+		{312DAE46-1978-4CE5-8BFD-DB47BA1F66A3} = {8520B3C0-6426-4D48-B0BB-C9CD4520DC6A}
+		{5942FFAF-92D8-442A-BE17-D92FF1353816} = {8520B3C0-6426-4D48-B0BB-C9CD4520DC6A}
 		{EEC8A578-D1F2-4F81-9870-EE8343C0F5B5} = {C057D489-C6BB-4014-ACC8-F1B9E625F183}
+		{F430EAE0-A9A6-45BB-827C-BCB99907A8C0} = {8520B3C0-6426-4D48-B0BB-C9CD4520DC6A}
 		{0122E32E-6779-4549-97B5-E7CAA139BF4D} = {EEC8A578-D1F2-4F81-9870-EE8343C0F5B5}
+		{4BF4DADA-3F43-44D9-9D53-666090E1AE19} = {9D434983-8774-4974-8D68-08C3188C943B}
 		{6B5352B7-CFE2-438B-B9FF-EC62113F3DB7} = {EEC8A578-D1F2-4F81-9870-EE8343C0F5B5}
 	EndGlobalSection
 EndGlobal

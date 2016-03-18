@@ -1,10 +1,10 @@
-﻿using ibtParserLibrary.Helpers;
+﻿using iRacing.TelemetryParser.Helpers;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {
     public class TelemetryFileParser
     {        

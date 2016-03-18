@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace TrackSessionLibrary.Data.Models
+namespace iRacing.TrackSession.Views
 {
-    public class LapTimes : List<LapModel>
+    public class LapTimesView : List<LapTimeView>
     {
-        public LapTimes()
+        public LapTimesView()
         {
 
         }
-        public static LapTimes FromJson(string json)
+
+        public static LapTimesView FromJson(string json)
         {
-            return (LapTimes)JsonConvert.DeserializeObject(json, typeof(LapTimes),
+            return (LapTimesView)JsonConvert.DeserializeObject(json, typeof(LapTimesView),
                                                           new JsonSerializerSettings()
                                                           { TypeNameHandling = TypeNameHandling.All });
         }
@@ -23,14 +24,14 @@ namespace TrackSessionLibrary.Data.Models
             using (var jsonStreamWriter = new StringWriter())
             {
                 jsonSerializer.Serialize(jsonStreamWriter, this);
-               return jsonStreamWriter.ToString();
+                return jsonStreamWriter.ToString();
             }
         }
     }
 
-    public class LapModel
+    public class LapTimeView
     {
         public int LapNumber { get; set; }
-        public float LapTime { get; set; }   
+        public float LapTime { get; set; }
     }
 }

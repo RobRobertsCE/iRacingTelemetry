@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {
     public static class TelemetryLapsParser
     {

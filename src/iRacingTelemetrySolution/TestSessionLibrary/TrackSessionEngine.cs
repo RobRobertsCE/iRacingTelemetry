@@ -1,10 +1,10 @@
-﻿using iRacing;
+﻿using iRacing.TrackSession.Monitors;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession
 {
     internal class TrackSessionEngine : IDisposable
     {

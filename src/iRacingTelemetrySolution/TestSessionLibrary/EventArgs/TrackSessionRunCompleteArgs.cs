@@ -1,7 +1,7 @@
 ﻿using System;
-using TrackSessionLibrary.Views;
+using iRacing.TrackSession.Views;
 
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession
 {
     public class TrackSessionRunCompleteArgs : EventArgs
     {

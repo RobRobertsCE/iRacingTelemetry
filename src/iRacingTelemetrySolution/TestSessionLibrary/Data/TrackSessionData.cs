@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrackSessionLibrary.Data.Models;
+using iRacing.TrackSession.Data.Models;
 
-namespace TrackSessionLibrary.Data
+namespace iRacing.TrackSession.Data
 {
     public class TrackSessionData : IDisposable
     {

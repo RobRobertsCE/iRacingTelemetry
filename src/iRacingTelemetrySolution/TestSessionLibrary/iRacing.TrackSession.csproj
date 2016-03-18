@@ -7,8 +7,8 @@
     <ProjectGuid>{5942FFAF-92D8-442A-BE17-D92FF1353816}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrackSessionLibrary</RootNamespace>
-    <AssemblyName>TrackSessionLibrary</AssemblyName>
+    <RootNamespace>iRacing.TrackSession</RootNamespace>
+    <AssemblyName>iRacing.TrackSession</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -59,9 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Data\Models\LapModel.cs" />
     <Compile Include="Data\TrackSessionData.cs" />
-    <Compile Include="EngineProcessMonitor.cs" />
+    <Compile Include="Monitors\EngineProcessMonitor.cs" />
     <Compile Include="Data\iRacingDbContext.cs" />
     <Compile Include="Data\Models\SeasonModel.cs" />
     <Compile Include="Data\Models\SessionTypeModel.cs" />
@@ -80,13 +79,13 @@
     <Compile Include="EventArgs\TrackSessionRunCompleteArgs.cs" />
     <Compile Include="EventArgs\TrackSessionStartedArgs.cs" />
     <Compile Include="Extensions\Median.cs" />
-    <Compile Include="FileClosedMonitor.cs" />
+    <Compile Include="Monitors\FileClosedMonitor.cs" />
     <Compile Include="ManagerStatus.cs" />
-    <Compile Include="NewTireSheetArgs.cs" />
+    <Compile Include="EventArgs\NewTireSheetArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrackSessionEngine.cs" />
     <Compile Include="TrackSessionManager.cs" />
-    <Compile Include="Views\TireSheetView.cs" />
+    <Compile Include="Views\LapTimesView.cs" />
     <Compile Include="Views\TrackSessionRunView.cs" />
     <Compile Include="Views\TrackSessionView.cs" />
   </ItemGroup>
@@ -95,13 +94,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ibtAnalysis\ibtAnalysis.csproj">
+    <ProjectReference Include="..\ibtAnalysis\iRacing.TelemetryAnalysis.csproj">
       <Project>{fe8e3600-5538-43f5-80cb-1301dc84d958}</Project>
-      <Name>ibtAnalysis</Name>
+      <Name>iRacing.TelemetryAnalysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ibtParserLibrary\ibtParserLibrary.csproj">
+    <ProjectReference Include="..\ibtParserLibrary\iRacing.TelemetryParser.csproj">
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
-      <Name>ibtParserLibrary</Name>
+      <Name>iRacing.TelemetryParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\iRacing.Common\iRacing.Common.csproj">
       <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>

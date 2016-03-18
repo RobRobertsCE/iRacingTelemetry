@@ -1,5 +1,5 @@
-﻿using ibtParserLibrary;
-using ibtParserLibrary.Session;
+﻿using iRacing.TelemetryParser;
+using iRacing.TelemetryParser.Session;
 using iRacing;
 using iRacing.SetupLibrary.Parsers;
 using iRacing.SetupLibrary.Tires;
@@ -9,11 +9,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using TrackSessionLibrary.Data;
-using TrackSessionLibrary.Data.Models;
-using TrackSessionLibrary.Views;
+using iRacing.TrackSession.Data;
+using iRacing.TrackSession.Data.Models;
+using iRacing.TrackSession.Views;
 
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession
 {
     public class TrackSessionManager : IDisposable
     {

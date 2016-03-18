@@ -1,4 +1,4 @@
-﻿namespace ibtAnalysis
+﻿namespace iRacing.TelemetryAnalysis
 {
     public enum Corner
     {

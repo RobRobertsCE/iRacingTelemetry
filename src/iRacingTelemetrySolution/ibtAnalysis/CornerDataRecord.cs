@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ibtAnalysis.Shocks
+namespace iRacing.TelemetryAnalysis.Shocks
 {
     public class CornerDataRecord
     {

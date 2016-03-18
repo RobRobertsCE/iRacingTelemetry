@@ -1,27 +1,25 @@
-﻿using ibtParserLibrary;
+﻿using iRacing.TelemetryParser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ibtAnalysis.Composite
+namespace iRacing.TelemetryAnalysis.Composite
 {
     public class CompositeLap
     {
         const TelemetryKeys DistPercentKey  = TelemetryKeys.LapDistPct;
-        TelemetrySession _session;
+        TelemetryFile _telemetryData;
         IList<SingleDistanceValue> _distanceValues;
-
 
         public TelemetryLap Lap { get; set; }
 
         public IList<TelemetryKeys> Keys { get; set; }
 
-
-        public CompositeLap(TelemetrySession session)
+        public CompositeLap(TelemetryFile telemetryData)
         {
-            _session = session;
+            _telemetryData = telemetryData;
             BuildCompositeLap();
         }
 
@@ -30,14 +28,15 @@ namespace ibtAnalysis.Composite
             _distanceValues = new List<SingleDistanceValue>();
 
             Lap = new TelemetryLap(0);
-
-            foreach (var lap in _session.Laps)
+            var sessionLaps = TelemetryLapsParser.ParseLaps(_telemetryData);
+            foreach (var lap in sessionLaps)
             {                
                 for (int frameIdx = 0; frameIdx < lap.FrameCount; frameIdx++)
                 {                    
                     var frame = lap.Frames[frameIdx];
                     var frameDistancePercent = frame.GetSingleValue(DistPercentKey);
-                    _distanceValues.Add(new SingleDistanceValue() { DistancePercent = frameDistancePercent, Key = DistPercentKey, Value = frameDistancePercent });
+                    var frameTicks = frame.GetSingleValue(TelemetryKeys.SessionTime);
+                    _distanceValues.Add(new SingleDistanceValue() { DistancePercent = frameDistancePercent, Key = DistPercentKey, Value = frameDistancePercent, Ticks = frameTicks });
 
                     foreach (TelemetryKeys key in Keys)
                     {
@@ -55,6 +54,8 @@ namespace ibtAnalysis.Composite
 
         public class SingleDistanceValue
         {
+            public Single Ticks { get; set; }
+
             public Single DistancePercent { get; set; }
 
             public TelemetryKeys Key { get; set; }

@@ -1,6 +1,6 @@
-﻿using ibtParserLibrary.Session.Info;
+﻿using iRacing.TelemetryParser.Session.Info;
 
-namespace ibtParserLibrary.Session
+namespace iRacing.TelemetryParser.Session
 {
     public interface ITelemetrySessionInfo
     {

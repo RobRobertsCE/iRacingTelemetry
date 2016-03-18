@@ -1,10 +1,9 @@
-﻿using iRacing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
 
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession.Monitors
 {
     internal class EngineProcessMonitor : IDisposable
     {

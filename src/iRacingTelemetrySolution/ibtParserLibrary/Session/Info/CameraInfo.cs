@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace ibtParserLibrary.Session.Info
+namespace iRacing.TelemetryParser.Session.Info
 {
     public class Camera
     {

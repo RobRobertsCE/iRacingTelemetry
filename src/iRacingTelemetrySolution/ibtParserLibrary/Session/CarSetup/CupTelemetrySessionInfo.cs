@@ -1,7 +1,7 @@
 ﻿using iRacing.SetupLibrary;
 using Newtonsoft.Json;
 
-namespace ibtParserLibrary.Session.CarSetup
+namespace iRacing.TelemetryParser.Session.CarSetup
 {
     public class CupTelemetrySessionInfo : TelemetrySessionInfo
     {

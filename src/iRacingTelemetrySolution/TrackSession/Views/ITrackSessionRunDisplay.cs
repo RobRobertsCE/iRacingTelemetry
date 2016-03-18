@@ -1,4 +1,4 @@
-﻿using TrackSessionLibrary.Views;
+﻿using iRacing.TrackSession.Views;
 
 namespace TrackSession.Views
 {

@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Globalization;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {
     public class TelemetryFile
     {

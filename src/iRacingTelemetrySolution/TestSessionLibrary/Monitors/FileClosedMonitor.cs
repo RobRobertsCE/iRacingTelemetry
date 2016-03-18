@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession.Monitors
 {
     public class FileClosedMonitor
     {

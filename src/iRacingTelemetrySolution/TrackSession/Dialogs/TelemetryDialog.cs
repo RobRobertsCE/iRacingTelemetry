@@ -1,4 +1,4 @@
-﻿using ibtParserLibrary;
+﻿using iRacing.TelemetryParser;
 using iRacing;
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TrackSessionLibrary.Data;
-using TrackSessionLibrary.Data.Models;
+using iRacing.TrackSession.Data;
+using iRacing.TrackSession.Data.Models;
 
 namespace TrackSession.Dialogs
 {

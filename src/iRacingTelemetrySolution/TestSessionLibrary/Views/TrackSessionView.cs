@@ -1,7 +1,7 @@
 ﻿using System;
-using TrackSessionLibrary.Data.Models;
+using iRacing.TrackSession.Data.Models;
 
-namespace TrackSessionLibrary.Views
+namespace iRacing.TrackSession.Views
 {
     public class TrackSessionView
     {

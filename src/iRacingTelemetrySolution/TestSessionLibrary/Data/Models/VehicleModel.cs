@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TrackSessionLibrary.Data.Models
+namespace iRacing.TrackSession.Data.Models
 {
     [Table("Vehicle")]
     public class VehicleModel

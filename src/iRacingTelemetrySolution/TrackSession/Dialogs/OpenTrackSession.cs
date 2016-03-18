@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TrackSessionLibrary.Data;
+using iRacing.TrackSession.Data;
 
 namespace TrackSession.Dialogs
 {

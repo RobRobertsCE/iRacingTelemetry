@@ -1,20 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace iRacing.Common
 {
     public static class TestSessionExtensions
     {
-        public const int DefaultTopNPercent = 72;
+        public const int DefaultTopNPercent = 75;
+        public static IList<Single> LapTimesOnly(this IDictionary<int, Single> list)
+        {
+            return list.Where(l => l.Value > 0 && l.Key > 0).Select(l => l.Value).ToList();
+        }
 
+        public static IDictionary<int, Single> ValidLaps(this IDictionary<int, Single> list)
+        {
+            return list.Where(l => l.Value > 0 && l.Key > 0)
+                .Select(l => new { l.Key, l.Value })
+                .ToDictionary(l => l.Key, l => l.Value);
+        }
+        public static double Average(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().Average();
+        }
+        public static double Median(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().Median();
+        }
+        public static double BestLap(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().BestLap();
+        }
+        public static double Range(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().Range();
+        }
+        public static double StdDev(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().StdDev();
+        }
+        public static IDictionary<Single, int> FrequencyDistribution(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().FrequencyDistribution();
+        }
+        public static IList<Single> Dropoff(this IDictionary<int, Single> list)
+        {
+            return list.Values.ToList().Dropoff();
+        }
+
+        public static IList<Single> ValidLaps(this IList<Single> list)
+        {
+            return list.Where(l => l > 0).ToList();
+        }
         public static IList<Single> CoreLaps(this IList<Single> list)
         {
             return CoreLaps(list, DefaultTopNPercent);
         }
-
         public static IList<Single> CoreLaps(this IList<Single> list, int topNPercent)
         {
             var count = list.Count();
@@ -35,7 +75,6 @@ namespace iRacing.Common
             var result = buffer1.Skip(skipCount).Take(takeCount).ToList();
             return result;
         }
-
         public static double Median(this IList<Single> list)
         {
             int numberCount = list.Count();
@@ -51,7 +90,10 @@ namespace iRacing.Common
             }
             return median;
         }
-
+        public static double BestLap(this IList<Single> list)
+        {
+            return list.Where(l => l > 0).Min();
+        }
         public static double Range(this IList<Single> list)
         {
             if (list.Count < 2)
@@ -60,7 +102,6 @@ namespace iRacing.Common
             var sortedNumbers = list.OrderBy(n => n);
             return (sortedNumbers.LastOrDefault() - sortedNumbers.FirstOrDefault());
         }
-
         public static double StdDev(this IList<Single> list)
         {
             double average = list.Average();
@@ -68,7 +109,6 @@ namespace iRacing.Common
             double sd = Math.Sqrt(sumOfSquaresOfDifferences / list.Count);
             return sd;
         }
-        
         public static IDictionary<Single, int> FrequencyDistribution(this IList<Single> list)
         {
             var result = new Dictionary<Single, int>();
@@ -83,22 +123,20 @@ namespace iRacing.Common
                 {
                     result.Add(rounded, 1);
                 }
-            }            
+            }
             return result;
         }
-
         public static IList<Single> Dropoff(this IList<Single> list)
         {
             var result = new List<Single>();
             var sortedNumbers = list.OrderBy(n => n).ToList();
             for (int i = 0; i < sortedNumbers.Count - 1; i++)
             {
-                var current = sortedNumbers[i]; 
-                var next = sortedNumbers[i+1];
+                var current = sortedNumbers[i];
+                var next = sortedNumbers[i + 1];
                 result.Add(current - next);
             }
             return result;
         }
-
     }
 }

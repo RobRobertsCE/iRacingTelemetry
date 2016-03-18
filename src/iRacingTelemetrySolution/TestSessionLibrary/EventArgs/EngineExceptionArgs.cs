@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession
 {
     public class EngineExceptionArgs : EventArgs
     {

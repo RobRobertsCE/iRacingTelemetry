@@ -1,9 +1,9 @@
 ﻿using iRacing.SetupLibrary.Tires;
 using System;
 using System.Collections.Generic;
-using TrackSessionLibrary.Data.Models;
+using iRacing.TrackSession.Data.Models;
 
-namespace TrackSessionLibrary.Views
+namespace iRacing.TrackSession.Views
 {
     public class TrackSessionRunView
     {
@@ -14,7 +14,7 @@ namespace TrackSessionLibrary.Views
         public Guid TelemetryId { get; private set; }
         public int RunNumber { get; set; }
         public TireSheet TireSheet { get; set; }
-        public LapTimes Laps { get; set; }
+        public LapTimesView Laps { get; set; }
         public string Caption
         {
             get
@@ -27,7 +27,7 @@ namespace TrackSessionLibrary.Views
         #region constructor
         public TrackSessionRunView()
         {
-            Laps = new LapTimes();
+            Laps = new LapTimesView();
             TireSheet = new TireSheet();
         }
         public TrackSessionRunView(TrackSessionRunModel model) :this()
@@ -38,7 +38,7 @@ namespace TrackSessionLibrary.Views
             TelemetryId = model.TelemetryId;
             RunNumber = model.RunNumber;
             if (!String.IsNullOrEmpty (model.LapsJson))
-                Laps = LapTimes.FromJson(model.LapsJson);
+                Laps = LapTimesView.FromJson(model.LapsJson);
             if (!String.IsNullOrEmpty(model.TireSheetJson))
                 TireSheet = TireSheet.FromJson(model.TireSheetJson);
         }

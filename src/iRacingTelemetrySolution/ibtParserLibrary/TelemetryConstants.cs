@@ -1,4 +1,4 @@
-﻿namespace ibtParserLibrary
+﻿namespace iRacing.TelemetryParser
 {
     static class TelemetryConstants
     {

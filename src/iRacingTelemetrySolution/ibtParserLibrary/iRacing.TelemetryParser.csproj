@@ -7,8 +7,8 @@
     <ProjectGuid>{2F10FFA2-4EC3-43F2-9D49-F954BAB79D7D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ibtParserLibrary</RootNamespace>
-    <AssemblyName>ibtParserLibrary</AssemblyName>
+    <RootNamespace>iRacing.TelemetryParser</RootNamespace>
+    <AssemblyName>iRacing.TelemetryParser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -61,6 +61,8 @@
   <ItemGroup>
     <Compile Include="Extensions\ByteArrayExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\TelemetryLapExtensions.cs" />
+    <Compile Include="ParserEngine.cs" />
     <Compile Include="Session\CarSetup\CupTelemetrySessionInfo.cs" />
     <Compile Include="Session\CarSetup\KNTelemetrySessionInfo.cs" />
     <Compile Include="Session\CarSetup\LegendsTelemetrySessionInfo.cs" />
@@ -87,11 +89,11 @@
     <Compile Include="TelemetryFrame.cs" />
     <Compile Include="TelemetryKeys.cs" />
     <Compile Include="TelemetryLap.cs" />
-    <Compile Include="ParserEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TelemetryLapList.cs" />
     <Compile Include="TelemetryLapsParser.cs" />
-    <Compile Include="TelemetrySession.cs" />
     <Compile Include="TelemetryFile.cs" />
+    <Compile Include="TelemetrySession.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

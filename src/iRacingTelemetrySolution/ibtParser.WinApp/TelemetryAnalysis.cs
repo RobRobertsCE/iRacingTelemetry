@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
-using ibtParserLibrary;
-using ibtAnalysis.Shocks;
-using ibtAnalysis.Composite;
+using iRacing.TelemetryParser;
+using iRacing.TelemetryAnalysis.Shocks;
+using iRacing.TelemetryAnalysis.Composite;
 
 namespace ibtParser.WinApp
 {
     public partial class TelemetryAnalysis : Form
     {
         #region locals
-        const string DefaultDirectory = @"C:\Users\rroberts\Source\Repos\ircc\src\ibtParser\ibtParserLibrary\Samples\";
+        const string DefaultDirectory = @"C:\Users\rroberts\Source\Repos\ircc\src\ibtParser\iRacing.TelemetryParser\Samples\";
 
         ParserEngine _engine;
         TelemetrySession _session;
@@ -283,9 +283,6 @@ namespace ibtParser.WinApp
             {
                 Console.WriteLine(ex.ToString());
             }
-
-            var c = new CompositeLap(_session);
-
         }
 
         private void btnWriteTelemetryFile_Click(object sender, EventArgs e)
@@ -295,7 +292,7 @@ namespace ibtParser.WinApp
                 //var w = new TelemetryWriterEngine();
                 //w.Session = _session;
                 //SaveFileDialog dialog = new SaveFileDialog();
-                //dialog.InitialDirectory = @"C: \Users\rroberts\Source\Repos\ircc\src\ibtParser\ibtParserLibrary\Samples\";
+                //dialog.InitialDirectory = @"C: \Users\rroberts\Source\Repos\ircc\src\ibtParser\iRacing.TelemetryParser\Samples\";
                 //dialog.FileName = "testing.ibt";
                 //if (dialog.ShowDialog()==DialogResult.OK)
                 //    w.WriteSessionToTemeletryFile(dialog.FileName);

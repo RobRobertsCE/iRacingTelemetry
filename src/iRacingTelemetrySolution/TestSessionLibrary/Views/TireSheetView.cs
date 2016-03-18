@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TrackSessionLibrary.Views
+namespace iRacing.TrackSession.Views
 {
     public class TireSheetView
     {

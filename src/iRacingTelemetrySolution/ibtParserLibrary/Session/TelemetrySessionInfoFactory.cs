@@ -1,11 +1,11 @@
-﻿using ibtParserLibrary.Session.Info;
-using ibtParserLibrary.Session.CarSetup;
+﻿using iRacing.TelemetryParser.Session.Info;
+using iRacing.TelemetryParser.Session.CarSetup;
 using iRacing;
 using iRacing.SetupLibrary.Parsers;
 using Newtonsoft.Json;
 using System;
 
-namespace ibtParserLibrary.Session
+namespace iRacing.TelemetryParser.Session
 {
     public static class TelemetrySessionInfoFactory
     {

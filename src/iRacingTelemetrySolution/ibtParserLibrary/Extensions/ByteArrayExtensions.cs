@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace ibtParserLibrary.Helpers
+namespace iRacing.TelemetryParser.Helpers
 {
-    static class ByteArrayExtensions
+    public static class ByteArrayExtensions
     {
         static readonly int[] Empty = new int[0];
 
@@ -24,7 +24,7 @@ namespace ibtParserLibrary.Helpers
             return list.Count == 0 ? Empty : list.ToArray();
         }
 
-        static bool IsMatch(byte[] array, int position, byte[] candidate)
+        public static bool IsMatch(byte[] array, int position, byte[] candidate)
         {
             if (candidate.Length > (array.Length - position))
                 return false;
@@ -36,22 +36,13 @@ namespace ibtParserLibrary.Helpers
             return true;
         }
 
-        static bool IsEmptyLocate(byte[] array, byte[] candidate)
+        public static bool IsEmptyLocate(byte[] array, byte[] candidate)
         {
             return array == null
                 || candidate == null
                 || array.Length == 0
                 || candidate.Length == 0
                 || candidate.Length > array.Length;
-        }
-
-        //static void Main()
-        //{
-        //    var data = new byte[] { 23, 36, 43, 76, 125, 56, 34, 234, 12, 3, 5, 76, 8, 0, 6, 125, 234, 56, 211, 122, 22, 4, 7, 89, 76, 64, 12, 3, 5, 76, 8, 0, 6, 125 };
-        //    var pattern = new byte[] { 12, 3, 5, 76, 8, 0, 6, 125 };
-
-        //    foreach (var position in data.Locate(pattern))
-        //        Console.WriteLine(position);
-        //}      
+        }  
     }
 }

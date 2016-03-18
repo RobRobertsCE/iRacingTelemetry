@@ -1,4 +1,4 @@
-﻿namespace ibtParserLibrary.Session.Info
+﻿namespace iRacing.TelemetryParser.Session.Info
 {
     public class SetupInfoView
     {

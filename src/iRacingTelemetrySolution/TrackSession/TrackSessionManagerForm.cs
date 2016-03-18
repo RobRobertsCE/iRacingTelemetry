@@ -1,4 +1,4 @@
-﻿using ibtAnalysis.Laps;
+﻿using iRacing.TelemetryAnalysis.Laps;
 using iRacing;
 using iRacing.Common;
 using iRacing.SetupLibrary.Tires;
@@ -9,9 +9,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using TrackSessionLibrary;
-using TrackSessionLibrary.Data;
-using TrackSessionLibrary.Views;
+using iRacing.TrackSession;
+using iRacing.TrackSession.Data;
+using iRacing.TrackSession.Views;
 using TrackSession.Dialogs;
 using TrackSession.Views;
 
@@ -256,15 +256,15 @@ namespace TrackSession
             this.lblRunNumber.Text = String.Format("Run {0}", run.RunNumber);
            
             var analysis = GetLapTimesAnalysis(run);
-            if (analysis.LapTimes.Count>0)
+            trackRunResultsView1.lapsView1.LapTimes = analysis.Laps.LapTimesOnly();
+
+            if (analysis.Laps.Count>0)
             {
-                this.lblRunLapCount.Text = String.Format("{0} Laps", analysis.LapTimes.Count);
-                trackRunResultsView1.lapsView1.LapTimes = analysis.LapTimes.CoreLaps();
-                var validLaps = analysis.LapTimes.CoreLaps().Where(l => l > 0);
-                if (validLaps.Count() > 0)
+                this.lblRunLapCount.Text = String.Format("{0} Laps", analysis.Laps.Count);
+                if (analysis.Laps.Count() > 0)
                 {
-                    this.lblBestLap.Text = analysis.LapTimes.Where(l => l > 0).Min().ToString();
-                    this.lblAverageLap.Text = analysis.LapTimes.CoreLaps().Average().ToString();
+                    this.lblBestLap.Text = analysis.BestLapTime.ToString();
+                    this.lblAverageLap.Text = analysis.Average.ToString();
                 }
                 else
                 {
@@ -442,7 +442,7 @@ namespace TrackSession
         #region laps
         protected virtual LapTimeAnalysis GetLapTimesAnalysis(TrackSessionRunView run)
         {
-            var telemetryParser = new ibtParserLibrary.ParserEngine();
+            var telemetryParser = new iRacing.TelemetryParser.ParserEngine();
             using (var data = new TrackSessionData())
             {
                 var telemetry = data.GetTelemetry(run.TelemetryId);

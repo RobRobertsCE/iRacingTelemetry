@@ -1,10 +1,9 @@
-﻿using ibtParserLibrary.Session;
+﻿using iRacing.TelemetryParser.Session;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {
     public class ParserEngine
     {

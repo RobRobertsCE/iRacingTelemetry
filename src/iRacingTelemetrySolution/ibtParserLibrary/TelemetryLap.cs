@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {
     public class TelemetryLap
     {

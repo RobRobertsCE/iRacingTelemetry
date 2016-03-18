@@ -149,13 +149,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ibtAnalysis\ibtAnalysis.csproj">
+    <ProjectReference Include="..\ibtAnalysis\iRacing.TelemetryAnalysis.csproj">
       <Project>{fe8e3600-5538-43f5-80cb-1301dc84d958}</Project>
-      <Name>ibtAnalysis</Name>
+      <Name>iRacing.TelemetryAnalysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ibtParserLibrary\ibtParserLibrary.csproj">
+    <ProjectReference Include="..\ibtParserLibrary\iRacing.TelemetryParser.csproj">
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
-      <Name>ibtParserLibrary</Name>
+      <Name>iRacing.TelemetryParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\iRacing.Common\iRacing.Common.csproj">
       <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>
@@ -165,9 +165,9 @@
       <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
       <Name>iRacing.SetupLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestSessionLibrary\TrackSessionLibrary.csproj">
+    <ProjectReference Include="..\TestSessionLibrary\iRacing.TrackSession.csproj">
       <Project>{5942ffaf-92d8-442a-be17-d92ff1353816}</Project>
-      <Name>TrackSessionLibrary</Name>
+      <Name>iRacing.TrackSession</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

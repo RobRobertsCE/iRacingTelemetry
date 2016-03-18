@@ -66,9 +66,9 @@
     <Compile Include="Shocks\ShockVelocityFrequencyDistribution.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ibtParserLibrary\ibtParserLibrary.csproj">
+    <ProjectReference Include="..\ibtParserLibrary\iRacing.TelemetryParser.csproj">
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
-      <Name>ibtParserLibrary</Name>
+      <Name>iRacing.TelemetryParser</Name>
     </ProjectReference>
     <ProjectReference Include="..\iRacing.Common\iRacing.Common.csproj">
       <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>

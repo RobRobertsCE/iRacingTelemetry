@@ -1,4 +1,4 @@
-﻿namespace ibtAnalysis.Shocks
+﻿namespace iRacing.TelemetryAnalysis.Shocks
 {    public class ShockVelocity : CornerDataRecord
     {
 

@@ -5,12 +5,12 @@ using System.ComponentModel;
 using System.IO;
 using System.Globalization;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {    
     public class TelemetrySession
     {
         #region props
-        public IList<TelemetryLap> Laps { get; set; }
+        public TelemetryLapList Laps { get; set; }
         public Dictionary<int, Single> LapTimes { get; set; }
         [Browsable(false)]
         public IList<TelemetryFrame> Frames { get; set; }
@@ -28,7 +28,7 @@ namespace ibtParserLibrary
         {
             Frames = new List<TelemetryFrame>();
             Fields = new List<TelemetryChannelDefinition>();
-            Laps = new List<TelemetryLap>();
+            Laps = new TelemetryLapList();
         }
         public TelemetrySession(string fileName) : this()
         {

@@ -1,4 +1,4 @@
-﻿namespace TrackSessionLibrary
+﻿namespace iRacing.TrackSession
 {
     public enum EngineFileType
     {

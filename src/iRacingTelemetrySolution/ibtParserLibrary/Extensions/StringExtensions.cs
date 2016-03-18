@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ibtParserLibrary.Helpers
+namespace iRacing.TelemetryParser.Helpers
 {
-    static class StringExtensions
+    public static class StringExtensions
     {
         public static byte[] ToByteArray(this string self)
         {

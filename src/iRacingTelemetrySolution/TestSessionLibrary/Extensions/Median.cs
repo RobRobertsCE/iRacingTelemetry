@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TrackSessionLibrary.Extensions
+namespace iRacing.TrackSession.Extensions
 {
     public static class MathExtensions
     {

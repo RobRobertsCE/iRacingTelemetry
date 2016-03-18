@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
-using TrackSessionLibrary.Data.Models;
+using iRacing.TrackSession.Data.Models;
 
-namespace TrackSessionLibrary.Data
+namespace iRacing.TrackSession.Data
 {
     public class iRacingDbContext : DbContext
     {

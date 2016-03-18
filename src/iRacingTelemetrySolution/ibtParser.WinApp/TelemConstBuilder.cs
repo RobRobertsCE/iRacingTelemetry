@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//namespace ibtAnalysis
+//namespace iRacing.TelemetryAnalysis
 //{
 //    public enum Corner
 //    {
@@ -34,7 +34,7 @@ namespace ibtParser.WinApp
                 var lines = System.IO.File.ReadAllLines(@"C:\Users\rroberts\Source\Repos\ircc\src\ibtParser\ibtParser.WinApp\TelemetryParamList.txt");
 
                 var sb = new StringBuilder();
-                sb.AppendLine("namespace ibtAnalysis");
+                sb.AppendLine("namespace iRacing.TelemetryAnalysis");
                 sb.AppendLine("{");
                 sb.AppendLine("\tpublic enum TelemetryKeys");
                 sb.AppendLine("\t{");

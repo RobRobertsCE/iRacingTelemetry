@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrackSessionLibrary
+namespace iRacing.TrackSession
 {
     public class EngineFileCreatedArgs : EventArgs
     {

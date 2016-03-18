@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ibtParserLibrary
+namespace iRacing.TelemetryParser
 {
     public class TelemetryFrame
     {
