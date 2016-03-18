@@ -19,7 +19,7 @@ namespace TrackSession.Dialogs
         #region properties
         public TelemetryModel Telemetry { get; set; }
         #endregion
-        
+
         #region ctor/load
         public TelemetryDialog()
         {
@@ -31,7 +31,7 @@ namespace TrackSession.Dialogs
         }
         private void TelemetryDialog_Load(object sender, EventArgs e)
         {
-            if (null!= Telemetry)
+            if (null != Telemetry)
             {
                 DisplayTelemetry(Telemetry);
             }
@@ -49,7 +49,7 @@ namespace TrackSession.Dialogs
             if (trackSessionRunId.HasValue)
             {
                 Telemetry = LoadTelemetry(trackSessionRunId.Value);
-                if (null!= Telemetry)
+                if (null != Telemetry)
                 {
                     DisplayTelemetry(Telemetry);
                 }
@@ -131,15 +131,49 @@ namespace TrackSession.Dialogs
             try
             {
                 string sampleFile = @"C:\Users\rroberts\Source\Repos\iRacingTelemetry\src\iRacingTelemetrySolution\Samples\Telemetry\skmodified_langley 2015-05-28 14-50-46.ibt";
-                                
+
                 var data = TelemetryFileParser.ParseTelemetryFile(sampleFile);
 
                 var laps = TelemetryLapsParser.ParseLaps(data);
+
+                LapInfos = new List<LapInfo>();
+                var lapBuffer = new Dictionary<int, float>();
+                
+                foreach (var lap in laps)
+                {
+                    var lastFrame = lap.Frames.LastOrDefault();
+                    if (lastFrame!= null)
+                    {
+                        int currentlap = Convert.ToInt32(lastFrame.ChannelValues[(int)TelemetryKeys.Lap].Value);
+                        if (currentlap>0)
+                        {
+                            int previousLap = currentlap - 1;
+                            if (!lapBuffer.ContainsKey(previousLap))
+                            {
+                                var lastLapTime = Convert.ToSingle(lastFrame.ChannelValues[(int)TelemetryKeys.LapLastLapTime].Value);
+                                lapBuffer.Add(previousLap, 0F);
+                                LapInfos.Add(new LapInfo()
+                                {
+                                    Lap = previousLap,                                    
+                                    LastLapTime = lastLapTime
+                                });
+                            }
+                        }
+                    }
+                }
+
+                dg.DataSource = LapInfos;
             }
             catch (Exception ex)
             {
                 ExceptionHandler(ex);
             }
+        }
+        public IList<LapInfo> LapInfos { get; set; }
+        public class LapInfo
+        {
+            public int Lap { get; set; }
+            public float LastLapTime { get; set; }
         }
     }
 }

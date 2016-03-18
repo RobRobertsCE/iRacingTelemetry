@@ -140,7 +140,6 @@ namespace TestSessionLibrary
                     if (_enableTestMode)
                     {// Test mode was on.
                         SetStatusWaitingForApp();
-                        EnableProcessMonitors();
                     }
                 }
                 _enableTestMode = value;
@@ -156,6 +155,15 @@ namespace TestSessionLibrary
             EnableLogging = loggingOn;
             InitializeEngine();
             EnableTestMode = testModeOn;
+        }
+        #endregion
+
+        #region public
+        public void Start()
+        {
+            if (!EnableTestMode)
+                EnableProcessMonitors();
+
         }
         #endregion
 
@@ -191,9 +199,7 @@ namespace TestSessionLibrary
             _iRacingProcessMonitor = new EngineProcessMonitor(Constants.iRacingProcessName);
             _iRacingProcessMonitor.EnableLogging = this.EnableLogging;
             _iRacingProcessMonitor.ProcessStarted += _iRacingProcessMonitor_ProcessStarted;
-            _iRacingProcessMonitor.ProcessStopped += _iRacingProcessMonitor_ProcessStopped;
-
-            EnableProcessMonitors();
+            _iRacingProcessMonitor.ProcessStopped += _iRacingProcessMonitor_ProcessStopped;            
         }
         #endregion
 

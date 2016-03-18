@@ -17,8 +17,8 @@ namespace TrackSession
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TelemetryDialog());
-            // Application.Run(new TrackSessionManagerForm());
+            // Application.Run(new TelemetryDialog());
+            Application.Run(new TrackSessionManagerForm());
         }
     }
 }

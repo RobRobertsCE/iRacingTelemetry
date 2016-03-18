@@ -30,13 +30,25 @@ namespace TestSessionLibrary
             }
         }
 
-        public event EventHandler<SessionRunCompleteArgs> SessionRunComplete;
-        protected virtual void OnSessionRunComplete(TrackSessionRunView run)
+        public event EventHandler<TrackSessionStartedArgs> TrackSessionStarted;
+        protected virtual void OnTrackSessionStarted(TrackSessionView view)
         {
-            EventHandler<SessionRunCompleteArgs> handler = SessionRunComplete;
+            EventHandler<TrackSessionStartedArgs> handler = TrackSessionStarted;
             if (handler != null)
             {
-                var e = new SessionRunCompleteArgs(run);
+                var e = new TrackSessionStartedArgs(view);
+                handler(this, e);
+                WriteLog("OnTrackSessionStarted");
+            }
+        }
+
+        public event EventHandler<TrackSessionRunCompleteArgs> SessionRunComplete;
+        protected virtual void OnSessionRunComplete(TrackSessionRunView run)
+        {
+            EventHandler<TrackSessionRunCompleteArgs> handler = SessionRunComplete;
+            if (handler != null)
+            {
+                var e = new TrackSessionRunCompleteArgs(run);
                 handler(this, e);
                 WriteLog("OnSessionRunComplete");
             }
@@ -143,6 +155,7 @@ namespace TestSessionLibrary
             _engine.EngineStatusChanged += _engine_EngineStatusChanged;
             _engine.TelemetryFileClosed += _engine_TelemetryFileClosed;
             _engine.SetupFileExported += _engine_SetupFileExported;
+            _engine.Start();
         }
         #endregion
 
@@ -367,6 +380,7 @@ namespace TestSessionLibrary
                     {
                         Session = GetTrackSessionModel(season, vehicle, track, sessionType, info);
                         data.SaveTrackSession(Session);
+                        OnTrackSessionStarted(new TrackSessionView(Session));
                     }
 
                     // get the run model.

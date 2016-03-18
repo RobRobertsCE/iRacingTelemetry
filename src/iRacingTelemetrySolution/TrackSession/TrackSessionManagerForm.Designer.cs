@@ -34,6 +34,8 @@
             this.openSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.openTelemetryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,10 +65,10 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblRunNumber = new System.Windows.Forms.Label();
             this.lblRunDetails = new System.Windows.Forms.Label();
+            this.lblSession = new System.Windows.Forms.ToolStripStatusLabel();
             this.trackRunResultsView1 = new TrackSession.Views.TrackRunResultsView();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
-            this.openTelemetryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.pnlMessages.SuspendLayout();
             this.ctxMessages.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splContMain)).BeginInit();
@@ -121,6 +123,18 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(156, 6);
             // 
+            // openTelemetryToolStripMenuItem
+            // 
+            this.openTelemetryToolStripMenuItem.Name = "openTelemetryToolStripMenuItem";
+            this.openTelemetryToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.openTelemetryToolStripMenuItem.Text = "Open Telemetry";
+            this.openTelemetryToolStripMenuItem.Click += new System.EventHandler(this.openTelemetryToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem4
+            // 
+            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(156, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -162,11 +176,14 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.BackColor = System.Drawing.Color.White;
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblSession});
             this.statusStrip1.Location = new System.Drawing.Point(0, 537);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1006, 22);
             this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip1.Text = "No Active Session";
             // 
             // pnlMessages
             // 
@@ -424,6 +441,12 @@
             this.lblRunDetails.Text = "Run Details";
             this.lblRunDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lblSession
+            // 
+            this.lblSession.Name = "lblSession";
+            this.lblSession.Size = new System.Drawing.Size(101, 17);
+            this.lblSession.Text = "No Active Session";
+            // 
             // trackRunResultsView1
             // 
             this.trackRunResultsView1.BackColor = System.Drawing.Color.Silver;
@@ -432,18 +455,6 @@
             this.trackRunResultsView1.Name = "trackRunResultsView1";
             this.trackRunResultsView1.Size = new System.Drawing.Size(794, 380);
             this.trackRunResultsView1.TabIndex = 0;
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(156, 6);
-            // 
-            // openTelemetryToolStripMenuItem
-            // 
-            this.openTelemetryToolStripMenuItem.Name = "openTelemetryToolStripMenuItem";
-            this.openTelemetryToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.openTelemetryToolStripMenuItem.Text = "Open Telemetry";
-            this.openTelemetryToolStripMenuItem.Click += new System.EventHandler(this.openTelemetryToolStripMenuItem_Click);
             // 
             // TrackSessionManagerForm
             // 
@@ -463,6 +474,8 @@
             this.Load += new System.EventHandler(this.TrackSessionManager_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.pnlMessages.ResumeLayout(false);
             this.pnlMessages.PerformLayout();
             this.ctxMessages.ResumeLayout(false);
@@ -517,6 +530,7 @@
         private Views.TrackRunResultsView trackRunResultsView1;
         private System.Windows.Forms.ToolStripMenuItem openTelemetryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripStatusLabel lblSession;
     }
 }
 

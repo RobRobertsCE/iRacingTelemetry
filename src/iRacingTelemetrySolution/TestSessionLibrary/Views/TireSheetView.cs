@@ -1,4 +1,6 @@
-﻿namespace TestSessionLibrary.Views
+﻿using Newtonsoft.Json;
+
+namespace TestSessionLibrary.Views
 {
     public class TireSheetView
     {
@@ -6,6 +8,13 @@
         public TireView LR { get; set; }
         public TireView RF { get; set; }
         public TireView RR { get; set; }
+
+        public static TireSheetView FromJson(string json)
+        {
+            return (TireSheetView)JsonConvert.DeserializeObject(json, typeof(TireSheetView),
+                                                        new JsonSerializerSettings()
+                                                        { TypeNameHandling = TypeNameHandling.All });
+        }
     }
     public class TireView
     {

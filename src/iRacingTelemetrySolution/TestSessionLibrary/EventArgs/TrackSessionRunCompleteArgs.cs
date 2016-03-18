@@ -3,14 +3,14 @@ using TestSessionLibrary.Views;
 
 namespace TestSessionLibrary
 {
-    public class SessionRunCompleteArgs : EventArgs
+    public class TrackSessionRunCompleteArgs : EventArgs
     {
         public TrackSessionRunView Run { get; set; }
-        public SessionRunCompleteArgs(TrackSessionRunView model)
+        public TrackSessionRunCompleteArgs(TrackSessionRunView model)
         {
             Run = model;
         }
-        public SessionRunCompleteArgs()
+        public TrackSessionRunCompleteArgs()
         {
 
         }

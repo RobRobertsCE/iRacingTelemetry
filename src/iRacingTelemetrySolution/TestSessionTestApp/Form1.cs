@@ -39,7 +39,7 @@ namespace TestSessionTestApp
             });
         }
 
-        private void _manager_SessionRunComplete(object sender, SessionRunCompleteArgs e)
+        private void _manager_SessionRunComplete(object sender, TrackSessionRunCompleteArgs e)
         {
             this.Invoke((MethodInvoker)delegate {
                 DisplayRun(e.Run); // runs on UI thread
@@ -77,10 +77,10 @@ namespace TestSessionTestApp
             tabRuns.SelectedTab = newTab;
 
             var telemetryParser = new ibtParserLibrary.ParserEngine();
-            var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
-            var lapAnalysis = new LapTimeAnalysis(session.Laps);
+            //var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
+            //var lapAnalysis = new LapTimeAnalysis(session.Laps);
 
-            newView.lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
+            //newView.lapsView1.LapTimes = lapAnalysis.CoreLapTimes;
         }
 
         private void DisplayTireSheet(TireSheet tireSheet)

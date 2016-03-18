@@ -40,6 +40,14 @@ namespace iRacing.SetupLibrary.Tires
                 jsonSerializer.Serialize(jsonStreamWriter, this);
                 return jsonStreamWriter.ToString();
             }
+
+        }
+
+        public static TireSheet FromJson(string json)
+        {
+            return (TireSheet)JsonConvert.DeserializeObject(json, typeof(TireSheet),
+                                                      new JsonSerializerSettings()
+                                                      { TypeNameHandling = TypeNameHandling.All });
         }
     }
 
@@ -72,6 +80,6 @@ namespace iRacing.SetupLibrary.Tires
         public TireDetails()
         {
 
-        }        
+        }
     }
 }

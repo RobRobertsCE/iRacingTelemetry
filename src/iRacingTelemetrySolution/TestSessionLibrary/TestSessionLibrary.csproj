@@ -73,20 +73,21 @@
     <Compile Include="Data\Models\TrackModel.cs" />
     <Compile Include="EngineFileType.cs" />
     <Compile Include="EngineStatus.cs" />
-    <Compile Include="EngineExceptionArgs.cs" />
-    <Compile Include="EngineStatusChangedArgs.cs" />
-    <Compile Include="EngineFileCreatedArgs.cs" />
+    <Compile Include="EventArgs\EngineExceptionArgs.cs" />
+    <Compile Include="EventArgs\EngineStatusChangedArgs.cs" />
+    <Compile Include="EventArgs\EngineFileCreatedArgs.cs" />
     <Compile Include="Extensions\Median.cs" />
     <Compile Include="FileClosedMonitor.cs" />
     <Compile Include="ManagerStatus.cs" />
-    <Compile Include="ManagerStatusChangedArgs.cs" />
+    <Compile Include="EventArgs\ManagerStatusChangedArgs.cs" />
     <Compile Include="NewTireSheetArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionRunCompleteArgs.cs" />
+    <Compile Include="EventArgs\TrackSessionRunCompleteArgs.cs" />
     <Compile Include="TrackSessionEngine.cs" />
     <Compile Include="TrackSessionManager.cs" />
-    <Compile Include="Views\TireSheetView.cs" />
+    <Compile Include="EventArgs\TrackSessionStartedArgs.cs" />
     <Compile Include="Views\TrackSessionRunView.cs" />
+    <Compile Include="Views\TrackSessionView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

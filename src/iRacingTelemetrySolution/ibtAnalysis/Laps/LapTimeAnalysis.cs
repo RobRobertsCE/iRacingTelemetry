@@ -23,14 +23,17 @@ namespace ibtAnalysis.Laps
         {
             LapTimesList = ParseLapTimes(telemetryLaps);
             LapTimes = LapTimesList.Values.ToList();
-            CoreLapTimes = LapTimes.CoreLaps();
+            CoreLapTimes = LapTimes.CoreLaps().ToList();
 
-            Average = CoreLapTimes.Average();
-            Median = CoreLapTimes.Median();
-            StdDev = CoreLapTimes.StdDev();
-            Range = CoreLapTimes.Range();
-            FrequencyDistribution = CoreLapTimes.FrequencyDistribution();
-            Dropoff = CoreLapTimes.Dropoff();
+            if (LapTimes.CoreLaps().Count > 0)
+            {
+                Average = CoreLapTimes.Average();
+                Median = CoreLapTimes.Median();
+                StdDev = CoreLapTimes.StdDev();
+                Range = CoreLapTimes.Range();
+                FrequencyDistribution = CoreLapTimes.FrequencyDistribution();
+                Dropoff = CoreLapTimes.Dropoff();
+            }
         }
 
         public static IDictionary<int, Single> ParseLapTimes(IList<TelemetryLap> telemetryLaps)

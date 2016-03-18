@@ -24,10 +24,9 @@ namespace TrackSession
         #endregion
 
         #region fields 
-        Size _messageDisplaySize;
-
-        TrackSessionManager _manager;
-
+        protected Size _messageDisplaySize;
+        protected TrackSessionManager _manager;
+        protected TrackSessionView _currentSession;
         protected IList<ITrackSessionRunDisplay> Displays { get; set; }
         #endregion
 
@@ -51,6 +50,7 @@ namespace TrackSession
                 _manager.EngineException += _manager_EngineException;
                 _manager.SessionRunComplete += _manager_SessionRunComplete;
                 _manager.NewTireSheet += _manager_NewTireSheet;
+                _manager.TrackSessionStarted += _manager_TrackSessionStarted;
 
                 Displays = new List<ITrackSessionRunDisplay>();
                 lstRuns.DisplayMember = "Caption";
@@ -384,6 +384,14 @@ namespace TrackSession
         #endregion
 
         #region manager events
+        private void _manager_TrackSessionStarted(object sender, TrackSessionStartedArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                DisplayTrackSession(e.Session); // runs on UI thread
+            });
+        }
+
         private void _manager_NewTireSheet(object sender, NewTireSheetArgs e)
         {
             this.Invoke((MethodInvoker)delegate
@@ -392,7 +400,7 @@ namespace TrackSession
             });
         }
 
-        private void _manager_SessionRunComplete(object sender, SessionRunCompleteArgs e)
+        private void _manager_SessionRunComplete(object sender, TrackSessionRunCompleteArgs e)
         {
             this.Invoke((MethodInvoker)delegate
             {
@@ -404,14 +412,23 @@ namespace TrackSession
         {
             ExceptionHandler(e.Exception);
         }
-
-        private void _manager_EngineStatusChanged(object sender, EngineStatusChangedArgs e)
-        {
-            Console.WriteLine("Engine Status Changed: {0}->{1}", e.OldStatus, e.NewStatus);
-        }
+        
         private void _manager_ManagerStatusChanged(object sender, ManagerStatusChangedArgs e)
         {
             Console.WriteLine("Manager Status Changed: {0}->{1}", e.OldStatus, e.NewStatus);
+            Console.WriteLine("Engine Status Changed: {0}->{1}", e.OldStatus, e.NewStatus);
+            if (e.NewStatus == ManagerStatus.Idle)
+                lblSession.Text = "No Active Session";
+            if (e.NewStatus == ManagerStatus.Off)
+                lblSession.Text = "No Active Session";
+        }
+        #endregion
+
+        #region track session
+        protected virtual void DisplayTrackSession(TrackSessionView session)
+        {
+            lblSession.Text = String.Format("{0} {1} {2}", session.SessionTypeName, session.TrackName, session.CarName);
+            _currentSession = session;
         }
         #endregion
 
@@ -426,8 +443,12 @@ namespace TrackSession
         protected virtual LapTimeAnalysis GetLapTimesAnalysis(TrackSessionRunView run)
         {
             var telemetryParser = new ibtParserLibrary.ParserEngine();
-            var session = telemetryParser.ParseTelemetryBytes(run.Telemetry.BinaryData);
-            return new LapTimeAnalysis(session.Laps);
+            using (var data = new TrackSessionData())
+            {
+                var telemetry = data.GetTelemetry(run.TelemetryId);
+                var telemetryData = telemetryParser.ParseTelemetryBytes(telemetry.BinaryData);
+                return new LapTimeAnalysis(telemetryData.Laps);
+            }             
         }
         #endregion
 
