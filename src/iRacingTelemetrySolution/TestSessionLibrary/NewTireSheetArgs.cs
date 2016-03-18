@@ -1,7 +1,7 @@
 ﻿using iRacing.SetupLibrary.Tires;
 using System;
 
-namespace TestSessionLibrary
+namespace TrackSessionLibrary
 {
     public class NewTireSheetArgs : EventArgs
     {

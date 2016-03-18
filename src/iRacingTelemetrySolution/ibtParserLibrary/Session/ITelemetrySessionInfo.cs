@@ -1,6 +1,6 @@
-﻿using ibtParserLibrary.Session.Cars;
+﻿using ibtParserLibrary.Session.Info;
 
-namespace ibtParserLibrary.Session.Info
+namespace ibtParserLibrary.Session
 {
     public interface ITelemetrySessionInfo
     {
@@ -10,5 +10,6 @@ namespace ibtParserLibrary.Session.Info
         SessionInfo SessionInfo { get; set; }
         SplitTimeInfo SplitTimeInfo { get; set; }
         WeekendInfo WeekendInfo { get; set; }
+        string SetupJSON { get; set; }
     }
 }

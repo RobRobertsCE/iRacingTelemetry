@@ -1,5 +1,4 @@
 ﻿using ibtParserLibrary.Helpers;
-using ibtSessionLibrary;
 using System;
 using System.IO;
 using System.Linq;

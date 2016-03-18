@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TestSessionLibrary.Extensions
+namespace TrackSessionLibrary.Extensions
 {
     public static class MathExtensions
     {

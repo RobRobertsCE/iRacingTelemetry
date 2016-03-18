@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
-using ibtSessionLibrary;
 using System.IO;
 using System.Globalization;
 

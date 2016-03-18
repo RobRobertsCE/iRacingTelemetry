@@ -1,4 +1,4 @@
-﻿using TestSessionLibrary.Views;
+﻿using TrackSessionLibrary.Views;
 
 namespace TrackSession.Views
 {

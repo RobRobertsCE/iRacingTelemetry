@@ -1,4 +1,4 @@
-﻿namespace TestSessionLibrary
+﻿namespace TrackSessionLibrary
 {
     public static class Constants
     {
@@ -7,8 +7,7 @@
         public const string iRacingSetupExportFileFilter = "*.htm";
         public const string iRacingTelemetryFileFilter = "*.ibt";
         public const string iRacingDefaultCurrentSetupFile = "-Current-";
-        //public const string iRacingProcessName = "iRacingLocalServer64.exe";
-        //public const string iRacingProcessName = "iRacingLocalServer64.exe";
-        public const string iRacingProcessName = "iRacingSim64DX11";//"iRacingSim64";
+        public const string iRacingDX9ProcessName = "iRacingSim64";
+        public const string iRacingDX11ProcessName = "iRacingSim64DX11";
     }
 }

@@ -1,9 +1,10 @@
 ﻿using iRacing;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace TestSessionLibrary
+namespace TrackSessionLibrary
 {
     internal class TrackSessionEngine : IDisposable
     {
@@ -196,7 +197,7 @@ namespace TestSessionLibrary
             _setupExportDirectoryWatcher.Created += _setupExportWatcher_Created;
             _setupExportDirectoryWatcher.Changed += _setupExportWatcher_Changed;
 
-            _iRacingProcessMonitor = new EngineProcessMonitor(Constants.iRacingProcessName);
+            _iRacingProcessMonitor = new EngineProcessMonitor(new List<string>() { Constants.iRacingDX9ProcessName, Constants.iRacingDX11ProcessName });
             _iRacingProcessMonitor.EnableLogging = this.EnableLogging;
             _iRacingProcessMonitor.ProcessStarted += _iRacingProcessMonitor_ProcessStarted;
             _iRacingProcessMonitor.ProcessStopped += _iRacingProcessMonitor_ProcessStopped;            
@@ -272,7 +273,7 @@ namespace TestSessionLibrary
             if (_exportFileLock) return;
             if (_exportFileName == e.FullPath) return;
 
-            lock(_exportFileLockObject)
+            lock (_exportFileLockObject)
             {
                 _exportFileLock = true;
                 _exportFileName = e.FullPath;
@@ -303,7 +304,7 @@ namespace TestSessionLibrary
                 // wait for setup export file to be closed
                 _setupExportFileClosedMonitor = new FileClosedMonitor();
                 _setupExportFileClosedMonitor.FileClosed += SetupExportMonitorMonitor_FileClosed;
-                _setupExportFileClosedMonitor.StartMonitor(e.FullPath);              
+                _setupExportFileClosedMonitor.StartMonitor(e.FullPath);
             }
             catch (Exception ex)
             {

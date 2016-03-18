@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TestSessionLibrary.Data.Models;
+using TrackSessionLibrary.Data.Models;
 
-namespace TestSessionLibrary.Data
+namespace TrackSessionLibrary.Data
 {
     public class TrackSessionData : IDisposable
     {

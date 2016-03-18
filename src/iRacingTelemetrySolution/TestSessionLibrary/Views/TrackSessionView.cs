@@ -1,7 +1,7 @@
 ﻿using System;
-using TestSessionLibrary.Data.Models;
+using TrackSessionLibrary.Data.Models;
 
-namespace TestSessionLibrary.Views
+namespace TrackSessionLibrary.Views
 {
     public class TrackSessionView
     {

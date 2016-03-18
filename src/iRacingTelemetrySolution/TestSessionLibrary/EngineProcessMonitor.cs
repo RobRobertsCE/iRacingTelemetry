@@ -1,9 +1,10 @@
 ﻿using iRacing;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Management;
 
-namespace TestSessionLibrary
+namespace TrackSessionLibrary
 {
     internal class EngineProcessMonitor : IDisposable
     {
@@ -37,7 +38,7 @@ namespace TestSessionLibrary
         #endregion
 
         #region Properties
-        public string ProcessName { get; set; }
+        public List<string> ProcessNames { get; set; }
         public bool EnableLogging { get; set; }
         private bool _isMonitoring = false;
         public bool IsMonitoring
@@ -53,20 +54,22 @@ namespace TestSessionLibrary
         public EngineProcessMonitor()
         {
             EnableLogging = true;
+            ProcessNames = new List<string>();
         }
 
         public EngineProcessMonitor(string processName) : this()
         {
-            this.ProcessName = processName;
+            ProcessNames.Add(processName);
+        }
+        public EngineProcessMonitor(IList<string> processNames) : this()
+        {
+            ProcessNames.AddRange(processNames);
         }
         #endregion
 
         #region Public Methods
         public void Start()
         {
-            if (String.IsNullOrEmpty(ProcessName))
-                throw new ArgumentException("ProcessName");
-
             StartMonitor();
         }
         public void Stop()
@@ -81,7 +84,7 @@ namespace TestSessionLibrary
             if (IsMonitoring) return;
             startWatch = new ManagementEventWatcher(new WqlEventQuery("SELECT * FROM Win32_ProcessStartTrace"));
             startWatch.EventArrived += StartWatch_EventArrived;
-            ManagementEventWatcher stopWatch = new ManagementEventWatcher(new WqlEventQuery("SELECT * FROM Win32_ProcessStopTrace"));
+            stopWatch = new ManagementEventWatcher(new WqlEventQuery("SELECT * FROM Win32_ProcessStopTrace"));
             stopWatch.EventArrived += StopWatch_EventArrived;
             startWatch.Start();
             stopWatch.Start();
@@ -89,19 +92,6 @@ namespace TestSessionLibrary
             if (IsProcessRunning())
                 OnProcessStarted();
         }
-
-        protected virtual bool IsProcessRunning()
-        {
-            Process[] processes = Process.GetProcessesByName(ProcessName);
-            //Process[] processes = Process.GetProcesses();
-            //foreach (var proc in processes)
-            //{
-            //    if (proc.ProcessName.StartsWith("iRacing"))
-            //        Console.WriteLine(proc.ProcessName);
-            //}
-            return (processes.Length > 0);
-        }
-
         protected virtual void StopMonitor()
         {
             if (!IsMonitoring) return;
@@ -109,18 +99,32 @@ namespace TestSessionLibrary
             WriteLog("ProcessMonitor Stopped");
         }
 
-        protected virtual void StopWatch_EventArrived(object sender, EventArrivedEventArgs e)
+        protected virtual bool IsProcessRunning()
         {
-            //Console.WriteLine("Process stopped: {0}", e.NewEvent.Properties["ProcessName"].Value);
-            if (e.NewEvent.Properties["ProcessName"].Value.ToString().Contains(ProcessName))
-                OnProcessStopped();
+            foreach (var processName in ProcessNames)
+            {
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length > 0)
+                    return true;
+            }
+            return false;
         }
 
+        protected virtual void StopWatch_EventArrived(object sender, EventArrivedEventArgs e)
+        {
+            foreach (var processName in ProcessNames)
+            {
+                if (e.NewEvent.Properties["ProcessName"].Value.ToString().Contains(processName))
+                    OnProcessStopped();
+            }
+        }
         protected virtual void StartWatch_EventArrived(object sender, EventArrivedEventArgs e)
         {
-            //Console.WriteLine("Process started: {0}", e.NewEvent.Properties["ProcessName"].Value);
-            if (e.NewEvent.Properties["ProcessName"].Value.ToString().Contains(ProcessName))
-                OnProcessStarted();
+            foreach (var processName in ProcessNames)
+            {
+                if (e.NewEvent.Properties["ProcessName"].Value.ToString().Contains(processName))
+                    OnProcessStarted();
+            }
         }
 
         protected virtual void WriteLog(string format, params object[] args)

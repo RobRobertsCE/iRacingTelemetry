@@ -25,5 +25,23 @@ namespace ibtParserLibrary
             }
             return telemetryLaps;
         }
+
+        public static int GetLapCount(TelemetryFile telemetryData)
+        {
+            return telemetryData.Frames.Select(f=>f.GetIntValue(TelemetryKeys.Lap)).Distinct().Count();
+        }
+
+        public static KeyValuePair<int, float> GetBestLap(TelemetryFile telemetryData)
+        {
+            int bestLapNumber = -1;
+            float bestLapTime = -1F;
+            var lastFrame =  telemetryData.Frames.LastOrDefault();
+            if (null!= lastFrame)
+            {
+                 bestLapNumber = (int)lastFrame.GetIntValue(TelemetryKeys.LapBestLap);
+                 bestLapTime = (float)lastFrame.GetSingleValue(TelemetryKeys.LapBestLapTime);                
+            }
+            return new KeyValuePair<int, float>(bestLapNumber, bestLapTime);
+        }
     }
 }

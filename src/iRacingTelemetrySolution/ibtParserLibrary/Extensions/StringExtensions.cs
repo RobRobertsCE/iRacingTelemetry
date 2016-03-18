@@ -2,7 +2,7 @@
 
 namespace ibtParserLibrary.Helpers
 {
-    static class StringHelper
+    static class StringExtensions
     {
         public static byte[] ToByteArray(this string self)
         {

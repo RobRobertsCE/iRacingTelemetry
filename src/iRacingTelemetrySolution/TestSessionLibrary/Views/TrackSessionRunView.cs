@@ -1,8 +1,9 @@
 ﻿using iRacing.SetupLibrary.Tires;
 using System;
-using TestSessionLibrary.Data.Models;
+using System.Collections.Generic;
+using TrackSessionLibrary.Data.Models;
 
-namespace TestSessionLibrary.Views
+namespace TrackSessionLibrary.Views
 {
     public class TrackSessionRunView
     {

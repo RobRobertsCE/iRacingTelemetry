@@ -30,7 +30,6 @@ namespace ibtParserLibrary.Session.Info
 
     public class CameraInfo
     {
-
         [JsonProperty("Groups")]
         public Group[] Groups { get; set; }
     }

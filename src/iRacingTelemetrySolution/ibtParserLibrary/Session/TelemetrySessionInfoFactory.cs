@@ -1,89 +1,104 @@
-﻿using ibtParserLibrary.Session.Cars;
-using ibtParserLibrary.Session.Info;
+﻿using ibtParserLibrary.Session.Info;
+using ibtParserLibrary.Session.CarSetup;
 using iRacing;
+using iRacing.SetupLibrary.Parsers;
 using Newtonsoft.Json;
 using System;
-using System.IO;
-using System.Text;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace ibtParserLibrary.Session
 {
     public static class TelemetrySessionInfoFactory
     {
+        /// <summary>
+        /// Parses the ibt-based Session Info YAML string
+        /// </summary>
+        /// <param name="yamlString">YAML-formatted string containing the session info for the telemetry file</param>
+        /// <returns>Car-specific instance of the TelemetrySessionInfo class.</returns>
         public static TelemetrySessionInfo GetSessionInfo(string yamlString)
         {
-            var yamlObject = GetYamlObject(yamlString);
-            var jsonString = YamlToJson(yamlObject);
-            var sessionInfo = GetTelemetrySessionInfo(jsonString);
-
-            var myIdx = Convert.ToInt32(sessionInfo.DriverInfo.DriverCarIdx);
-            var me = sessionInfo.DriverInfo.Drivers[myIdx];
+            var jsonString = YamlSetupParser.GetJson(yamlString);
+            var genericSessionInfo = GetTelemetrySessionInfo(jsonString);
+            var driverIdx = Convert.ToInt32(genericSessionInfo.DriverInfo.DriverCarIdx);
+            var driver = genericSessionInfo.DriverInfo.Drivers[driverIdx];
 
             var infoView = new SetupInfoView()
             {
-                DriverID = Convert.ToInt32(me.UserID),
-                DriverName = me.UserName,
-                CarID = Convert.ToInt32(me.CarID),
-                CarClassID = Convert.ToInt32(me.CarClassID),
-                CarPath = me.CarPath,
-                CarClassShortName = me.CarClassShortName,
-                CarScreenName = me.CarScreenName,
-                TrackID = Convert.ToInt32(sessionInfo.WeekendInfo.TrackID),
-                TrackName = sessionInfo.WeekendInfo.TrackName,
+                DriverID = Convert.ToInt32(driver.UserID),
+                DriverName = driver.UserName,
+                CarID = Convert.ToInt32(driver.CarID),
+                CarClassID = Convert.ToInt32(driver.CarClassID),
+                CarPath = driver.CarPath,
+                CarClassShortName = driver.CarClassShortName,
+                CarScreenName = driver.CarScreenName,
+                TrackID = Convert.ToInt32(genericSessionInfo.WeekendInfo.TrackID),
+                TrackName = genericSessionInfo.WeekendInfo.TrackName,
                 JsonData = jsonString
             };
 
-            sessionInfo= GetSessionSetupInfo(infoView);
+            genericSessionInfo= GetSessionSetupInfo(infoView);
 
-            return sessionInfo;
+            return genericSessionInfo;
         }
-
-        public static TelemetrySessionInfo GetSessionSetupInfo(SetupInfoView infoView)
+        /// <summary>
+        /// Gets the session info including car-specific setup data.
+        /// </summary>
+        /// <param name="infoView">SetupInfoView class instance containing JSON data</param>
+        /// <returns></returns>
+        private static TelemetrySessionInfo GetSessionSetupInfo(SetupInfoView infoView)
         {
+            TelemetrySessionInfo session = null;
             Vehicles car = (Vehicles)infoView.CarID;
             switch (car)
             {
                 case Vehicles.legends:
                     {
-                        return GetTelemetrySessionInfo<LegendsTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<LegendsTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.streetstock:
                     {
-                        return GetTelemetrySessionInfo<SSTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<SSTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.latemodel:
                     {
-                        return GetTelemetrySessionInfo<LMSCTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<LMSCTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.kandnseries:
                     {
-                        return GetTelemetrySessionInfo<KNTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<KNTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.superlatemodel:
                     {
-                        return GetTelemetrySessionInfo<SLMTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<SLMTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.skmodified:
                     {
-                        return GetTelemetrySessionInfo<ModifiedTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<ModifiedTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.tourmodified:
                     {
-                        return GetTelemetrySessionInfo<ModifiedTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<ModifiedTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.silverado2015:
                     {
-                        return GetTelemetrySessionInfo<TruckTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<TruckTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.xfinityFordMustang:
                     {
-                        return GetTelemetrySessionInfo<XfinityTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<XfinityTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 case Vehicles.gen6FordFusion:
                     {
-                        return GetTelemetrySessionInfo<CupTelemetryData>(infoView.JsonData);
+                        session = GetTelemetrySessionInfo<CupTelemetrySessionInfo>(infoView.JsonData);
+                        break;
                     }
                 default:
                     {
@@ -92,60 +107,34 @@ namespace ibtParserLibrary.Session
                         break;
                     }
             }
-            return null;
-        }
-        private static object GetYamlObject(string yamlString)
-        {
-            using (var yamlStream = ConvertStringToStream(yamlString))
+
+            if (null!= session)
             {
-                using (var yamlStreamReader = new StreamReader(yamlStream))
-                {
-                    var yamlDeserializer = new Deserializer(namingConvention: new CamelCaseNamingConvention());
-                    return yamlDeserializer.Deserialize(yamlStreamReader);
-                }
-            }
+                session.SetupJSON = infoView.JsonData;
+            }                
+
+            return session;
         }
-        private static Stream ConvertStringToStream(string yamlString)
-        {
-            MemoryStream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
-            writer.Write(yamlString);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-        private static string YamlToJson(object yamlObject)
-        {
-            JsonSerializer jsonSerializer = new JsonSerializer() { Formatting = Formatting.Indented };
-            using (var jsonStreamWriter = new StringWriter())
-            {
-                jsonSerializer.Serialize(jsonStreamWriter, yamlObject);
-                return jsonStreamWriter.ToString();
-            }
-        }
+        /// <summary>
+        /// Gets the session info *except for* setup data.
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
         private static TelemetrySessionInfo GetTelemetrySessionInfo(string jsonString)
         {
             return JsonConvert.DeserializeObject<TelemetrySessionInfo>(jsonString);
         }
+        /// <summary>
+        /// Gets the session info including car-specific setup data.
+        /// </summary>
+        /// <param name="jsonString"></param>
+        /// <returns></returns>
         private static T GetTelemetrySessionInfo<T>(string jsonString)
         {
             var result = JsonConvert.DeserializeObject(jsonString, typeof(T),
                                                        new JsonSerializerSettings()
                                                        { TypeNameHandling = TypeNameHandling.All });
             return (T)result;
-            //return JsonConvert.DeserializeObject<T>(jsonString);
-        }
-        private static ISetupTelemetryData GetSetupTelemetryData<T>(string jsonString)
-        {
-            var token = "CarSetup";
-            var startIdx = jsonString.IndexOf(token) - 1;
-            var setupJsonLength = jsonString.Length - startIdx;
-            var setupJson = "{" + jsonString.Substring(startIdx, setupJsonLength);
-            var result = JsonConvert.DeserializeObject(setupJson, typeof(T),
-                                                       new JsonSerializerSettings()
-                                                       { TypeNameHandling = TypeNameHandling.All });
-            return (ISetupTelemetryData)result;
-            //return JsonConvert.DeserializeObject<T>(jsonString);
-        }
+        }    
     }
 }

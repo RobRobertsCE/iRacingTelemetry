@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6E488AFF-FFC2-494B-ABB5-7FE1E12B6AEB}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{5942FFAF-92D8-442A-BE17-D92FF1353816}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestSessionTestApp</RootNamespace>
-    <AssemblyName>TestSessionTestApp</AssemblyName>
+    <RootNamespace>TrackSessionLibrary</RootNamespace>
+    <AssemblyName>TrackSessionLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -52,86 +49,50 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="YamlDotNet, Version=3.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\YamlDotNet.3.8.0\lib\net35\YamlDotNet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\LapsView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\LapsView.Designer.cs">
-      <DependentUpon>LapsView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TireSheetView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TireSheetView.Designer.cs">
-      <DependentUpon>TireSheetView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\TrackRunResultsView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\TrackRunResultsView.Designer.cs">
-      <DependentUpon>TrackRunResultsView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Data\Models\LapModel.cs" />
+    <Compile Include="Data\TrackSessionData.cs" />
+    <Compile Include="EngineProcessMonitor.cs" />
+    <Compile Include="Data\iRacingDbContext.cs" />
+    <Compile Include="Data\Models\SeasonModel.cs" />
+    <Compile Include="Data\Models\SessionTypeModel.cs" />
+    <Compile Include="Data\Models\SetupModel.cs" />
+    <Compile Include="Data\Models\TelemetryModel.cs" />
+    <Compile Include="Data\Models\TrackSessionModel.cs" />
+    <Compile Include="Data\Models\TrackSessionRunModel.cs" />
+    <Compile Include="Data\Models\VehicleModel.cs" />
+    <Compile Include="Data\Models\TrackModel.cs" />
+    <Compile Include="EngineFileType.cs" />
+    <Compile Include="EngineStatus.cs" />
+    <Compile Include="EventArgs\EngineExceptionArgs.cs" />
+    <Compile Include="EventArgs\EngineFileCreatedArgs.cs" />
+    <Compile Include="EventArgs\EngineStatusChangedArgs.cs" />
+    <Compile Include="EventArgs\ManagerStatusChangedArgs.cs" />
+    <Compile Include="EventArgs\TrackSessionRunCompleteArgs.cs" />
+    <Compile Include="EventArgs\TrackSessionStartedArgs.cs" />
+    <Compile Include="Extensions\Median.cs" />
+    <Compile Include="FileClosedMonitor.cs" />
+    <Compile Include="ManagerStatus.cs" />
+    <Compile Include="NewTireSheetArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Controls\LapsView.resx">
-      <DependentUpon>LapsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TireSheetView.resx">
-      <DependentUpon>TireSheetView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\TrackRunResultsView.resx">
-      <DependentUpon>TrackRunResultsView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <None Include="packages.config" />
-    <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup+SetupChassis.datasource" />
-    <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup+SetupTires.datasource" />
-    <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup.datasource" />
-    <None Include="Properties\DataSources\iRacing.SetupLibrary.Tires.TireDetails.datasource" />
-    <None Include="Properties\DataSources\iRacing.SetupLibrary.Tires.TireSheet.datasource" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+    <Compile Include="TrackSessionEngine.cs" />
+    <Compile Include="TrackSessionManager.cs" />
+    <Compile Include="Views\TireSheetView.cs" />
+    <Compile Include="Views\TrackSessionRunView.cs" />
+    <Compile Include="Views\TrackSessionView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ibtAnalysis\ibtAnalysis.csproj">
@@ -149,10 +110,6 @@
     <ProjectReference Include="..\iRacing.SetupLibrary\iRacing.SetupLibrary.csproj">
       <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
       <Name>iRacing.SetupLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestSessionLibrary\TrackSessionLibrary.csproj">
-      <Project>{5942ffaf-92d8-442a-be17-d92ff1353816}</Project>
-      <Name>TrackSessionLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

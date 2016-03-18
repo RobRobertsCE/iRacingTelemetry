@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TestSessionLibrary.Data.Models
+namespace TrackSessionLibrary.Data.Models
 {
     [Table("TrackSession")]
     public class TrackSessionModel

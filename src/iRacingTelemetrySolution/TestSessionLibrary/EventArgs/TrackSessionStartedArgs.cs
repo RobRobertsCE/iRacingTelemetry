@@ -1,7 +1,7 @@
 ﻿using System;
-using TestSessionLibrary.Views;
+using TrackSessionLibrary.Views;
 
-namespace TestSessionLibrary
+namespace TrackSessionLibrary
 {
     public class TrackSessionStartedArgs : EventArgs
     {

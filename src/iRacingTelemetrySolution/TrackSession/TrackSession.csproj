@@ -157,10 +157,6 @@
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
       <Name>ibtParserLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ibtSessionLibrary\ibtSessionLibrary.csproj">
-      <Project>{278c681f-6026-4539-8695-5f85dbacc27f}</Project>
-      <Name>ibtSessionLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\iRacing.Common\iRacing.Common.csproj">
       <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>
       <Name>iRacing.Common</Name>
@@ -169,9 +165,9 @@
       <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
       <Name>iRacing.SetupLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestSessionLibrary\TestSessionLibrary.csproj">
+    <ProjectReference Include="..\TestSessionLibrary\TrackSessionLibrary.csproj">
       <Project>{5942ffaf-92d8-442a-be17-d92ff1353816}</Project>
-      <Name>TestSessionLibrary</Name>
+      <Name>TrackSessionLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

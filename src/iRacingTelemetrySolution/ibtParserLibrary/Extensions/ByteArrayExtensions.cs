@@ -2,7 +2,7 @@
 
 namespace ibtParserLibrary.Helpers
 {
-    static class ByteArrayHelper
+    static class ByteArrayExtensions
     {
         static readonly int[] Empty = new int[0];
 

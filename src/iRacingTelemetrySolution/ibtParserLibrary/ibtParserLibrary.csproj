@@ -59,8 +59,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers\ByteArrayHelper.cs" />
-    <Compile Include="Helpers\StringHelper.cs" />
+    <Compile Include="Extensions\ByteArrayExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Session\CarSetup\CupTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\KNTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\LegendsTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\LMSCTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\ModifiedTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\SLMTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\SSTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\TruckTelemetrySessionInfo.cs" />
+    <Compile Include="Session\CarSetup\XfinityTelemetrySessionInfo.cs" />
+    <Compile Include="Session\Info\CameraInfo.cs" />
+    <Compile Include="Session\Info\DriverInfo.cs" />
+    <Compile Include="Session\Info\RadioInfo.cs" />
+    <Compile Include="Session\Info\SessionInfo.cs" />
+    <Compile Include="Session\Info\SetupInfoView.cs" />
+    <Compile Include="Session\Info\SplitTimeInfo.cs" />
+    <Compile Include="Session\Info\WeekendInfo.cs" />
+    <Compile Include="Session\ITelemetrySessionInfo.cs" />
+    <Compile Include="Session\TelemetrySessionInfo.cs" />
+    <Compile Include="Session\TelemetrySessionInfoFactory.cs" />
     <Compile Include="TelemetryFileParser.cs" />
     <Compile Include="TelemetryConstants.cs" />
     <Compile Include="TelemetryChannelDefinition.cs" />
@@ -110,13 +129,13 @@
     <Content Include="Samples\xfinity.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ibtSessionLibrary\ibtSessionLibrary.csproj">
-      <Project>{278c681f-6026-4539-8695-5f85dbacc27f}</Project>
-      <Name>ibtSessionLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\iRacing.Common\iRacing.Common.csproj">
       <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>
       <Name>iRacing.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iRacing.SetupLibrary\iRacing.SetupLibrary.csproj">
+      <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
+      <Name>iRacing.SetupLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

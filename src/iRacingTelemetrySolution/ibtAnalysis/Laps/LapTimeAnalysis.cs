@@ -8,14 +8,16 @@ namespace ibtAnalysis.Laps
 {
     public class LapTimeAnalysis
     {
-        public float Average { get; set; }
-        public double Median { get; set; }
-        public double StdDev { get; set; }
-        public double Range { get; set; }
-        public IDictionary<float, int> FrequencyDistribution { get; set; }
-        public IList<Single> Dropoff { get; set; }
+        public float Average { get; private set; }
+        public double Median { get; private set; }
+        public double StdDev { get; private set; }
+        public double Range { get; private set; }
+        public IDictionary<float, int> FrequencyDistribution { get; private set; }
+        public IList<Single> Dropoff { get; private set; }
 
-        public IDictionary<int, float> LapTimesList { get; set; }
+        public IDictionary<int, float> LapTimesList { get; private set; }
+        public IDictionary<int, float> CoreLapTimesList { get; private set; }
+
         public IList<float> LapTimes { get; set; }
         public IList<float> CoreLapTimes { get; set; }
 

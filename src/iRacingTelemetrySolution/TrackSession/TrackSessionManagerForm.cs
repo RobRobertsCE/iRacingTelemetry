@@ -9,9 +9,9 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using TestSessionLibrary;
-using TestSessionLibrary.Data;
-using TestSessionLibrary.Views;
+using TrackSessionLibrary;
+using TrackSessionLibrary.Data;
+using TrackSessionLibrary.Views;
 using TrackSession.Dialogs;
 using TrackSession.Views;
 

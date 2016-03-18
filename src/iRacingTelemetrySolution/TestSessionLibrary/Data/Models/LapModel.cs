@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace TestSessionLibrary.Data.Models
+namespace TrackSessionLibrary.Data.Models
 {
     public class LapTimes : List<LapModel>
     {

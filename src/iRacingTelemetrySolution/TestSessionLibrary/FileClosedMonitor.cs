@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace TestSessionLibrary
+namespace TrackSessionLibrary
 {
     public class FileClosedMonitor
     {

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-using TestSessionLibrary.Data;
+using TrackSessionLibrary.Data;
 
 namespace TrackSession.Dialogs
 {
