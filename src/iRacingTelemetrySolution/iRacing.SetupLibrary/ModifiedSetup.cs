@@ -71,6 +71,7 @@ namespace iRacing.SetupLibrary
                 public string Stagger { get; set; }
             }
         }
+
         public class SetupChassis
         {
             [JsonProperty("Front")]

@@ -72,7 +72,6 @@ namespace iRacing.TrackSession.Data
             }
             return model;
         }
-
         #endregion
 
         #region vehicle
@@ -93,6 +92,14 @@ namespace iRacing.TrackSession.Data
             }
             return model;
         }
+        public virtual VehicleModel GetVehicle(int vehicleNumber)
+        {
+            return Context.Vehicles.FirstOrDefault(v => v.VehicleNumber == vehicleNumber);
+        }
+        public virtual IList<VehicleModel> GetVehicles()
+        {
+            return Context.Vehicles.ToList();
+        }
         #endregion
 
         #region track
@@ -111,6 +118,10 @@ namespace iRacing.TrackSession.Data
                 Context.SaveChanges();
             }
             return model;
+        }
+        public virtual IList<TrackModel> GetTracks()
+        {
+            return Context.Tracks.ToList();
         }
         #endregion
 
@@ -142,51 +153,16 @@ namespace iRacing.TrackSession.Data
         }
         public virtual TrackSessionModel GetTrackSession(Guid trackSessionId)
         {
-            return Context.Sessions.Include("Vehicle").Include("Track").Include("Runs").Include("Runs.Telemetry").FirstOrDefault(s => s.TrackSessionId == trackSessionId);
+            return Context.Sessions.Include("Vehicle").Include("Track").Include("SessionType").Include("Runs").Include("Runs.Telemetry").FirstOrDefault(s => s.TrackSessionId == trackSessionId);
+        }
+        public virtual IList<TrackSessionModel> GetTrackSessions(int carId, int trackId)
+        {
+            return Context.Sessions.Include("Vehicle").Include("Track").Include("SessionType").Include("Runs").Where(s => (carId == 0 || carId == s.VehicleNumber) && (trackId == 0 || trackId == s.TrackNumber) && s.Runs.Count > 0).ToList();
         }
         #endregion
 
         #region session run
         public virtual TrackSessionRunModel SaveTrackSessionRun(TrackSessionRunModel run)
-        {
-            if (Guid.Empty == run.TrackSessionRunId)
-            {
-                Context.Runs.Add(run);
-            }
-            else
-                Context.Runs.Attach(run);
-
-            Context.SaveChanges();
-
-            return run;
-        }
-        public virtual TrackSessionRunModel GetTrackSessionRun(Guid trackSessionRunId)
-        {
-            return Context.Runs.Include("TrackSession").Include("TrackSession.Vehicle").Include("TrackSession.Track").Include("Telemetry").FirstOrDefault(s => s.TrackSessionRunId == trackSessionRunId);
-        }
-        #endregion
-
-        #region setup
-        public virtual SetupModel SaveSetup(SetupModel setup)
-        {
-            if (Guid.Empty == setup.SetupId)
-            {
-                Context.Setups.Add(setup);
-            }
-            else
-            {
-                Context.Setups.Attach(setup);
-            }
-                
-
-            Context.SaveChanges();
-
-            return setup;
-        }
-        #endregion
-
-        #region setup
-        public virtual TrackSessionRunModel SaveSessionRun(TrackSessionRunModel run)
         {
             if (Guid.Empty == run.TrackSessionRunId)
             {
@@ -207,6 +183,51 @@ namespace iRacing.TrackSession.Data
             Context.SaveChanges();
 
             return run;
+        }
+        public virtual TrackSessionRunModel GetTrackSessionRun(Guid trackSessionRunId)
+        {
+            return Context.Runs.Include("TrackSession").Include("TrackSession.SessionType").Include("TrackSession.Vehicle").Include("TrackSession.Track").Include("Setup").Include("Telemetry").FirstOrDefault(s => s.TrackSessionRunId == trackSessionRunId);
+        }
+        public virtual IList<TrackSessionRunModel> GetTrackSessionRuns()
+        {
+            return Context.Runs
+                .Include("TrackSession")
+                .Include("TrackSession.SessionType")
+                .Include("TrackSession.Vehicle")
+                .Include("TrackSession.Track")
+                .Include("Setup")
+                .Include("Telemetry")
+                .ToList();
+        }
+        public virtual TrackSessionRunModel SetTrackSessionRunTireSheet(Guid trackSessionRunId, string tireSheetJson)
+        {
+            var runModel = GetTrackSessionRun(trackSessionRunId);
+            runModel.TireSheetJson = tireSheetJson;
+            Context.SaveChanges();
+            return runModel;
+        }
+        #endregion
+
+        #region setup
+        public virtual SetupModel SaveSetup(SetupModel setup)
+        {
+            if (Guid.Empty == setup.SetupId)
+            {
+                Context.Setups.Add(setup);
+            }
+            else
+            {
+                Context.Setups.Attach(setup);
+            }
+
+
+            Context.SaveChanges();
+
+            return setup;
+        }
+        public virtual SetupModel GetSetup(Guid setupId)
+        {
+            return Context.Setups.FirstOrDefault(s => s.SetupId == setupId);
         }
         #endregion
 

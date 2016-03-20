@@ -2,9 +2,10 @@
 {
     public enum ManagerStatus
     {
-        Off = 0,
-        Idle = 1,
-        Monitoring = 2,
-        Busy = 3
+        Initializing = 0,
+        Off,
+        Idle,
+        Monitoring,
+        Busy
     }
 }

@@ -1,14 +1,14 @@
 ﻿using System;
-using iRacing.TrackSession.Views;
 
 namespace iRacing.TrackSession
 {
     public class TrackSessionRunCompleteArgs : EventArgs
     {
-        public TrackSessionRunView Run { get; set; }
-        public TrackSessionRunCompleteArgs(TrackSessionRunView model)
+        public Guid TrackSessionRunId { get; set; }
+
+        public TrackSessionRunCompleteArgs(Guid id)
         {
-            Run = model;
+            TrackSessionRunId = id;
         }
         public TrackSessionRunCompleteArgs()
         {

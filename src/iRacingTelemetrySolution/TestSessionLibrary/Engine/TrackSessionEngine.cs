@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace iRacing.TrackSession
+namespace iRacing.TrackSession.Engine
 {
-    internal class TrackSessionEngine : IDisposable
+    internal class TrackSessionEngine : LoggingBase
     {
         #region consts
-        private const bool DefaultLogging_On = true;
-        private const bool DefaultTestMode_Off = false;
+        private const bool DefaultLogging_On = false;
         #endregion
 
         #region events   
         public event EventHandler<EngineFileCreatedArgs> TelemetryFileOpened;
         protected virtual void OnTelemetryFileOpened(string fullFilePath)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineFileCreatedArgs> handler = TelemetryFileOpened;
             if (handler != null)
             {
@@ -29,6 +29,7 @@ namespace iRacing.TrackSession
         public event EventHandler<EngineFileCreatedArgs> TelemetryFileClosed;
         protected virtual void OnTelemetryFileClosed(string fullFilePath)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineFileCreatedArgs> handler = TelemetryFileClosed;
             if (handler != null)
             {
@@ -41,6 +42,7 @@ namespace iRacing.TrackSession
         public event EventHandler<EngineFileCreatedArgs> SetupFileExported;
         protected virtual void OnSetupFileExported(string fullFilePath)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineFileCreatedArgs> handler = SetupFileExported;
             if (handler != null)
             {
@@ -54,6 +56,7 @@ namespace iRacing.TrackSession
         public event EventHandler<EngineExceptionArgs> EngineException;
         protected virtual void OnEngineException(Exception ex)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineExceptionArgs> handler = EngineException;
             if (handler != null)
             {
@@ -66,6 +69,7 @@ namespace iRacing.TrackSession
         public event EventHandler<EngineStatusChangedArgs> EngineStatusChanged;
         protected virtual void OnEngineStatusChanged(EngineStatus oldStatus, EngineStatus newStatus)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineStatusChangedArgs> handler = EngineStatusChanged;
             if (handler != null)
             {
@@ -78,6 +82,7 @@ namespace iRacing.TrackSession
         public event EventHandler iRacingProcessStarted;
         protected virtual void OniRacingProcessStarted()
         {
+            if (!_enableEvents) return;
             EventHandler handler = iRacingProcessStarted;
             if (handler != null)
             {
@@ -89,6 +94,7 @@ namespace iRacing.TrackSession
         public event EventHandler iRacingProcessStopped;
         protected virtual void OniRacingProcessStopped()
         {
+            if (!_enableEvents) return;
             EventHandler handler = iRacingProcessStopped;
             if (handler != null)
             {
@@ -99,6 +105,7 @@ namespace iRacing.TrackSession
         #endregion
 
         #region fields
+        private bool _enableEvents = false;
         private bool _exportFileLock = false;
         private string _exportFileName = String.Empty;
         private object _exportFileLockObject = new object();
@@ -110,7 +117,7 @@ namespace iRacing.TrackSession
         #endregion
 
         #region properties
-        private EngineStatus _status = EngineStatus.Initializing;
+        private EngineStatus _status = EngineStatus.Off;
         public EngineStatus Status
         {
             get
@@ -118,53 +125,29 @@ namespace iRacing.TrackSession
                 return _status;
             }
         }
-        public bool EnableLogging { get; set; }
-        private bool _enableTestMode;
-        public bool EnableTestMode
-        {
-            get
-            {
-                return _enableTestMode;
-            }
-            set
-            {
-                if (value)
-                { // Request test mode on.
-                    if (!_enableTestMode)
-                    {// Test mode was off.
-                        DisableProcessMonitors();
-                        SetStatusAppRunning();
-                    }
-                }
-                else
-                { // Request test mode off.
-                    if (_enableTestMode)
-                    {// Test mode was on.
-                        SetStatusWaitingForApp();
-                    }
-                }
-                _enableTestMode = value;
-            }
-        }
         #endregion
 
         #region ctor
         public TrackSessionEngine() : this(DefaultLogging_On) { }
-        public TrackSessionEngine(bool loggingOn) : this(loggingOn, DefaultTestMode_Off) { }
-        public TrackSessionEngine(bool loggingOn, bool testModeOn)
+        public TrackSessionEngine(bool loggingOn) : base(loggingOn)
         {
-            EnableLogging = loggingOn;
             InitializeEngine();
-            EnableTestMode = testModeOn;
         }
         #endregion
 
         #region public
         public void Start()
         {
-            if (!EnableTestMode)
-                EnableProcessMonitors();
-
+            _enableEvents = true;
+            SetStatusWaitingForApp();
+            EnableProcessMonitors();
+        }
+        public void Stop()
+        {
+            SetStatusOff();
+            _enableEvents = false;
+            DisableProcessMonitors();
+            DisableFileSystemMonitors();
         }
         #endregion
 
@@ -200,7 +183,7 @@ namespace iRacing.TrackSession
             _iRacingProcessMonitor = new EngineProcessMonitor(new List<string>() { Constants.iRacingDX9ProcessName, Constants.iRacingDX11ProcessName });
             _iRacingProcessMonitor.EnableLogging = this.EnableLogging;
             _iRacingProcessMonitor.ProcessStarted += _iRacingProcessMonitor_ProcessStarted;
-            _iRacingProcessMonitor.ProcessStopped += _iRacingProcessMonitor_ProcessStopped;            
+            _iRacingProcessMonitor.ProcessStopped += _iRacingProcessMonitor_ProcessStopped;
         }
         #endregion
 
@@ -326,6 +309,10 @@ namespace iRacing.TrackSession
         #endregion
 
         #region //*** Status ***//
+        protected virtual void SetStatusOff()
+        {
+            SetStatus(EngineStatus.Off);
+        }
         protected virtual void SetStatusWaitingForApp()
         {
             DisableFileSystemMonitors();
@@ -351,45 +338,7 @@ namespace iRacing.TrackSession
             OnEngineStatusChanged(originalStatus, newStatus);
             WriteLog("Status Change: {0}->{1}", originalStatus, newStatus);
         }
-        #endregion
-
-        #region //*** Common ***//
-        protected virtual void ExceptionHandler(Exception ex)
-        {
-            OnEngineException(ex);
-            WriteErrorLog(ex);
-        }
-        protected virtual void WriteLog(string format, params object[] args)
-        {
-            WriteLog(String.Format(format, args));
-        }
-        protected virtual void WriteLog(string message)
-        {
-            if (EnableLogging)
-            {
-                Logger.Log.Info(message);
-            }
-        }
-        protected virtual void WriteErrorLog(Exception ex)
-        {
-            Logger.Log.Error(ex);
-        }
-        #endregion
-        #endregion
-
-        #region IDisposable
-        public void Dispose()
-        {
-            try
-            {
-                _iRacingProcessMonitor.Stop();
-                _iRacingProcessMonitor.Dispose();
-            }
-            catch
-            {
-
-            }
-        }
-        #endregion
+        #endregion     
+        #endregion        
     }
 }

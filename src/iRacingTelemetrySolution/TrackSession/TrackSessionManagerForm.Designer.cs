@@ -29,19 +29,48 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrackSessionManagerForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.openSessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openRunToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openTireSheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.openTelemetryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveSetupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.messagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openMessageLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.tsbOpenSession = new System.Windows.Forms.ToolStripButton();
+            this.tsbOpenRun = new System.Windows.Forms.ToolStripButton();
+            this.tsbOpenTireSheet = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbOpenTelemetry = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbSaveSetup = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbStartEngine = new System.Windows.Forms.ToolStripButton();
+            this.tsbStopEngine = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbSettings = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbLogView = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbLapView = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblSession = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblProcessStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlMessages = new System.Windows.Forms.Panel();
             this.txtMessages = new System.Windows.Forms.TextBox();
             this.ctxMessages = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -54,20 +83,21 @@
             this.splMessages = new System.Windows.Forms.Splitter();
             this.splContMain = new System.Windows.Forms.SplitContainer();
             this.pnlRunMenu = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lstRuns = new System.Windows.Forms.ListBox();
             this.lblRuns = new System.Windows.Forms.Label();
-            this.pnlRunPanelSpacer = new System.Windows.Forms.Panel();
-            this.pnlRunDetails = new System.Windows.Forms.Panel();
-            this.lblRunLapCount = new System.Windows.Forms.Label();
-            this.lblAverageLap = new System.Windows.Forms.Label();
-            this.lblBestLap = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblRunNumber = new System.Windows.Forms.Label();
-            this.lblRunDetails = new System.Windows.Forms.Label();
-            this.lblSession = new System.Windows.Forms.ToolStripStatusLabel();
-            this.trackRunResultsView1 = new TrackSession.Views.TrackRunResultsView();
+            this.MainPanel = new System.Windows.Forms.Panel();
+            this.splLaps = new System.Windows.Forms.SplitContainer();
+            this.lapsView1 = new TrackSession.Views.LapsView();
+            this.tcMain = new System.Windows.Forms.TabControl();
+            this.tabTireSheet = new System.Windows.Forms.TabPage();
+            this.tireSheetView = new TrackSession.Views.TireSheetView2();
+            this.tabSetup = new System.Windows.Forms.TabPage();
+            this.setupView1 = new TrackSession.Controls.SetupView();
+            this.tabTelemetry = new System.Windows.Forms.TabPage();
+            this.compareSetupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.pnlMessages.SuspendLayout();
             this.ctxMessages.SuspendLayout();
@@ -76,7 +106,15 @@
             this.splContMain.Panel2.SuspendLayout();
             this.splContMain.SuspendLayout();
             this.pnlRunMenu.SuspendLayout();
-            this.pnlRunDetails.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.MainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splLaps)).BeginInit();
+            this.splLaps.Panel1.SuspendLayout();
+            this.splLaps.Panel2.SuspendLayout();
+            this.splLaps.SuspendLayout();
+            this.tcMain.SuspendLayout();
+            this.tabTireSheet.SuspendLayout();
+            this.tabSetup.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -84,10 +122,11 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.editToolStripMenuItem,
-            this.viewToolStripMenuItem});
+            this.viewToolStripMenuItem,
+            this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1006, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(992, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -96,9 +135,12 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openSessionToolStripMenuItem,
             this.openRunToolStripMenuItem,
+            this.openTireSheetToolStripMenuItem,
             this.toolStripMenuItem2,
             this.openTelemetryToolStripMenuItem,
             this.toolStripMenuItem4,
+            this.saveSetupToolStripMenuItem,
+            this.toolStripMenuItem5,
             this.exitToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(37, 20);
@@ -106,17 +148,29 @@
             // 
             // openSessionToolStripMenuItem
             // 
+            this.openSessionToolStripMenuItem.Image = global::TrackSession.Properties.Resources.Open_6529_24;
             this.openSessionToolStripMenuItem.Name = "openSessionToolStripMenuItem";
             this.openSessionToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.openSessionToolStripMenuItem.Text = "Open Session";
+            this.openSessionToolStripMenuItem.ToolTipText = "Open Session";
             this.openSessionToolStripMenuItem.Click += new System.EventHandler(this.openSessionToolStripMenuItem_Click);
             // 
             // openRunToolStripMenuItem
             // 
+            this.openRunToolStripMenuItem.Image = global::TrackSession.Properties.Resources.OpenFileDialog_692_24;
             this.openRunToolStripMenuItem.Name = "openRunToolStripMenuItem";
             this.openRunToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.openRunToolStripMenuItem.Text = "Open Run";
+            this.openRunToolStripMenuItem.ToolTipText = "Open Run";
             this.openRunToolStripMenuItem.Click += new System.EventHandler(this.openRunToolStripMenuItem_Click);
+            // 
+            // openTireSheetToolStripMenuItem
+            // 
+            this.openTireSheetToolStripMenuItem.Image = global::TrackSession.Properties.Resources.Pump_tire_512;
+            this.openTireSheetToolStripMenuItem.Name = "openTireSheetToolStripMenuItem";
+            this.openTireSheetToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.openTireSheetToolStripMenuItem.Text = "Open Tire Sheet";
+            this.openTireSheetToolStripMenuItem.Click += new System.EventHandler(this.openTireSheetToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
@@ -125,15 +179,30 @@
             // 
             // openTelemetryToolStripMenuItem
             // 
+            this.openTelemetryToolStripMenuItem.Image = global::TrackSession.Properties.Resources.OpenComparisonResult_9697_24;
             this.openTelemetryToolStripMenuItem.Name = "openTelemetryToolStripMenuItem";
             this.openTelemetryToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.openTelemetryToolStripMenuItem.Text = "Open Telemetry";
+            this.openTelemetryToolStripMenuItem.ToolTipText = "Open Telemetry";
             this.openTelemetryToolStripMenuItem.Click += new System.EventHandler(this.openTelemetryToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
             this.toolStripMenuItem4.Size = new System.Drawing.Size(156, 6);
+            // 
+            // saveSetupToolStripMenuItem
+            // 
+            this.saveSetupToolStripMenuItem.Image = global::TrackSession.Properties.Resources.Save;
+            this.saveSetupToolStripMenuItem.Name = "saveSetupToolStripMenuItem";
+            this.saveSetupToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.saveSetupToolStripMenuItem.Text = "Save Setup";
+            this.saveSetupToolStripMenuItem.Click += new System.EventHandler(this.saveSetupToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem5
+            // 
+            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(156, 6);
             // 
             // exitToolStripMenuItem
             // 
@@ -151,7 +220,9 @@
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.messagesToolStripMenuItem});
+            this.messagesToolStripMenuItem,
+            this.testToolStripMenuItem,
+            this.toolStripMenuItem6});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -166,24 +237,250 @@
             this.messagesToolStripMenuItem.Text = "Messages";
             this.messagesToolStripMenuItem.CheckedChanged += new System.EventHandler(this.messagesToolStripMenuItem_CheckedChanged);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem6
+            // 
+            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
+            this.toolStripMenuItem6.Size = new System.Drawing.Size(122, 6);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openMessageLogToolStripMenuItem,
+            this.settingsToolStripMenuItem,
+            this.compareSetupsToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // openMessageLogToolStripMenuItem
+            // 
+            this.openMessageLogToolStripMenuItem.Image = global::TrackSession.Properties.Resources.RSReport_32xMD;
+            this.openMessageLogToolStripMenuItem.Name = "openMessageLogToolStripMenuItem";
+            this.openMessageLogToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.openMessageLogToolStripMenuItem.Text = "Open Log File";
+            this.openMessageLogToolStripMenuItem.Click += new System.EventHandler(this.openMessageLogToolStripMenuItem_Click);
+            // 
+            // settingsToolStripMenuItem
+            // 
+            this.settingsToolStripMenuItem.Image = global::TrackSession.Properties.Resources.gear_32xLG;
+            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.settingsToolStripMenuItem.Text = "Settings";
+            this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
+            // 
             // toolStrip1
             // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsbOpenSession,
+            this.tsbOpenRun,
+            this.tsbOpenTireSheet,
+            this.toolStripSeparator1,
+            this.tsbOpenTelemetry,
+            this.toolStripSeparator2,
+            this.tsbSaveSetup,
+            this.toolStripSeparator3,
+            this.tsbStartEngine,
+            this.tsbStopEngine,
+            this.toolStripSeparator4,
+            this.tsbSettings,
+            this.toolStripSeparator5,
+            this.tsbLogView,
+            this.toolStripSeparator6,
+            this.tsbLapView,
+            this.toolStripSeparator7});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1006, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(992, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // tsbOpenSession
+            // 
+            this.tsbOpenSession.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbOpenSession.Image = global::TrackSession.Properties.Resources.Open_6529_24;
+            this.tsbOpenSession.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbOpenSession.Name = "tsbOpenSession";
+            this.tsbOpenSession.Size = new System.Drawing.Size(23, 22);
+            this.tsbOpenSession.Text = "toolStripButton1";
+            this.tsbOpenSession.ToolTipText = "Open Session";
+            this.tsbOpenSession.Click += new System.EventHandler(this.tsbOpenSession_Click);
+            // 
+            // tsbOpenRun
+            // 
+            this.tsbOpenRun.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbOpenRun.Image = global::TrackSession.Properties.Resources.OpenFileDialog_692_24;
+            this.tsbOpenRun.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbOpenRun.Name = "tsbOpenRun";
+            this.tsbOpenRun.Size = new System.Drawing.Size(23, 22);
+            this.tsbOpenRun.Text = "toolStripButton1";
+            this.tsbOpenRun.ToolTipText = "Open Run";
+            this.tsbOpenRun.Click += new System.EventHandler(this.tsbOpenRun_Click);
+            // 
+            // tsbOpenTireSheet
+            // 
+            this.tsbOpenTireSheet.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbOpenTireSheet.Image = global::TrackSession.Properties.Resources.Pump_tire_512;
+            this.tsbOpenTireSheet.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbOpenTireSheet.Name = "tsbOpenTireSheet";
+            this.tsbOpenTireSheet.Size = new System.Drawing.Size(23, 22);
+            this.tsbOpenTireSheet.Text = "toolStripButton1";
+            this.tsbOpenTireSheet.ToolTipText = "Open Tire Sheet (Setup Export)";
+            this.tsbOpenTireSheet.Click += new System.EventHandler(this.tsbOpenTireSheet_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbOpenTelemetry
+            // 
+            this.tsbOpenTelemetry.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbOpenTelemetry.Image = global::TrackSession.Properties.Resources.OpenComparisonResult_9697_24;
+            this.tsbOpenTelemetry.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbOpenTelemetry.Name = "tsbOpenTelemetry";
+            this.tsbOpenTelemetry.Size = new System.Drawing.Size(23, 22);
+            this.tsbOpenTelemetry.Text = "toolStripButton1";
+            this.tsbOpenTelemetry.ToolTipText = "Open Telemetry";
+            this.tsbOpenTelemetry.Click += new System.EventHandler(this.tsbOpenTelemetry_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbSaveSetup
+            // 
+            this.tsbSaveSetup.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSaveSetup.Image = global::TrackSession.Properties.Resources.Save;
+            this.tsbSaveSetup.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSaveSetup.Name = "tsbSaveSetup";
+            this.tsbSaveSetup.Size = new System.Drawing.Size(23, 22);
+            this.tsbSaveSetup.Text = "toolStripButton1";
+            this.tsbSaveSetup.ToolTipText = "Save Setup";
+            this.tsbSaveSetup.Click += new System.EventHandler(this.tsbSaveSetup_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbStartEngine
+            // 
+            this.tsbStartEngine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbStartEngine.Image = global::TrackSession.Properties.Resources.startwithoutdebugging_6556_24;
+            this.tsbStartEngine.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStartEngine.Name = "tsbStartEngine";
+            this.tsbStartEngine.Size = new System.Drawing.Size(23, 22);
+            this.tsbStartEngine.Text = "toolStripButton1";
+            this.tsbStartEngine.ToolTipText = "Start Monitor Engine";
+            this.tsbStartEngine.Click += new System.EventHandler(this.tsbStartEngine_Click);
+            // 
+            // tsbStopEngine
+            // 
+            this.tsbStopEngine.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbStopEngine.Enabled = false;
+            this.tsbStopEngine.Image = global::TrackSession.Properties.Resources.BreakpointEnabled_6584_16x;
+            this.tsbStopEngine.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbStopEngine.Name = "tsbStopEngine";
+            this.tsbStopEngine.Size = new System.Drawing.Size(23, 22);
+            this.tsbStopEngine.Text = "toolStripButton1";
+            this.tsbStopEngine.ToolTipText = "Stop Monitor Engine";
+            this.tsbStopEngine.Click += new System.EventHandler(this.tsbStopEngine_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbSettings
+            // 
+            this.tsbSettings.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbSettings.Image = global::TrackSession.Properties.Resources.gear_32xLG;
+            this.tsbSettings.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbSettings.Name = "tsbSettings";
+            this.tsbSettings.Size = new System.Drawing.Size(23, 22);
+            this.tsbSettings.Text = "toolStripButton1";
+            this.tsbSettings.Click += new System.EventHandler(this.tsbSettings_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbLogView
+            // 
+            this.tsbLogView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLogView.Image = global::TrackSession.Properties.Resources.RSReport_32xMD;
+            this.tsbLogView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLogView.Name = "tsbLogView";
+            this.tsbLogView.Size = new System.Drawing.Size(23, 22);
+            this.tsbLogView.Text = "toolStripButton1";
+            this.tsbLogView.ToolTipText = "Log File";
+            this.tsbLogView.Click += new System.EventHandler(this.tsbLogView_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 25);
+            // 
+            // tsbLapView
+            // 
+            this.tsbLapView.CheckOnClick = true;
+            this.tsbLapView.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsbLapView.Image = global::TrackSession.Properties.Resources.stopwatch_hi;
+            this.tsbLapView.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsbLapView.Name = "tsbLapView";
+            this.tsbLapView.Size = new System.Drawing.Size(23, 22);
+            this.tsbLapView.Text = "toolStripButton2";
+            this.tsbLapView.ToolTipText = "Laps";
+            this.tsbLapView.CheckedChanged += new System.EventHandler(this.tsbLapView_CheckedChanged);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 25);
             // 
             // statusStrip1
             // 
             this.statusStrip1.BackColor = System.Drawing.Color.White;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblSession});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 537);
+            this.lblSession,
+            this.toolStripStatusLabel1,
+            this.lblProcessStatus});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 486);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1006, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(992, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "No Active Session";
+            // 
+            // lblSession
+            // 
+            this.lblSession.Name = "lblSession";
+            this.lblSession.Size = new System.Drawing.Size(101, 17);
+            this.lblSession.Text = "No Active Session";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(826, 17);
+            this.toolStripStatusLabel1.Spring = true;
+            // 
+            // lblProcessStatus
+            // 
+            this.lblProcessStatus.AutoSize = false;
+            this.lblProcessStatus.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Right) 
+            | System.Windows.Forms.ToolStripStatusLabelBorderSides.Bottom)));
+            this.lblProcessStatus.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken;
+            this.lblProcessStatus.Name = "lblProcessStatus";
+            this.lblProcessStatus.Size = new System.Drawing.Size(50, 17);
             // 
             // pnlMessages
             // 
@@ -191,10 +488,10 @@
             this.pnlMessages.Controls.Add(this.txtMessages);
             this.pnlMessages.Controls.Add(this.label1);
             this.pnlMessages.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlMessages.Location = new System.Drawing.Point(0, 440);
+            this.pnlMessages.Location = new System.Drawing.Point(0, 389);
             this.pnlMessages.Name = "pnlMessages";
             this.pnlMessages.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlMessages.Size = new System.Drawing.Size(1006, 97);
+            this.pnlMessages.Size = new System.Drawing.Size(992, 97);
             this.pnlMessages.TabIndex = 3;
             // 
             // txtMessages
@@ -207,7 +504,7 @@
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ReadOnly = true;
             this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMessages.Size = new System.Drawing.Size(1002, 73);
+            this.txtMessages.Size = new System.Drawing.Size(988, 73);
             this.txtMessages.TabIndex = 0;
             // 
             // ctxMessages
@@ -263,7 +560,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(2, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1002, 20);
+            this.label1.Size = new System.Drawing.Size(988, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "Message Log";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -272,47 +569,62 @@
             // 
             this.splMessages.BackColor = System.Drawing.Color.Silver;
             this.splMessages.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.splMessages.Location = new System.Drawing.Point(0, 437);
+            this.splMessages.Location = new System.Drawing.Point(0, 386);
             this.splMessages.Name = "splMessages";
-            this.splMessages.Size = new System.Drawing.Size(1006, 3);
+            this.splMessages.Size = new System.Drawing.Size(992, 3);
             this.splMessages.TabIndex = 0;
             this.splMessages.TabStop = false;
             // 
             // splContMain
             // 
+            this.splContMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.splContMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splContMain.IsSplitterFixed = true;
             this.splContMain.Location = new System.Drawing.Point(0, 49);
             this.splContMain.Name = "splContMain";
             // 
             // splContMain.Panel1
             // 
             this.splContMain.Panel1.Controls.Add(this.pnlRunMenu);
-            this.splContMain.Panel1.Controls.Add(this.pnlRunPanelSpacer);
-            this.splContMain.Panel1.Controls.Add(this.pnlRunDetails);
             this.splContMain.Panel1.Padding = new System.Windows.Forms.Padding(2);
+            this.splContMain.Panel1MinSize = 147;
             // 
             // splContMain.Panel2
             // 
-            this.splContMain.Panel2.Controls.Add(this.trackRunResultsView1);
-            this.splContMain.Panel2.Padding = new System.Windows.Forms.Padding(4);
-            this.splContMain.Size = new System.Drawing.Size(1006, 388);
-            this.splContMain.SplitterDistance = 200;
+            this.splContMain.Panel2.Controls.Add(this.MainPanel);
+            this.splContMain.Size = new System.Drawing.Size(992, 337);
+            this.splContMain.SplitterDistance = 147;
             this.splContMain.TabIndex = 5;
             // 
             // pnlRunMenu
             // 
-            this.pnlRunMenu.BackColor = System.Drawing.Color.White;
-            this.pnlRunMenu.Controls.Add(this.lstRuns);
+            this.pnlRunMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pnlRunMenu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlRunMenu.Controls.Add(this.panel1);
             this.pnlRunMenu.Controls.Add(this.lblRuns);
             this.pnlRunMenu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRunMenu.ForeColor = System.Drawing.Color.Black;
             this.pnlRunMenu.Location = new System.Drawing.Point(2, 2);
+            this.pnlRunMenu.Margin = new System.Windows.Forms.Padding(0);
             this.pnlRunMenu.Name = "pnlRunMenu";
-            this.pnlRunMenu.Size = new System.Drawing.Size(196, 286);
+            this.pnlRunMenu.Padding = new System.Windows.Forms.Padding(4);
+            this.pnlRunMenu.Size = new System.Drawing.Size(143, 333);
             this.pnlRunMenu.TabIndex = 0;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.lstRuns);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(4, 31);
+            this.panel1.Margin = new System.Windows.Forms.Padding(0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(133, 296);
+            this.panel1.TabIndex = 4;
             // 
             // lstRuns
             // 
+            this.lstRuns.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lstRuns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstRuns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstRuns.FormattingEnabled = true;
@@ -321,147 +633,145 @@
             "1   - 10 Laps",
             "2   -  5 Laps",
             "3   - 12 Laps"});
-            this.lstRuns.Location = new System.Drawing.Point(0, 20);
+            this.lstRuns.Location = new System.Drawing.Point(0, 0);
             this.lstRuns.Name = "lstRuns";
-            this.lstRuns.Size = new System.Drawing.Size(196, 266);
+            this.lstRuns.Size = new System.Drawing.Size(133, 296);
             this.lstRuns.TabIndex = 3;
             this.lstRuns.SelectedIndexChanged += new System.EventHandler(this.lstRuns_SelectedIndexChanged);
             // 
             // lblRuns
             // 
-            this.lblRuns.BackColor = System.Drawing.Color.DimGray;
+            this.lblRuns.BackColor = System.Drawing.Color.Gray;
             this.lblRuns.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblRuns.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblRuns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRuns.ForeColor = System.Drawing.Color.White;
-            this.lblRuns.Location = new System.Drawing.Point(0, 0);
+            this.lblRuns.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.lblRuns.Location = new System.Drawing.Point(4, 4);
+            this.lblRuns.Margin = new System.Windows.Forms.Padding(0);
             this.lblRuns.Name = "lblRuns";
-            this.lblRuns.Size = new System.Drawing.Size(196, 20);
+            this.lblRuns.Size = new System.Drawing.Size(133, 27);
             this.lblRuns.TabIndex = 2;
             this.lblRuns.Text = "Runs";
             this.lblRuns.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pnlRunPanelSpacer
+            // MainPanel
             // 
-            this.pnlRunPanelSpacer.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlRunPanelSpacer.Location = new System.Drawing.Point(2, 288);
-            this.pnlRunPanelSpacer.Name = "pnlRunPanelSpacer";
-            this.pnlRunPanelSpacer.Size = new System.Drawing.Size(196, 2);
-            this.pnlRunPanelSpacer.TabIndex = 2;
+            this.MainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MainPanel.Controls.Add(this.splLaps);
+            this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainPanel.Location = new System.Drawing.Point(0, 0);
+            this.MainPanel.Name = "MainPanel";
+            this.MainPanel.Size = new System.Drawing.Size(841, 337);
+            this.MainPanel.TabIndex = 1;
             // 
-            // pnlRunDetails
+            // splLaps
             // 
-            this.pnlRunDetails.BackColor = System.Drawing.Color.White;
-            this.pnlRunDetails.Controls.Add(this.lblRunLapCount);
-            this.pnlRunDetails.Controls.Add(this.lblAverageLap);
-            this.pnlRunDetails.Controls.Add(this.lblBestLap);
-            this.pnlRunDetails.Controls.Add(this.label5);
-            this.pnlRunDetails.Controls.Add(this.label4);
-            this.pnlRunDetails.Controls.Add(this.lblRunNumber);
-            this.pnlRunDetails.Controls.Add(this.lblRunDetails);
-            this.pnlRunDetails.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlRunDetails.Location = new System.Drawing.Point(2, 290);
-            this.pnlRunDetails.Name = "pnlRunDetails";
-            this.pnlRunDetails.Size = new System.Drawing.Size(196, 96);
-            this.pnlRunDetails.TabIndex = 1;
+            this.splLaps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splLaps.IsSplitterFixed = true;
+            this.splLaps.Location = new System.Drawing.Point(0, 0);
+            this.splLaps.Name = "splLaps";
             // 
-            // lblRunLapCount
+            // splLaps.Panel1
             // 
-            this.lblRunLapCount.AutoSize = true;
-            this.lblRunLapCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRunLapCount.Location = new System.Drawing.Point(63, 23);
-            this.lblRunLapCount.Name = "lblRunLapCount";
-            this.lblRunLapCount.Size = new System.Drawing.Size(62, 16);
-            this.lblRunLapCount.TabIndex = 9;
-            this.lblRunLapCount.Text = "### Laps";
+            this.splLaps.Panel1.Controls.Add(this.lapsView1);
+            this.splLaps.Panel1.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
+            this.splLaps.Panel1MinSize = 205;
             // 
-            // lblAverageLap
+            // splLaps.Panel2
             // 
-            this.lblAverageLap.AutoSize = true;
-            this.lblAverageLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAverageLap.Location = new System.Drawing.Point(63, 70);
-            this.lblAverageLap.Name = "lblAverageLap";
-            this.lblAverageLap.Size = new System.Drawing.Size(49, 16);
-            this.lblAverageLap.TabIndex = 8;
-            this.lblAverageLap.Text = "0.00:00";
+            this.splLaps.Panel2.Controls.Add(this.tcMain);
+            this.splLaps.Size = new System.Drawing.Size(841, 337);
+            this.splLaps.SplitterDistance = 205;
+            this.splLaps.TabIndex = 1;
             // 
-            // lblBestLap
+            // lapsView1
             // 
-            this.lblBestLap.AutoSize = true;
-            this.lblBestLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBestLap.Location = new System.Drawing.Point(63, 47);
-            this.lblBestLap.Name = "lblBestLap";
-            this.lblBestLap.Size = new System.Drawing.Size(49, 16);
-            this.lblBestLap.TabIndex = 7;
-            this.lblBestLap.Text = "0.00:00";
+            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lapsView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
+            this.lapsView1.Location = new System.Drawing.Point(0, 2);
+            this.lapsView1.Margin = new System.Windows.Forms.Padding(4);
+            this.lapsView1.Name = "lapsView1";
+            this.lapsView1.Padding = new System.Windows.Forms.Padding(5);
+            this.lapsView1.Size = new System.Drawing.Size(205, 335);
+            this.lapsView1.TabIndex = 0;
             // 
-            // label5
+            // tcMain
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 70);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(39, 16);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Avg:";
+            this.tcMain.Controls.Add(this.tabTireSheet);
+            this.tcMain.Controls.Add(this.tabSetup);
+            this.tcMain.Controls.Add(this.tabTelemetry);
+            this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tcMain.Location = new System.Drawing.Point(0, 0);
+            this.tcMain.Name = "tcMain";
+            this.tcMain.SelectedIndex = 0;
+            this.tcMain.Size = new System.Drawing.Size(632, 337);
+            this.tcMain.TabIndex = 1;
             // 
-            // label4
+            // tabTireSheet
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(10, 47);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(43, 16);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "Best:";
+            this.tabTireSheet.Controls.Add(this.tireSheetView);
+            this.tabTireSheet.Location = new System.Drawing.Point(4, 22);
+            this.tabTireSheet.Name = "tabTireSheet";
+            this.tabTireSheet.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTireSheet.Size = new System.Drawing.Size(624, 311);
+            this.tabTireSheet.TabIndex = 0;
+            this.tabTireSheet.Text = "Tire Sheet";
+            this.tabTireSheet.UseVisualStyleBackColor = true;
             // 
-            // lblRunNumber
+            // tireSheetView
             // 
-            this.lblRunNumber.AutoSize = true;
-            this.lblRunNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRunNumber.Location = new System.Drawing.Point(10, 23);
-            this.lblRunNumber.Name = "lblRunNumber";
-            this.lblRunNumber.Size = new System.Drawing.Size(47, 16);
-            this.lblRunNumber.TabIndex = 3;
-            this.lblRunNumber.Text = "Run #";
+            this.tireSheetView.BackColor = System.Drawing.Color.LightGray;
+            this.tireSheetView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tireSheetView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tireSheetView.Location = new System.Drawing.Point(3, 3);
+            this.tireSheetView.Margin = new System.Windows.Forms.Padding(4);
+            this.tireSheetView.Name = "tireSheetView";
+            this.tireSheetView.Size = new System.Drawing.Size(618, 305);
+            this.tireSheetView.TabIndex = 0;
             // 
-            // lblRunDetails
+            // tabSetup
             // 
-            this.lblRunDetails.BackColor = System.Drawing.Color.DimGray;
-            this.lblRunDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblRunDetails.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblRunDetails.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRunDetails.ForeColor = System.Drawing.Color.White;
-            this.lblRunDetails.Location = new System.Drawing.Point(0, 0);
-            this.lblRunDetails.Margin = new System.Windows.Forms.Padding(3);
-            this.lblRunDetails.Name = "lblRunDetails";
-            this.lblRunDetails.Padding = new System.Windows.Forms.Padding(2);
-            this.lblRunDetails.Size = new System.Drawing.Size(196, 20);
-            this.lblRunDetails.TabIndex = 2;
-            this.lblRunDetails.Text = "Run Details";
-            this.lblRunDetails.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tabSetup.Controls.Add(this.setupView1);
+            this.tabSetup.Location = new System.Drawing.Point(4, 22);
+            this.tabSetup.Name = "tabSetup";
+            this.tabSetup.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSetup.Size = new System.Drawing.Size(624, 311);
+            this.tabSetup.TabIndex = 1;
+            this.tabSetup.Text = "Setup";
+            this.tabSetup.UseVisualStyleBackColor = true;
             // 
-            // lblSession
+            // setupView1
             // 
-            this.lblSession.Name = "lblSession";
-            this.lblSession.Size = new System.Drawing.Size(101, 17);
-            this.lblSession.Text = "No Active Session";
+            this.setupView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.setupView1.Location = new System.Drawing.Point(3, 3);
+            this.setupView1.Name = "setupView1";
+            this.setupView1.Size = new System.Drawing.Size(618, 305);
+            this.setupView1.TabIndex = 0;
             // 
-            // trackRunResultsView1
+            // tabTelemetry
             // 
-            this.trackRunResultsView1.BackColor = System.Drawing.Color.Silver;
-            this.trackRunResultsView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.trackRunResultsView1.Location = new System.Drawing.Point(4, 4);
-            this.trackRunResultsView1.Name = "trackRunResultsView1";
-            this.trackRunResultsView1.Size = new System.Drawing.Size(794, 380);
-            this.trackRunResultsView1.TabIndex = 0;
+            this.tabTelemetry.Location = new System.Drawing.Point(4, 22);
+            this.tabTelemetry.Name = "tabTelemetry";
+            this.tabTelemetry.Size = new System.Drawing.Size(624, 311);
+            this.tabTelemetry.TabIndex = 2;
+            this.tabTelemetry.Text = "Telemetry";
+            this.tabTelemetry.UseVisualStyleBackColor = true;
+            // 
+            // compareSetupsToolStripMenuItem
+            // 
+            this.compareSetupsToolStripMenuItem.Name = "compareSetupsToolStripMenuItem";
+            this.compareSetupsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.compareSetupsToolStripMenuItem.Text = "Compare Setups";
+            this.compareSetupsToolStripMenuItem.Click += new System.EventHandler(this.compareSetupsToolStripMenuItem_Click);
             // 
             // TrackSessionManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1006, 559);
+            this.ClientSize = new System.Drawing.Size(992, 508);
             this.Controls.Add(this.splContMain);
             this.Controls.Add(this.splMessages);
             this.Controls.Add(this.pnlMessages);
@@ -474,6 +784,8 @@
             this.Load += new System.EventHandler(this.TrackSessionManager_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.pnlMessages.ResumeLayout(false);
@@ -484,8 +796,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.splContMain)).EndInit();
             this.splContMain.ResumeLayout(false);
             this.pnlRunMenu.ResumeLayout(false);
-            this.pnlRunDetails.ResumeLayout(false);
-            this.pnlRunDetails.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.MainPanel.ResumeLayout(false);
+            this.splLaps.Panel1.ResumeLayout(false);
+            this.splLaps.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splLaps)).EndInit();
+            this.splLaps.ResumeLayout(false);
+            this.tcMain.ResumeLayout(false);
+            this.tabTireSheet.ResumeLayout(false);
+            this.tabSetup.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -513,24 +832,52 @@
         private System.Windows.Forms.ToolStripMenuItem hideToolStripMenuItem;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.SplitContainer splContMain;
-        private System.Windows.Forms.Panel pnlRunDetails;
-        private System.Windows.Forms.Label lblRunDetails;
         private System.Windows.Forms.Panel pnlRunMenu;
         private System.Windows.Forms.Label lblRuns;
-        private System.Windows.Forms.Panel pnlRunPanelSpacer;
-        private System.Windows.Forms.Label lblRunLapCount;
-        private System.Windows.Forms.Label lblAverageLap;
-        private System.Windows.Forms.Label lblBestLap;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label lblRunNumber;
         private System.Windows.Forms.ListBox lstRuns;
         private System.Windows.Forms.ToolStripMenuItem openSessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openRunToolStripMenuItem;
-        private Views.TrackRunResultsView trackRunResultsView1;
         private System.Windows.Forms.ToolStripMenuItem openTelemetryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
         private System.Windows.Forms.ToolStripStatusLabel lblSession;
+        private System.Windows.Forms.ToolStripStatusLabel lblProcessStatus;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveSetupToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripButton tsbOpenSession;
+        private System.Windows.Forms.ToolStripButton tsbOpenRun;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripButton tsbOpenTelemetry;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripButton tsbSaveSetup;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton tsbStartEngine;
+        private System.Windows.Forms.ToolStripButton tsbStopEngine;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
+        private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openMessageLogToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripButton tsbSettings;
+        private System.Windows.Forms.Panel MainPanel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripButton tsbLogView;
+        private System.Windows.Forms.ToolStripButton tsbLapView;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.SplitContainer splLaps;
+        private Views.LapsView lapsView1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem openTireSheetToolStripMenuItem;
+        private Views.TireSheetView2 tireSheetView;
+        private System.Windows.Forms.TabControl tcMain;
+        private System.Windows.Forms.TabPage tabTireSheet;
+        private System.Windows.Forms.TabPage tabSetup;
+        private System.Windows.Forms.TabPage tabTelemetry;
+        private System.Windows.Forms.ToolStripButton tsbOpenTireSheet;
+        private Controls.SetupView setupView1;
+        private System.Windows.Forms.ToolStripMenuItem compareSetupsToolStripMenuItem;
     }
 }
 

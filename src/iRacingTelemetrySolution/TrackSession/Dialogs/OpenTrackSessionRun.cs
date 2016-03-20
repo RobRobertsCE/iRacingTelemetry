@@ -9,7 +9,7 @@ namespace TrackSession.Dialogs
     public partial class OpenTrackSessionRun : Form
     {
         #region fields
-        private iRacingDbContext _context;
+        private TrackSessionData _data;
         #endregion
 
         #region properties
@@ -32,9 +32,9 @@ namespace TrackSession.Dialogs
         {
             try
             {
-                _context = new iRacingDbContext();
-                LoadVehicles(_context, CarId);
-                LoadTracks(_context, TrackId);
+                _data = new TrackSessionData();
+                LoadVehicles(_data, CarId);
+                LoadTracks(_data, TrackId);
                 LoadSessionRunList();
             }
             catch (Exception ex)
@@ -46,9 +46,9 @@ namespace TrackSession.Dialogs
         #endregion
 
         #region private 
-        private void LoadVehicles(iRacingDbContext context, int selectedValue)
+        private void LoadVehicles(TrackSessionData data, int selectedValue)
         {
-            var vehicles = context.Vehicles.Select(v => new { v.VehicleNumber, v.DisplayName }).ToList();
+            var vehicles = data.GetVehicles().Select(v => new { v.VehicleNumber, v.DisplayName }).ToList();
             vehicles.Insert(0, new { VehicleNumber = 0, DisplayName = "All" });
             cboVehicles.DisplayMember = "DisplayName";
             cboVehicles.ValueMember = "VehicleNumber";
@@ -62,9 +62,9 @@ namespace TrackSession.Dialogs
             LoadSessionRunList();
         }
 
-        private void LoadTracks(iRacingDbContext context, int selectedValue)
+        private void LoadTracks(TrackSessionData data, int selectedValue)
         {
-            var tracks = context.Tracks.Select(v => new { v.TrackNumber, v.Name }).ToList();
+            var tracks = data.GetTracks().Select(v => new { v.TrackNumber, v.Name }).ToList();
             tracks.Insert(0, new { TrackNumber = 0, Name = "All" });
             cboTracks.DisplayMember = "Name";
             cboTracks.ValueMember = "TrackNumber";
@@ -83,24 +83,20 @@ namespace TrackSession.Dialogs
             try
             {
                 lvSessions.Items.Clear();
-                var sessions = _context.Sessions.Include("Vehicle").Include("Track").Include("Runs").Where(s => (CarId == 0 || CarId == s.VehicleNumber) && (TrackId == 0 || TrackId == s.TrackNumber)).ToList();
-
+                var sessions = _data.GetTrackSessions(CarId, TrackId);
                 foreach (var session in sessions)
                 {
                     foreach (var run in session.Runs)
                     {
-                        //if (run.LapCount > 0)
-                        //{
-                            var lvi = new ListViewItem(session.Timestamp.ToString("f"));
-                            lvi.SubItems.Add(run.LapCount.ToString());
-                            lvi.SubItems.Add(session.Vehicle.DisplayName);
-                            lvi.SubItems.Add(session.Track.Name);
-                            lvi.SubItems.Add(session.TrackTemp);
-                            lvi.SubItems.Add(session.AirTemp);
-                            lvi.SubItems.Add(session.Skies);
-                            lvi.SubItems.Add(run.TrackSessionRunId.ToString());
-                            lvSessions.Items.Add(lvi);
-                        //}
+                        var lvi = new ListViewItem(session.Timestamp.ToString("f"));
+                        lvi.SubItems.Add(run.LapCount.ToString());
+                        lvi.SubItems.Add(session.Vehicle.DisplayName);
+                        lvi.SubItems.Add(session.Track.Name);
+                        lvi.SubItems.Add(session.TrackTemp);
+                        lvi.SubItems.Add(session.AirTemp);
+                        lvi.SubItems.Add(session.Skies);
+                        lvi.SubItems.Add(run.TrackSessionRunId.ToString());
+                        lvSessions.Items.Add(lvi);
                     }
                 }
             }

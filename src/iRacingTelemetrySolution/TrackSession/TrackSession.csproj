@@ -45,6 +45,10 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -64,6 +68,24 @@
     </Compile>
     <Compile Include="Controls\LapsView.Designer.cs">
       <DependentUpon>LapsView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LogFileView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\LogFileView.Designer.cs">
+      <DependentUpon>LogFileView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupView.Designer.cs">
+      <DependentUpon>SetupView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\TireSheetView2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\TireSheetView2.Designer.cs">
+      <DependentUpon>TireSheetView2.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TireSheetView.cs">
       <SubType>UserControl</SubType>
@@ -95,6 +117,12 @@
     <Compile Include="Dialogs\TelemetryDialog.Designer.cs">
       <DependentUpon>TelemetryDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\TrackSessionSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\TrackSessionSettingsDialog.Designer.cs">
+      <DependentUpon>TrackSessionSettingsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="TrackSessionManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,9 +131,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\ITrackSessionRunDisplay.cs" />
+    <Compile Include="Controls\ITrackSessionRunDisplay.cs" />
+    <Compile Include="TrackSessionSettings.cs" />
+    <Compile Include="Views\LapTimesView.cs" />
+    <Compile Include="Views\TrackSessionRunView.cs" />
+    <Compile Include="Views\TrackSessionView.cs" />
     <EmbeddedResource Include="Controls\LapsView.resx">
       <DependentUpon>LapsView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\LogFileView.resx">
+      <DependentUpon>LogFileView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupView.resx">
+      <DependentUpon>SetupView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TireSheetView2.resx">
+      <DependentUpon>TireSheetView2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TireSheetView.resx">
       <DependentUpon>TireSheetView.cs</DependentUpon>
@@ -122,6 +163,9 @@
     <EmbeddedResource Include="Dialogs\TelemetryDialog.resx">
       <DependentUpon>TelemetryDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\TrackSessionSettingsDialog.resx">
+      <DependentUpon>TrackSessionSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TrackSessionManagerForm.resx">
       <DependentUpon>TrackSessionManagerForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,8 +177,10 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\iRacing.SetupLibrary.ModifiedSetup.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -165,10 +211,98 @@
       <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
       <Name>iRacing.SetupLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\iRacing.TrackSession.Data\iRacing.TrackSession.Data.csproj">
+      <Project>{95bb4c56-8733-401d-965c-4767e5555369}</Project>
+      <Name>iRacing.TrackSession.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestSessionLibrary\iRacing.TrackSession.csproj">
       <Project>{5942ffaf-92d8-442a-be17-d92ff1353816}</Project>
       <Name>iRacing.TrackSession</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save_6530_32.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open_6296_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Open_6529_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenAttachment_13115_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenComparisonResult_9697_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenFileDialog_692_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\startwithoutdebugging_6556_32.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\startwithoutdebugging_6556_24.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BreakpointEnabled_6584_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gear_32xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RSReport_32xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\graph_highPerformanceComputingChart_5170_32xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\asset_dockPanel_24x24_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GlobalApplicationClass%28asax%29_443_32x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Property_501.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ThinkTimenode_8848.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\clock_time_eshop_stopwatch_ecommerce.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pump-tire-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\racing-car-with-side-skirts_318-43803.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stopwatch_digital.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\stopwatch-hi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\telemetry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Wrench-Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StatusAnnotations_Critical_32xLG_color.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Remove_16xSM.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Symbols_Critical_16xLG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application_16xMD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Close_16xLG.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

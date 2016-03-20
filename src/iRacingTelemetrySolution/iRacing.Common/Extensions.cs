@@ -12,11 +12,22 @@ namespace iRacing.Common
             return list.Where(l => l.Value > 0 && l.Key > 0).Select(l => l.Value).ToList();
         }
 
+        /// <summary>
+        /// Returns laps where lap number > 0 and lap time > 0 and lap time < average lap * 1.25
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static IDictionary<int, Single> ValidLaps(this IDictionary<int, Single> list)
         {
-            return list.Where(l => l.Value > 0 && l.Key > 0)
+            if (list.Count == 0) return new Dictionary<int, float>();
+
+            var cutoff = (list.Values.Average() * 1.25);
+
+            var listBuffer = list.Where(l => l.Value > 0 && l.Key > 0)
                 .Select(l => new { l.Key, l.Value })
                 .ToDictionary(l => l.Key, l => l.Value);
+
+            return listBuffer.Where(l => l.Value < cutoff).ToDictionary(l => l.Key, l => l.Value);
         }
         public static double Average(this IDictionary<int, Single> list)
         {

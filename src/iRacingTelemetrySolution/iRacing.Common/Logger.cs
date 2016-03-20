@@ -22,5 +22,11 @@ namespace iRacing
                 return filename;
             }
         }
+
+        public static void LogTest(string message)
+        {
+            var mylog = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            mylog.Debug(message);
+        }
     }
 }

@@ -1,8 +1,8 @@
-﻿namespace iRacing.TrackSession
+﻿namespace iRacing.TrackSession.Engine
 {
     public enum EngineStatus
     {
-        Initializing,
+        Off,
         WaitingForApp,
         AppRunning,
         RunInProgress,

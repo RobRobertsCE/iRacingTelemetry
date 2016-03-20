@@ -5,7 +5,7 @@ using System.Management;
 
 namespace iRacing.TrackSession.Monitors
 {
-    internal class EngineProcessMonitor : IDisposable
+    internal class EngineProcessMonitor
     {
         #region Events
         public event EventHandler ProcessStarted;
@@ -94,7 +94,9 @@ namespace iRacing.TrackSession.Monitors
         protected virtual void StopMonitor()
         {
             if (!IsMonitoring) return;
-            DisposeWatchers();
+            startWatch.Stop();
+            startWatch.Dispose();
+            startWatch = null;
             WriteLog("ProcessMonitor Stopped");
         }
 
@@ -141,33 +143,6 @@ namespace iRacing.TrackSession.Monitors
         {
             Logger.Log.Error(ex);
         }
-        #endregion
-
-        #region IDisposable
-        public void Dispose()
-        {
-            DisposeWatchers();
-        }
-        private void DisposeWatchers()
-        {
-            try
-            {
-                if (null != startWatch)
-                {
-                    startWatch.Stop();
-                    startWatch.Dispose();
-                }
-                if (null != stopWatch)
-                {
-                    stopWatch.Stop();
-                    stopWatch.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                WriteErrorLog(ex);
-            }
-        }
-        #endregion
+        #endregion        
     }
 }

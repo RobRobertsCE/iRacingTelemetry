@@ -6,9 +6,9 @@ namespace iRacing.TelemetryParser
 {
     public static class TelemetryLapsParser
     {
-        public static IList<TelemetryLap> ParseLaps(TelemetryFile telemetryData)
+        public static TelemetryLapList ParseLaps(TelemetryFile telemetryData)
         {
-            IList<TelemetryLap> telemetryLaps = new List<TelemetryLap>();
+            var telemetryLaps = new TelemetryLapList();
             TelemetryLap currentLap = new TelemetryLap();
             int currentLapIdx = -1;
             foreach (var frame in telemetryData.Frames.OrderBy(f => f.FrameIndex))

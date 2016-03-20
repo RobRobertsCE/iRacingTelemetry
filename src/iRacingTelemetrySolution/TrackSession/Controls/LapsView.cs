@@ -39,7 +39,7 @@ namespace TrackSession.Views
             int bestLapIdx = -1;
             foreach (var lap in laps)
             {
-                lvLaps.Items.Add(new ListViewItem(new string[] { lapNumber.ToString(), lap.ToString() }));
+                lvLaps.Items.Add(new ListViewItem(new string[] { lapNumber.ToString(), lap.ToString("0.###") }));
                 if (lap < bestLap)
                 {
                     bestLapIdx = lapNumber;
@@ -51,8 +51,8 @@ namespace TrackSession.Views
             {
                 var bestLapItem = lvLaps.Items[bestLapIdx];
                 bestLapItem.BackColor = Color.LimeGreen;
-                txtBestLapAll.Text = String.Format("[{0}]: {1}", bestLapIdx+1, bestLap);
-                txtAverageLapAll.Text = laps.Average().ToString();       
+                txtBestLapAll.Text = String.Format("[{0}] {1:0.###}", bestLapIdx+1, bestLap);
+                txtAverageLapAll.Text = laps.Average().ToString("0.###");       
             }
         }
     }

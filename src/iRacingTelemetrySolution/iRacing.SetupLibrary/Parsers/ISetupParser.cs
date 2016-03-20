@@ -2,7 +2,7 @@
 
 namespace iRacing.SetupLibrary.Parsers
 {
-    public interface ISetupParser : IDisposable
+    public interface ISetupParser
     {
         ICarSetup GetSetup(Vehicles vehicle, string setupData);
     }

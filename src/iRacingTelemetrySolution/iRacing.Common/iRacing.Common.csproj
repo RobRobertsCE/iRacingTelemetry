@@ -61,6 +61,7 @@
     <Compile Include="Conversions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="LoggingBase.cs" />
     <Compile Include="Tracks.cs" />
     <Compile Include="Vehicles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using iRacing.TrackSession.Data.Models;
+using iRacing.TelemetryAnalysis.Laps;
 
 namespace iRacing.TrackSession.Views
 {
@@ -15,6 +16,8 @@ namespace iRacing.TrackSession.Views
         public int RunNumber { get; set; }
         public TireSheet TireSheet { get; set; }
         public LapTimesView Laps { get; set; }
+        public LapTimeAnalysis LapTimeAnalysis { get; set; }
+
         public string Caption
         {
             get

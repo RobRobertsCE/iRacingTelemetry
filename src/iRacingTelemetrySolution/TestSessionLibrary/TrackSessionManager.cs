@@ -1,6 +1,5 @@
 ﻿using iRacing.TelemetryParser;
 using iRacing.TelemetryParser.Session;
-using iRacing;
 using iRacing.SetupLibrary.Parsers;
 using iRacing.SetupLibrary.Tires;
 using System;
@@ -11,16 +10,19 @@ using System.IO;
 using System.Linq;
 using iRacing.TrackSession.Data;
 using iRacing.TrackSession.Data.Models;
-using iRacing.TrackSession.Views;
+using iRacing.TrackSession.Engine;
+using iRacing.TelemetryAnalysis.Laps;
+using Newtonsoft.Json;
 
 namespace iRacing.TrackSession
 {
-    public class TrackSessionManager : IDisposable
+    public class TrackSessionManager : LoggingBase
     {
         #region events
         public event EventHandler<NewTireSheetArgs> NewTireSheet;
         protected virtual void OnNewTireSheet(TireSheet newTireSheet, Guid? trackSessionRunId)
         {
+            if (!_enableEvents) return;
             EventHandler<NewTireSheetArgs> handler = NewTireSheet;
             if (handler != null)
             {
@@ -31,24 +33,26 @@ namespace iRacing.TrackSession
         }
 
         public event EventHandler<TrackSessionStartedArgs> TrackSessionStarted;
-        protected virtual void OnTrackSessionStarted(TrackSessionView view)
+        protected virtual void OnTrackSessionStarted(Guid sessionId)
         {
+            if (!_enableEvents) return;
             EventHandler<TrackSessionStartedArgs> handler = TrackSessionStarted;
             if (handler != null)
             {
-                var e = new TrackSessionStartedArgs(view);
+                var e = new TrackSessionStartedArgs(sessionId);
                 handler(this, e);
                 WriteLog("OnTrackSessionStarted");
             }
         }
 
         public event EventHandler<TrackSessionRunCompleteArgs> SessionRunComplete;
-        protected virtual void OnSessionRunComplete(TrackSessionRunView run)
+        protected virtual void OnSessionRunComplete(Guid runId)
         {
+            if (!_enableEvents) return;
             EventHandler<TrackSessionRunCompleteArgs> handler = SessionRunComplete;
             if (handler != null)
             {
-                var e = new TrackSessionRunCompleteArgs(run);
+                var e = new TrackSessionRunCompleteArgs(runId);
                 handler(this, e);
                 WriteLog("OnSessionRunComplete");
             }
@@ -57,6 +61,7 @@ namespace iRacing.TrackSession
         public event EventHandler<EngineExceptionArgs> EngineException;
         protected virtual void OnEngineException(Exception ex)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineExceptionArgs> handler = EngineException;
             if (handler != null)
             {
@@ -67,6 +72,7 @@ namespace iRacing.TrackSession
         }
         protected virtual void OnEngineException(EngineExceptionArgs e)
         {
+            if (!_enableEvents) return;
             EventHandler<EngineExceptionArgs> handler = EngineException;
             if (handler != null)
             {
@@ -77,6 +83,7 @@ namespace iRacing.TrackSession
         public event EventHandler<ManagerStatusChangedArgs> ManagerStatusChanged;
         protected virtual void OnManagerStatusChanged(ManagerStatus oldStatus, ManagerStatus newStatus)
         {
+            if (!_enableEvents) return;
             EventHandler<ManagerStatusChangedArgs> handler = ManagerStatusChanged;
 
             if (handler != null)
@@ -89,13 +96,11 @@ namespace iRacing.TrackSession
         #endregion
 
         #region fields
-        private TrackSessionEngine _engine;
+        bool _enableEvents = false;
+        TrackSessionEngine _engine;
         #endregion
 
         #region properties
-        public bool EnableLogging { get; set; }
-        public bool EnableTestMode { get; set; }
-
         private TrackSessionModel _session;
         public TrackSessionModel Session
         {
@@ -109,18 +114,27 @@ namespace iRacing.TrackSession
             }
         }
 
-        public TrackSessionRunView CurrentRun { get; set; }
+        private TrackSessionData _trackSessionData;
+        public TrackSessionData TrackSessionData
+        {
+            get
+            {
+                if (null == _trackSessionData)
+                {
+                    _trackSessionData = new TrackSessionData();
+                }
+                return _trackSessionData;
+            }
+        }
 
-        private EngineStatus _engineStatus;
         public EngineStatus EngineStatus
         {
             get
             {
-                return _engineStatus;
+                return _engine.Status;
             }
         }
-
-        private ManagerStatus _managerStatus;
+        private ManagerStatus _managerStatus = ManagerStatus.Initializing;
         public ManagerStatus ManagerStatus
         {
             get
@@ -141,21 +155,17 @@ namespace iRacing.TrackSession
         { }
         public TrackSessionManager(bool loggingOn) : this(loggingOn, false)
         { }
-        public TrackSessionManager(bool loggingOn, bool useTestMode)
+        public TrackSessionManager(bool loggingOn, bool useTestMode) : base(loggingOn)
         {
-            EnableLogging = loggingOn;
-            EnableTestMode = useTestMode;
             InitializeEngine();
-            SetManagerStatus(ManagerStatus.Idle);
         }
         protected virtual void InitializeEngine()
         {
-            _engine = new TrackSessionEngine(EnableLogging, EnableTestMode);
+            _engine = new TrackSessionEngine(EnableLogging);
             _engine.EngineException += _engine_EngineException;
             _engine.EngineStatusChanged += _engine_EngineStatusChanged;
             _engine.TelemetryFileClosed += _engine_TelemetryFileClosed;
             _engine.SetupFileExported += _engine_SetupFileExported;
-            _engine.Start();
         }
         #endregion
 
@@ -170,10 +180,9 @@ namespace iRacing.TrackSession
         }
         private void _engine_EngineStatusChanged(object sender, EngineStatusChangedArgs e)
         {
-            _engineStatus = e.NewStatus;
-            switch (_engineStatus)
+            switch (e.NewStatus)
             {
-                case EngineStatus.Initializing:
+                case EngineStatus.Off:
                     {
                         SetManagerStatus(ManagerStatus.Off);
                         break;
@@ -206,7 +215,17 @@ namespace iRacing.TrackSession
         }
         #endregion
 
-        #region public      
+        #region public 
+        public void Start()
+        {
+            _enableEvents = true;
+            _engine.Start();
+        }
+        public void Stop()
+        {
+            _enableEvents = false;
+            _engine.Stop();
+        }
         #region archive
         private int _count;
         private int _maxCount;
@@ -300,7 +319,12 @@ namespace iRacing.TrackSession
         {
             ManagerStatus = newStatus;
         }
+        protected virtual void CloseTestSession()
+        {
+            Session = null;
+        }
 
+        //*** Tire Sheet ***//
         protected virtual void GetTireSheet(string htmlSetupExportFile)
         {
             var htmlParser = new HtmlExportParser();
@@ -323,7 +347,7 @@ namespace iRacing.TrackSession
                         lastRun.TireSheetJson = tireSheet.ToJson();
                         using (var data = new TrackSessionData())
                         {
-                            data.SaveTrackSessionRun(lastRun);
+                            data.SetTrackSessionRunTireSheet(runId.Value, lastRun.TireSheetJson);
                             Session = data.GetTrackSession(Session.TrackSessionId);
                         }
                     }
@@ -340,59 +364,55 @@ namespace iRacing.TrackSession
             }
         }
 
+        //*** Track Session Run ***//
         protected virtual void RunEnded(string telemetryFile)
         {
             try
             {
-                using (var data = new TrackSessionData())
+                // get the telemetry file
+                var telemetry = GetTelemetryModel(telemetryFile);
+
+                // parse the telemetry file
+                var telemetryParser = new ParserEngine();
+                var info = telemetryParser.ParseTelemetrySessionInfo(telemetry.TelemetryDiskFile, telemetry.BinaryData);
+
+                // get the session run details
+                var season = TrackSessionData.GetSeason(telemetry.Timestamp);
+                var sessionType = TrackSessionData.GetSessionType(info.SessionInfo.Sessions[0].SessionType);
+                var vehicle = TrackSessionData.GetVehicle(Convert.ToInt32(info.DriverInfo.CurrentDriver().CarID),
+                    info.DriverInfo.CurrentDriver().CarScreenNameShort,
+                    info.DriverInfo.CurrentDriver().CarPath,
+                    info.DriverInfo.CurrentDriver().CarScreenName);
+                var track = TrackSessionData.GetTrack(Convert.ToInt32(info.WeekendInfo.TrackID),
+                    info.WeekendInfo.TrackDisplayName,
+                    Convert.ToDouble(info.WeekendInfo.TrackLength.Substring(0, info.WeekendInfo.TrackLength.Length - 3)));
+
+                // get the setup model
+                var setup = GetSetupModel(info);
+
+                // prep the session
+                if ((null != Session) && (Session.TrackNumber != track.TrackNumber ||
+                    Session.VehicleNumber != vehicle.VehicleNumber ||
+                    Session.SessionTypeId != sessionType.SessionTypeId))
                 {
-                    // get the telemetry file
-                    var telemetry = GetTelemetryModel(telemetryFile);
-
-                    // parse the telemetry file
-                    var telemetryParser = new ParserEngine();
-
-                    var info = telemetryParser.ParseTelemetrySessionInfo(telemetry.TelemetryDiskFile, telemetry.BinaryData);
-
-                    // get the session run details
-                    var season = data.GetSeason(telemetry.Timestamp);
-                    var sessionType = data.GetSessionType(info.SessionInfo.Sessions[0].SessionType);
-                    var vehicle = data.GetVehicle(Convert.ToInt32(info.DriverInfo.CurrentDriver().CarID),
-                        info.DriverInfo.CurrentDriver().CarScreenNameShort,
-                        info.DriverInfo.CurrentDriver().CarPath,
-                        info.DriverInfo.CurrentDriver().CarScreenName);
-                    var track = data.GetTrack(Convert.ToInt32(info.WeekendInfo.TrackID),
-                        info.WeekendInfo.TrackName,
-                        Convert.ToDouble(info.WeekendInfo.TrackLength.Substring(0, info.WeekendInfo.TrackLength.Length - 3)));
-
-                    // get the setup model
-                    var setup = GetSetupModel(info);
-
-                    // prep the session
-                    if ((null != Session) && (Session.TrackNumber != track.TrackNumber ||
-                        Session.VehicleNumber != vehicle.VehicleNumber ||
-                        Session.SessionTypeId != sessionType.SessionTypeId))
-                    {
-                        CloseTestSession();
-                    }
-
-                    if (null == Session)
-                    {
-                        Session = GetTrackSessionModel(season, vehicle, track, sessionType, info);
-                        data.SaveTrackSession(Session);
-                        OnTrackSessionStarted(new TrackSessionView(Session));
-                    }
-
-                    // get the run model.
-                    var run = GetTrackSessionRunModel(Session, setup, telemetry);
-                    Session.Runs.Add(run);
-                    data.SaveTrackSessionRun(run);
-
-                    Session = data.GetTrackSession(Session.TrackSessionId);
-
-                    CurrentRun = new TrackSessionRunView(run);
-                    OnSessionRunComplete(CurrentRun);
+                    // Session has changed.
+                    CloseTestSession();
                 }
+
+                if (null == Session)
+                {
+                    Session = GetTrackSessionModel(season, vehicle, track, sessionType, info);
+                    Session = TrackSessionData.SaveTrackSession(Session);
+                    OnTrackSessionStarted(Session.TrackSessionId);
+                }
+
+                // get the run model.
+                var run = GetTrackSessionRunModel(Session, setup, telemetry);
+                Session.Runs.Add(run);
+                TrackSessionData.SaveTrackSessionRun(run);
+                // update the session.
+                Session = TrackSessionData.GetTrackSession(Session.TrackSessionId);
+                OnSessionRunComplete(run.TrackSessionRunId);
             }
             catch (Exception ex)
             {
@@ -404,11 +424,7 @@ namespace iRacing.TrackSession
             }
         }
 
-        protected virtual void CloseTestSession()
-        {
-            Session = null;
-        }
-
+        //*** Models ***//
         private TelemetryModel GetTelemetryModel(string fullPath)
         {
             var model = new TelemetryModel();
@@ -440,16 +456,39 @@ namespace iRacing.TrackSession
 
         private TrackSessionRunModel GetTrackSessionRunModel(TrackSessionModel session, SetupModel setup, TelemetryModel telemetry)
         {
+            var analysis = GetTrackSessionRunLaps(telemetry);
+            var laps = analysis.RawLaps;
             var model = new TrackSessionRunModel()
             {
                 TrackSessionId = session.TrackSessionId,
                 Setup = setup,
                 Telemetry = telemetry,
-                RunNumber = session.Runs.Count + 1
+                RunNumber = session.Runs.Count + 1,
+                LapsJson = LapsToJson(laps),
+                LapCount = laps.Count()
             };
             return model;
         }
-
+        private LapTimeAnalysis GetTrackSessionRunLaps(TelemetryModel telemetryModel)
+        {
+            var tFile = TelemetryFileParser.ParseTelemetryBinaryData(telemetryModel.TelemetryDiskFile, telemetryModel.BinaryData);
+            var tLaps =  TelemetryLapsParser.ParseLaps(tFile);
+            var analysis = new LapTimeAnalysis(tLaps);
+            return analysis;
+        }
+        protected virtual string LapsToJson(IDictionary<int, float> laps)
+        {
+            JsonSerializer jsonSerializer = new JsonSerializer() { Formatting = Formatting.Indented };
+            using (var jsonStreamWriter = new StringWriter())
+            {
+                jsonSerializer.Serialize(jsonStreamWriter, laps);
+                return jsonStreamWriter.ToString();
+            }
+        }
+        protected virtual IDictionary<int, float> JsonToLaps(string lapsJson)
+        {
+            return JsonConvert.DeserializeObject<Dictionary<int, float>>(lapsJson);
+        }
         private SetupModel GetSetupModel(ITelemetrySessionInfo info)
         {
             var model = new SetupModel()
@@ -461,55 +500,12 @@ namespace iRacing.TrackSession
             };
             return model;
         }
-
         protected virtual byte[] GetSetupBinary(string carPath)
         {
             var setupDirectory = Path.Combine(iRacing.Constants.iRacingSetupDirectory, carPath);
             var setupFilePath = Path.Combine(setupDirectory, iRacing.Constants.iRacingDefaultSetupFile);
             return File.ReadAllBytes(setupFilePath);
         }
-        #endregion
-
-        #region common
-        protected virtual void ExceptionHandler(Exception ex)
-        {
-            WriteErrorLog(ex);
-        }
-
-        protected virtual void WriteLog(string format, params object[] args)
-        {
-            WriteLog(String.Format(format, args));
-        }
-        protected virtual void WriteLog(string message)
-        {
-            if (EnableLogging)
-            {
-                Logger.Log.Info(message);
-            }
-        }
-        protected virtual void WriteErrorLog(Exception ex)
-        {
-            Logger.Log.Error(ex);
-        }
         #endregion        
-
-        #region IDisposable
-        public void Dispose()
-        {
-            DisposeEngine();
-        }
-        protected virtual void DisposeEngine()
-        {
-            if (null != _engine)
-            {
-                _engine.EngineException -= _engine_EngineException;
-                _engine.EngineStatusChanged -= _engine_EngineStatusChanged;
-                _engine.TelemetryFileClosed -= _engine_TelemetryFileClosed;
-                _engine.SetupFileExported -= _engine_SetupFileExported;
-
-                _engine = null;
-            }
-        }
-        #endregion
     }
 }

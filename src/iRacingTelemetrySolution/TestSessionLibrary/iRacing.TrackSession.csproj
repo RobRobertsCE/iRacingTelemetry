@@ -58,20 +58,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="Data\TrackSessionData.cs" />
     <Compile Include="Monitors\EngineProcessMonitor.cs" />
-    <Compile Include="Data\iRacingDbContext.cs" />
-    <Compile Include="Data\Models\SeasonModel.cs" />
-    <Compile Include="Data\Models\SessionTypeModel.cs" />
-    <Compile Include="Data\Models\SetupModel.cs" />
-    <Compile Include="Data\Models\TelemetryModel.cs" />
-    <Compile Include="Data\Models\TrackSessionModel.cs" />
-    <Compile Include="Data\Models\TrackSessionRunModel.cs" />
-    <Compile Include="Data\Models\VehicleModel.cs" />
-    <Compile Include="Data\Models\TrackModel.cs" />
-    <Compile Include="EngineFileType.cs" />
-    <Compile Include="EngineStatus.cs" />
+    <Compile Include="Engine\EngineFileType.cs" />
+    <Compile Include="Engine\EngineStatus.cs" />
     <Compile Include="EventArgs\EngineExceptionArgs.cs" />
     <Compile Include="EventArgs\EngineFileCreatedArgs.cs" />
     <Compile Include="EventArgs\EngineStatusChangedArgs.cs" />
@@ -83,11 +72,8 @@
     <Compile Include="ManagerStatus.cs" />
     <Compile Include="EventArgs\NewTireSheetArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TrackSessionEngine.cs" />
+    <Compile Include="Engine\TrackSessionEngine.cs" />
     <Compile Include="TrackSessionManager.cs" />
-    <Compile Include="Views\LapTimesView.cs" />
-    <Compile Include="Views\TrackSessionRunView.cs" />
-    <Compile Include="Views\TrackSessionView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -110,7 +96,12 @@
       <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
       <Name>iRacing.SetupLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\iRacing.TrackSession.Data\iRacing.TrackSession.Data.csproj">
+      <Project>{95bb4c56-8733-401d-965c-4767e5555369}</Project>
+      <Name>iRacing.TrackSession.Data</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

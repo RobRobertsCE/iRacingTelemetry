@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using iRacing.TrackSession.Data;
+using System;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using iRacing.TrackSession.Data;
 
 namespace TrackSession.Dialogs
 {
     public partial class OpenTrackSession : Form
     {
         #region fields
-        private iRacingDbContext _context;
+        private TrackSessionData _data;
         #endregion
 
         #region properties
@@ -37,9 +32,9 @@ namespace TrackSession.Dialogs
         {
             try
             {
-                _context = new iRacingDbContext();
-                LoadVehicles(_context, CarId);
-                LoadTracks(_context, TrackId);
+                _data = new TrackSessionData();
+                LoadVehicles(_data, CarId);
+                LoadTracks(_data, TrackId);
                 LoadSessionList();
             }
             catch (Exception ex)
@@ -51,9 +46,9 @@ namespace TrackSession.Dialogs
         #endregion
 
         #region private 
-        private void LoadVehicles(iRacingDbContext context, int selectedValue)
+        private void LoadVehicles(TrackSessionData data, int selectedValue)
         {
-            var vehicles = context.Vehicles.Select(v => new { v.VehicleNumber, v.DisplayName }).ToList();
+            var vehicles = data.GetVehicles().Select(v => new { v.VehicleNumber, v.DisplayName }).ToList();
             vehicles.Insert(0, new { VehicleNumber = 0, DisplayName = "All" });
             cboVehicles.DisplayMember = "DisplayName";
             cboVehicles.ValueMember = "VehicleNumber";
@@ -67,9 +62,9 @@ namespace TrackSession.Dialogs
             LoadSessionList();
         }
 
-        private void LoadTracks(iRacingDbContext context, int selectedValue)
+        private void LoadTracks(TrackSessionData data, int selectedValue)
         {
-            var tracks = context.Tracks.Select(v => new { v.TrackNumber, v.Name }).ToList();
+            var tracks = data.GetTracks().Select(v => new { v.TrackNumber, v.Name }).ToList();
             tracks.Insert(0, new { TrackNumber = 0, Name = "All" });
             cboTracks.DisplayMember = "Name";
             cboTracks.ValueMember = "TrackNumber";
@@ -88,8 +83,7 @@ namespace TrackSession.Dialogs
             try
             {
                 lvSessions.Items.Clear();
-                var sessions = _context.Sessions.Include("Vehicle").Include("Track").Include("Runs").Where(s => (CarId == 0 || CarId == s.VehicleNumber) && (TrackId == 0 || TrackId == s.TrackNumber) && s.Runs.Count > 0).ToList();
-
+                var sessions = _data.GetTrackSessions(CarId, TrackId);
                 foreach (var session in sessions)
                 {
                     var lvi = new ListViewItem(session.Timestamp.ToString("f"));

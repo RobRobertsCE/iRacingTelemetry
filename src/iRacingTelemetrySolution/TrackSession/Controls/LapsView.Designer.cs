@@ -50,11 +50,11 @@
             this.lvLaps.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvLaps.GridLines = true;
             this.lvLaps.HideSelection = false;
-            this.lvLaps.Location = new System.Drawing.Point(0, 92);
-            this.lvLaps.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lvLaps.Location = new System.Drawing.Point(0, 84);
+            this.lvLaps.Margin = new System.Windows.Forms.Padding(4);
             this.lvLaps.MultiSelect = false;
             this.lvLaps.Name = "lvLaps";
-            this.lvLaps.Size = new System.Drawing.Size(261, 451);
+            this.lvLaps.Size = new System.Drawing.Size(189, 459);
             this.lvLaps.TabIndex = 0;
             this.lvLaps.UseCompatibleStateImageBehavior = false;
             this.lvLaps.View = System.Windows.Forms.View.Details;
@@ -70,28 +70,26 @@
             // 
             // txtAverageLapAll
             // 
-            this.txtAverageLapAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtAverageLapAll.Location = new System.Drawing.Point(152, 25);
-            this.txtAverageLapAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtAverageLapAll.Location = new System.Drawing.Point(103, 25);
+            this.txtAverageLapAll.Margin = new System.Windows.Forms.Padding(4);
             this.txtAverageLapAll.Name = "txtAverageLapAll";
             this.txtAverageLapAll.ReadOnly = true;
-            this.txtAverageLapAll.Size = new System.Drawing.Size(100, 22);
+            this.txtAverageLapAll.Size = new System.Drawing.Size(75, 22);
             this.txtAverageLapAll.TabIndex = 9;
             // 
             // txtBestLapAll
             // 
             this.txtBestLapAll.Location = new System.Drawing.Point(8, 25);
-            this.txtBestLapAll.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtBestLapAll.Margin = new System.Windows.Forms.Padding(4);
             this.txtBestLapAll.Name = "txtBestLapAll";
             this.txtBestLapAll.ReadOnly = true;
-            this.txtBestLapAll.Size = new System.Drawing.Size(100, 22);
+            this.txtBestLapAll.Size = new System.Drawing.Size(75, 22);
             this.txtBestLapAll.TabIndex = 8;
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(148, 5);
+            this.label3.Location = new System.Drawing.Point(99, 5);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 16);
@@ -116,35 +114,36 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(5, 5);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(263, 545);
+            this.panel1.Size = new System.Drawing.Size(191, 545);
             this.panel1.TabIndex = 10;
             // 
             // panel2
             // 
+            this.panel2.BackColor = System.Drawing.Color.Gainsboro;
             this.panel2.Controls.Add(this.txtBestLapAll);
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.txtAverageLapAll);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 27);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(261, 65);
+            this.panel2.Size = new System.Drawing.Size(189, 57);
             this.panel2.TabIndex = 10;
             // 
             // label1
             // 
-            this.label1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.label1.BackColor = System.Drawing.Color.Gray;
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label1.Dock = System.Windows.Forms.DockStyle.Top;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(261, 27);
+            this.label1.Size = new System.Drawing.Size(189, 27);
             this.label1.TabIndex = 0;
             this.label1.Text = "Laps";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -155,10 +154,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LapsView";
-            this.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.Size = new System.Drawing.Size(273, 555);
+            this.Padding = new System.Windows.Forms.Padding(5);
+            this.Size = new System.Drawing.Size(201, 555);
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();

@@ -1,5 +1,4 @@
-﻿using iRacing.SetupLibrary.Tires;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
