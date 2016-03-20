@@ -88,14 +88,14 @@
             this.lblRuns = new System.Windows.Forms.Label();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.splLaps = new System.Windows.Forms.SplitContainer();
-            this.lapsView1 = new TrackSession.Views.LapsView();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabTireSheet = new System.Windows.Forms.TabPage();
-            this.tireSheetView = new TrackSession.Views.TireSheetView2();
             this.tabSetup = new System.Windows.Forms.TabPage();
-            this.setupView1 = new TrackSession.Controls.SetupView();
             this.tabTelemetry = new System.Windows.Forms.TabPage();
             this.compareSetupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lapsView1 = new TrackSession.Views.LapsView();
+            this.tireSheetView = new TrackSession.Views.TireSheetView2();
+            this.setupView1 = new TrackSession.Controls.SetupView();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -625,14 +625,11 @@
             // lstRuns
             // 
             this.lstRuns.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstRuns.DisplayMember = "Caption";
             this.lstRuns.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstRuns.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lstRuns.FormattingEnabled = true;
             this.lstRuns.ItemHeight = 16;
-            this.lstRuns.Items.AddRange(new object[] {
-            "1   - 10 Laps",
-            "2   -  5 Laps",
-            "3   - 12 Laps"});
             this.lstRuns.Location = new System.Drawing.Point(0, 0);
             this.lstRuns.Name = "lstRuns";
             this.lstRuns.Size = new System.Drawing.Size(133, 296);
@@ -684,19 +681,6 @@
             this.splLaps.SplitterDistance = 205;
             this.splLaps.TabIndex = 1;
             // 
-            // lapsView1
-            // 
-            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lapsView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
-            this.lapsView1.Location = new System.Drawing.Point(0, 2);
-            this.lapsView1.Margin = new System.Windows.Forms.Padding(4);
-            this.lapsView1.Name = "lapsView1";
-            this.lapsView1.Padding = new System.Windows.Forms.Padding(5);
-            this.lapsView1.Size = new System.Drawing.Size(205, 335);
-            this.lapsView1.TabIndex = 0;
-            // 
             // tcMain
             // 
             this.tcMain.Controls.Add(this.tabTireSheet);
@@ -720,17 +704,6 @@
             this.tabTireSheet.Text = "Tire Sheet";
             this.tabTireSheet.UseVisualStyleBackColor = true;
             // 
-            // tireSheetView
-            // 
-            this.tireSheetView.BackColor = System.Drawing.Color.LightGray;
-            this.tireSheetView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tireSheetView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tireSheetView.Location = new System.Drawing.Point(3, 3);
-            this.tireSheetView.Margin = new System.Windows.Forms.Padding(4);
-            this.tireSheetView.Name = "tireSheetView";
-            this.tireSheetView.Size = new System.Drawing.Size(618, 305);
-            this.tireSheetView.TabIndex = 0;
-            // 
             // tabSetup
             // 
             this.tabSetup.Controls.Add(this.setupView1);
@@ -741,14 +714,6 @@
             this.tabSetup.TabIndex = 1;
             this.tabSetup.Text = "Setup";
             this.tabSetup.UseVisualStyleBackColor = true;
-            // 
-            // setupView1
-            // 
-            this.setupView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.setupView1.Location = new System.Drawing.Point(3, 3);
-            this.setupView1.Name = "setupView1";
-            this.setupView1.Size = new System.Drawing.Size(618, 305);
-            this.setupView1.TabIndex = 0;
             // 
             // tabTelemetry
             // 
@@ -765,6 +730,38 @@
             this.compareSetupsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
             this.compareSetupsToolStripMenuItem.Text = "Compare Setups";
             this.compareSetupsToolStripMenuItem.Click += new System.EventHandler(this.compareSetupsToolStripMenuItem_Click);
+            // 
+            // lapsView1
+            // 
+            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lapsView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
+            this.lapsView1.Location = new System.Drawing.Point(0, 2);
+            this.lapsView1.Margin = new System.Windows.Forms.Padding(4);
+            this.lapsView1.Name = "lapsView1";
+            this.lapsView1.Padding = new System.Windows.Forms.Padding(5);
+            this.lapsView1.Size = new System.Drawing.Size(205, 335);
+            this.lapsView1.TabIndex = 0;
+            // 
+            // tireSheetView
+            // 
+            this.tireSheetView.BackColor = System.Drawing.Color.LightGray;
+            this.tireSheetView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tireSheetView.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tireSheetView.Location = new System.Drawing.Point(3, 3);
+            this.tireSheetView.Margin = new System.Windows.Forms.Padding(4);
+            this.tireSheetView.Name = "tireSheetView";
+            this.tireSheetView.Size = new System.Drawing.Size(618, 305);
+            this.tireSheetView.TabIndex = 0;
+            // 
+            // setupView1
+            // 
+            this.setupView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.setupView1.Location = new System.Drawing.Point(3, 3);
+            this.setupView1.Name = "setupView1";
+            this.setupView1.Size = new System.Drawing.Size(618, 305);
+            this.setupView1.TabIndex = 0;
             // 
             // TrackSessionManagerForm
             // 

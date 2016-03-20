@@ -35,7 +35,6 @@ namespace TrackSession
         private static readonly ILog Log = LogManager.GetLogger(typeof(TrackSessionManagerForm));
         protected Size _messageDisplaySize;
         protected TrackSessionManager _manager;
-        protected IList<ITrackSessionRunDisplay> Displays { get; set; }
         protected TrackSessionRunView _currentRun;
         #endregion
 
@@ -84,9 +83,7 @@ namespace TrackSession
                 _manager.EngineException += _manager_EngineException;
                 _manager.SessionRunComplete += _manager_SessionRunComplete;
                 _manager.NewTireSheet += _manager_NewTireSheet;
-                _manager.TrackSessionStarted += _manager_TrackSessionStarted;
-
-                Displays = new List<ITrackSessionRunDisplay>();
+                _manager.TrackSessionStarted += _manager_TrackSessionStarted;                
                 lstRuns.DisplayMember = "Caption";
             }
             catch (Exception ex)
@@ -391,7 +388,7 @@ namespace TrackSession
                         var item2 = group2[item1.Key];
                         if (item1.Value != item2)
                         {
-                            var change = String.Format("{0}: {1} -> {2}", item1.Key, item1.Value, item2);
+                            var change = String.Format("{0}.{1}: {2} -> {3}",group1.Key,  item1.Key, item1.Value, item2);
                             changes.Add(change);
                         }
                     }
@@ -687,7 +684,6 @@ namespace TrackSession
                 Console.WriteLine(ex.ToString());
             }
         }
-
         protected virtual string LapsToJson(IDictionary<int, float> laps)
         {
             JsonSerializer jsonSerializer = new JsonSerializer() { Formatting = Formatting.Indented };

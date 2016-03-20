@@ -24,24 +24,27 @@ namespace TrackSession.Controls
                 var valueDictionary = new Dictionary<string, string>();
 
                 var setupTypeInstance = GetPropertyValue(src, setupTypePath);
-                PropertyInfo[] propertyInfos;
-                var setupType = setupTypeInstance.GetType();
-                propertyInfos = setupType.GetProperties();
-                // sort properties by name
-                Array.Sort(propertyInfos,
-                        delegate (PropertyInfo propertyInfo1, PropertyInfo propertyInfo2)
-                        { return propertyInfo1.Name.CompareTo(propertyInfo2.Name); });
-
-                // write property names
-                foreach (PropertyInfo propertyInfo in propertyInfos)
+                if (null != setupTypeInstance)
                 {
-                    var value = propertyInfo.GetValue(setupTypeInstance);
-                    //Console.WriteLine("TypeName:{0};  Property:{1};  Value:{2}", setupType.Name, propertyInfo.Name, value);
-                    valueDictionary.Add(propertyInfo.Name, value.ToString());
-                }
+                    PropertyInfo[] propertyInfos;
+                    var setupType = setupTypeInstance.GetType();
+                    propertyInfos = setupType.GetProperties();
+                    // sort properties by name
+                    Array.Sort(propertyInfos,
+                            delegate (PropertyInfo propertyInfo1, PropertyInfo propertyInfo2)
+                            { return propertyInfo1.Name.CompareTo(propertyInfo2.Name); });
 
-                if (valueDictionary.Count > 0)
-                    setupVals.SetupGroups.Add(setupTypePath, valueDictionary);
+                    // write property names
+                    foreach (PropertyInfo propertyInfo in propertyInfos)
+                    {
+                        var value = propertyInfo.GetValue(setupTypeInstance);
+                        //Console.WriteLine("TypeName:{0};  Property:{1};  Value:{2}", setupType.Name, propertyInfo.Name, value);
+                        valueDictionary.Add(propertyInfo.Name, value.ToString());
+                    }
+
+                    if (valueDictionary.Count > 0)
+                        setupVals.SetupGroups.Add(setupTypePath, valueDictionary);
+                }
             }
             return setupVals;
         }
