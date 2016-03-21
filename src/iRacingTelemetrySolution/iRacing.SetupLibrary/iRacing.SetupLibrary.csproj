@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AClassSetup.cs" />
-    <Compile Include="Comparer\SetupComparer.cs" />
+    <Compile Include="Comparer\SetupValueParser.cs" />
     <Compile Include="ICarSetup.cs" />
     <Compile Include="KNSetup.cs" />
     <Compile Include="LegendsSetup.cs" />

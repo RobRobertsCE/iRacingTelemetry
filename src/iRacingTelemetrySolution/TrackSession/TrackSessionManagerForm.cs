@@ -83,7 +83,7 @@ namespace TrackSession
                 _manager.EngineException += _manager_EngineException;
                 _manager.SessionRunComplete += _manager_SessionRunComplete;
                 _manager.NewTireSheet += _manager_NewTireSheet;
-                _manager.TrackSessionStarted += _manager_TrackSessionStarted;                
+                _manager.TrackSessionStarted += _manager_TrackSessionStarted;
                 lstRuns.DisplayMember = "Caption";
             }
             catch (Exception ex)
@@ -344,14 +344,14 @@ namespace TrackSession
         {
             CompareSetups();
         }
-        protected virtual SetupViewBase.SetupValues GetSetupValues(string setupJson)
+        protected virtual SetupValueParser.SetupValues GetSetupValues(string setupJson)
         {
             var sessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(setupJson);
 
             if (sessionInfo is ModifiedTelemetrySessionInfo)
             {
                 var modSetup = ((ModifiedTelemetrySessionInfo)sessionInfo).CarSetup;
-                return SetupViewBase.GetProperties(modSetup);
+                return SetupValueParser.GetProperties(modSetup);
             }
 
             return null;
@@ -378,8 +378,8 @@ namespace TrackSession
             var changes = new List<string>();
             try
             {
-                SetupViewBase.SetupValues sv1 = GetSetupValues(setupModel1.SetupJSON);
-                SetupViewBase.SetupValues sv2 = GetSetupValues(setupModel2.SetupJSON);
+                SetupValueParser.SetupValues sv1 = GetSetupValues(setupModel1.SetupJSON);
+                SetupValueParser.SetupValues sv2 = GetSetupValues(setupModel2.SetupJSON);
                 foreach (var group1 in sv1.SetupGroups)
                 {
                     var group2 = sv2.SetupGroups[group1.Key];
@@ -388,7 +388,7 @@ namespace TrackSession
                         var item2 = group2[item1.Key];
                         if (item1.Value != item2)
                         {
-                            var change = String.Format("{0}.{1}: {2} -> {3}",group1.Key,  item1.Key, item1.Value, item2);
+                            var change = String.Format("{0}.{1}: {2} -> {3}", group1.Key, item1.Key, item1.Value, item2);
                             changes.Add(change);
                         }
                     }
@@ -497,7 +497,6 @@ namespace TrackSession
         protected virtual void DisplayRun(TrackSessionRunView run)
         {
             _currentRun = run;
-            // this.lblRunNumber.Text = String.Format("Run {0}", run.RunNumber);
 
             var analysis = GetLapTimesAnalysis(run);
             lapsView1.LapTimes = analysis.Laps.LapTimesOnly();
@@ -506,32 +505,11 @@ namespace TrackSession
             {
                 var setupModel = data.GetSetup(run.SetupId);
                 var sessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(setupModel.SetupJSON);
-                //var parser = new JsonSetupParser();
-                //var vehicle = data.GetVehicle(CurrentSession.CarID);
-                //var setup = parser.GetSetup((Vehicles)CurrentSession.CarID, sessionInfo.SetupJSON);
-                setupView1.modifiedSetupBindingSource.DataSource = ((ModifiedTelemetrySessionInfo)sessionInfo).CarSetup;
+                var setup = ((ModifiedTelemetrySessionInfo)sessionInfo).CarSetup;
+                setupView1.modifiedSetupBindingSource.DataSource = setup;
+                
+                setupGroupView1.SetupValues = GetSetupValues(setupModel.SetupJSON);                
             }
-
-            //if (analysis.Laps.Count > 0)
-            //{
-            //    this.lblRunLapCount.Text = String.Format("{0} Laps", analysis.Laps.Count);
-            //    if (analysis.Laps.Count() > 0)
-            //    {
-            //        this.lblBestLap.Text = analysis.Best.ToString("0.###");
-            //        this.lblAverageLap.Text = analysis.Average.ToString("0.###");
-            //    }
-            //    else
-            //    {
-            //        this.lblBestLap.Text = "-";
-            //        this.lblAverageLap.Text = "-";
-            //    }
-            //}
-            //else
-            //{
-            //    this.lblRunLapCount.Text = "-";
-            //    this.lblBestLap.Text = "-";
-            //    this.lblAverageLap.Text = "-";
-            //}      
         }
         #endregion
 
@@ -628,8 +606,8 @@ namespace TrackSession
         }
         private void Test()
         {
-            SetupViewBase.SetupValues sv1 = null;
-            SetupViewBase.SetupValues sv2 = null;
+            SetupValueParser.SetupValues sv1 = null;
+            SetupValueParser.SetupValues sv2 = null;
 
             try
             {
@@ -646,7 +624,7 @@ namespace TrackSession
                     if (sessionInfo1 is ModifiedTelemetrySessionInfo)
                     {
                         var modSetup1 = ((ModifiedTelemetrySessionInfo)sessionInfo1).CarSetup;
-                        sv1 = SetupViewBase.GetProperties(modSetup1);
+                        sv1 = SetupValueParser.GetProperties(modSetup1);
                     }
 
                     var run2 = modRuns.LastOrDefault();
@@ -656,7 +634,7 @@ namespace TrackSession
                     if (sessionInfo2 is ModifiedTelemetrySessionInfo)
                     {
                         var modSetup2 = ((ModifiedTelemetrySessionInfo)sessionInfo2).CarSetup;
-                        sv2 = SetupViewBase.GetProperties(modSetup2);
+                        sv2 = SetupValueParser.GetProperties(modSetup2);
                     }
 
                     // compare the two setups

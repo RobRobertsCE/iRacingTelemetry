@@ -49,6 +49,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openMessageLogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.compareSetupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tsbOpenSession = new System.Windows.Forms.ToolStripButton();
             this.tsbOpenRun = new System.Windows.Forms.ToolStripButton();
@@ -88,14 +89,15 @@
             this.lblRuns = new System.Windows.Forms.Label();
             this.MainPanel = new System.Windows.Forms.Panel();
             this.splLaps = new System.Windows.Forms.SplitContainer();
+            this.lapsView1 = new TrackSession.Views.LapsView();
             this.tcMain = new System.Windows.Forms.TabControl();
             this.tabTireSheet = new System.Windows.Forms.TabPage();
-            this.tabSetup = new System.Windows.Forms.TabPage();
-            this.tabTelemetry = new System.Windows.Forms.TabPage();
-            this.compareSetupsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lapsView1 = new TrackSession.Views.LapsView();
             this.tireSheetView = new TrackSession.Views.TireSheetView2();
+            this.tabSetup = new System.Windows.Forms.TabPage();
             this.setupView1 = new TrackSession.Controls.SetupView();
+            this.tabTelemetry = new System.Windows.Forms.TabPage();
+            this.tabSetupView = new System.Windows.Forms.TabPage();
+            this.setupGroupView1 = new TrackSession.Controls.SetupView2();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -115,6 +117,7 @@
             this.tcMain.SuspendLayout();
             this.tabTireSheet.SuspendLayout();
             this.tabSetup.SuspendLayout();
+            this.tabSetupView.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -126,7 +129,7 @@
             this.toolsToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(992, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1089, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -275,6 +278,13 @@
             this.settingsToolStripMenuItem.Text = "Settings";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.settingsToolStripMenuItem_Click);
             // 
+            // compareSetupsToolStripMenuItem
+            // 
+            this.compareSetupsToolStripMenuItem.Name = "compareSetupsToolStripMenuItem";
+            this.compareSetupsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
+            this.compareSetupsToolStripMenuItem.Text = "Compare Setups";
+            this.compareSetupsToolStripMenuItem.Click += new System.EventHandler(this.compareSetupsToolStripMenuItem_Click);
+            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -297,7 +307,7 @@
             this.toolStripSeparator7});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(992, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1089, 25);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -456,7 +466,7 @@
             this.lblProcessStatus});
             this.statusStrip1.Location = new System.Drawing.Point(0, 486);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(992, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1089, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "No Active Session";
             // 
@@ -469,7 +479,7 @@
             // toolStripStatusLabel1
             // 
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(826, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(923, 17);
             this.toolStripStatusLabel1.Spring = true;
             // 
             // lblProcessStatus
@@ -491,7 +501,7 @@
             this.pnlMessages.Location = new System.Drawing.Point(0, 389);
             this.pnlMessages.Name = "pnlMessages";
             this.pnlMessages.Padding = new System.Windows.Forms.Padding(2);
-            this.pnlMessages.Size = new System.Drawing.Size(992, 97);
+            this.pnlMessages.Size = new System.Drawing.Size(1089, 97);
             this.pnlMessages.TabIndex = 3;
             // 
             // txtMessages
@@ -504,7 +514,7 @@
             this.txtMessages.Name = "txtMessages";
             this.txtMessages.ReadOnly = true;
             this.txtMessages.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtMessages.Size = new System.Drawing.Size(988, 73);
+            this.txtMessages.Size = new System.Drawing.Size(1085, 73);
             this.txtMessages.TabIndex = 0;
             // 
             // ctxMessages
@@ -560,7 +570,7 @@
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(2, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(988, 20);
+            this.label1.Size = new System.Drawing.Size(1085, 20);
             this.label1.TabIndex = 1;
             this.label1.Text = "Message Log";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -571,7 +581,7 @@
             this.splMessages.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.splMessages.Location = new System.Drawing.Point(0, 386);
             this.splMessages.Name = "splMessages";
-            this.splMessages.Size = new System.Drawing.Size(992, 3);
+            this.splMessages.Size = new System.Drawing.Size(1089, 3);
             this.splMessages.TabIndex = 0;
             this.splMessages.TabStop = false;
             // 
@@ -592,8 +602,8 @@
             // splContMain.Panel2
             // 
             this.splContMain.Panel2.Controls.Add(this.MainPanel);
-            this.splContMain.Size = new System.Drawing.Size(992, 337);
-            this.splContMain.SplitterDistance = 147;
+            this.splContMain.Size = new System.Drawing.Size(1089, 337);
+            this.splContMain.SplitterDistance = 161;
             this.splContMain.TabIndex = 5;
             // 
             // pnlRunMenu
@@ -608,7 +618,7 @@
             this.pnlRunMenu.Margin = new System.Windows.Forms.Padding(0);
             this.pnlRunMenu.Name = "pnlRunMenu";
             this.pnlRunMenu.Padding = new System.Windows.Forms.Padding(4);
-            this.pnlRunMenu.Size = new System.Drawing.Size(143, 333);
+            this.pnlRunMenu.Size = new System.Drawing.Size(157, 333);
             this.pnlRunMenu.TabIndex = 0;
             // 
             // panel1
@@ -619,7 +629,7 @@
             this.panel1.Location = new System.Drawing.Point(4, 31);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(133, 296);
+            this.panel1.Size = new System.Drawing.Size(147, 296);
             this.panel1.TabIndex = 4;
             // 
             // lstRuns
@@ -632,7 +642,7 @@
             this.lstRuns.ItemHeight = 16;
             this.lstRuns.Location = new System.Drawing.Point(0, 0);
             this.lstRuns.Name = "lstRuns";
-            this.lstRuns.Size = new System.Drawing.Size(133, 296);
+            this.lstRuns.Size = new System.Drawing.Size(147, 296);
             this.lstRuns.TabIndex = 3;
             this.lstRuns.SelectedIndexChanged += new System.EventHandler(this.lstRuns_SelectedIndexChanged);
             // 
@@ -646,7 +656,7 @@
             this.lblRuns.Location = new System.Drawing.Point(4, 4);
             this.lblRuns.Margin = new System.Windows.Forms.Padding(0);
             this.lblRuns.Name = "lblRuns";
-            this.lblRuns.Size = new System.Drawing.Size(133, 27);
+            this.lblRuns.Size = new System.Drawing.Size(147, 27);
             this.lblRuns.TabIndex = 2;
             this.lblRuns.Text = "Runs";
             this.lblRuns.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -658,7 +668,7 @@
             this.MainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.MainPanel.Location = new System.Drawing.Point(0, 0);
             this.MainPanel.Name = "MainPanel";
-            this.MainPanel.Size = new System.Drawing.Size(841, 337);
+            this.MainPanel.Size = new System.Drawing.Size(924, 337);
             this.MainPanel.TabIndex = 1;
             // 
             // splLaps
@@ -677,20 +687,34 @@
             // splLaps.Panel2
             // 
             this.splLaps.Panel2.Controls.Add(this.tcMain);
-            this.splLaps.Size = new System.Drawing.Size(841, 337);
-            this.splLaps.SplitterDistance = 205;
+            this.splLaps.Size = new System.Drawing.Size(924, 337);
+            this.splLaps.SplitterDistance = 225;
             this.splLaps.TabIndex = 1;
+            // 
+            // lapsView1
+            // 
+            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lapsView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
+            this.lapsView1.Location = new System.Drawing.Point(0, 2);
+            this.lapsView1.Margin = new System.Windows.Forms.Padding(4);
+            this.lapsView1.Name = "lapsView1";
+            this.lapsView1.Padding = new System.Windows.Forms.Padding(5);
+            this.lapsView1.Size = new System.Drawing.Size(225, 335);
+            this.lapsView1.TabIndex = 0;
             // 
             // tcMain
             // 
             this.tcMain.Controls.Add(this.tabTireSheet);
             this.tcMain.Controls.Add(this.tabSetup);
             this.tcMain.Controls.Add(this.tabTelemetry);
+            this.tcMain.Controls.Add(this.tabSetupView);
             this.tcMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tcMain.Location = new System.Drawing.Point(0, 0);
             this.tcMain.Name = "tcMain";
             this.tcMain.SelectedIndex = 0;
-            this.tcMain.Size = new System.Drawing.Size(632, 337);
+            this.tcMain.Size = new System.Drawing.Size(695, 337);
             this.tcMain.TabIndex = 1;
             // 
             // tabTireSheet
@@ -704,46 +728,6 @@
             this.tabTireSheet.Text = "Tire Sheet";
             this.tabTireSheet.UseVisualStyleBackColor = true;
             // 
-            // tabSetup
-            // 
-            this.tabSetup.Controls.Add(this.setupView1);
-            this.tabSetup.Location = new System.Drawing.Point(4, 22);
-            this.tabSetup.Name = "tabSetup";
-            this.tabSetup.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSetup.Size = new System.Drawing.Size(624, 311);
-            this.tabSetup.TabIndex = 1;
-            this.tabSetup.Text = "Setup";
-            this.tabSetup.UseVisualStyleBackColor = true;
-            // 
-            // tabTelemetry
-            // 
-            this.tabTelemetry.Location = new System.Drawing.Point(4, 22);
-            this.tabTelemetry.Name = "tabTelemetry";
-            this.tabTelemetry.Size = new System.Drawing.Size(624, 311);
-            this.tabTelemetry.TabIndex = 2;
-            this.tabTelemetry.Text = "Telemetry";
-            this.tabTelemetry.UseVisualStyleBackColor = true;
-            // 
-            // compareSetupsToolStripMenuItem
-            // 
-            this.compareSetupsToolStripMenuItem.Name = "compareSetupsToolStripMenuItem";
-            this.compareSetupsToolStripMenuItem.Size = new System.Drawing.Size(161, 22);
-            this.compareSetupsToolStripMenuItem.Text = "Compare Setups";
-            this.compareSetupsToolStripMenuItem.Click += new System.EventHandler(this.compareSetupsToolStripMenuItem_Click);
-            // 
-            // lapsView1
-            // 
-            this.lapsView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lapsView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lapsView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lapsView1.LapTimes = ((System.Collections.Generic.IList<float>)(resources.GetObject("lapsView1.LapTimes")));
-            this.lapsView1.Location = new System.Drawing.Point(0, 2);
-            this.lapsView1.Margin = new System.Windows.Forms.Padding(4);
-            this.lapsView1.Name = "lapsView1";
-            this.lapsView1.Padding = new System.Windows.Forms.Padding(5);
-            this.lapsView1.Size = new System.Drawing.Size(205, 335);
-            this.lapsView1.TabIndex = 0;
-            // 
             // tireSheetView
             // 
             this.tireSheetView.BackColor = System.Drawing.Color.LightGray;
@@ -755,6 +739,17 @@
             this.tireSheetView.Size = new System.Drawing.Size(618, 305);
             this.tireSheetView.TabIndex = 0;
             // 
+            // tabSetup
+            // 
+            this.tabSetup.Controls.Add(this.setupView1);
+            this.tabSetup.Location = new System.Drawing.Point(4, 22);
+            this.tabSetup.Name = "tabSetup";
+            this.tabSetup.Padding = new System.Windows.Forms.Padding(3);
+            this.tabSetup.Size = new System.Drawing.Size(624, 311);
+            this.tabSetup.TabIndex = 1;
+            this.tabSetup.Text = "Setup";
+            this.tabSetup.UseVisualStyleBackColor = true;
+            // 
             // setupView1
             // 
             this.setupView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -763,12 +758,39 @@
             this.setupView1.Size = new System.Drawing.Size(618, 305);
             this.setupView1.TabIndex = 0;
             // 
+            // tabTelemetry
+            // 
+            this.tabTelemetry.Location = new System.Drawing.Point(4, 22);
+            this.tabTelemetry.Name = "tabTelemetry";
+            this.tabTelemetry.Size = new System.Drawing.Size(624, 311);
+            this.tabTelemetry.TabIndex = 2;
+            this.tabTelemetry.Text = "Telemetry";
+            this.tabTelemetry.UseVisualStyleBackColor = true;
+            // 
+            // tabSetupView
+            // 
+            this.tabSetupView.AutoScroll = true;
+            this.tabSetupView.Controls.Add(this.setupGroupView1);
+            this.tabSetupView.Location = new System.Drawing.Point(4, 22);
+            this.tabSetupView.Name = "tabSetupView";
+            this.tabSetupView.Size = new System.Drawing.Size(687, 311);
+            this.tabSetupView.TabIndex = 3;
+            this.tabSetupView.Text = "Setup View";
+            this.tabSetupView.UseVisualStyleBackColor = true;
+            // 
+            // setupGroupView1
+            // 
+            this.setupGroupView1.Location = new System.Drawing.Point(2, 2);
+            this.setupGroupView1.Name = "setupGroupView1";
+            this.setupGroupView1.Size = new System.Drawing.Size(650, 867);
+            this.setupGroupView1.TabIndex = 0;
+            // 
             // TrackSessionManagerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(992, 508);
+            this.ClientSize = new System.Drawing.Size(1089, 508);
             this.Controls.Add(this.splContMain);
             this.Controls.Add(this.splMessages);
             this.Controls.Add(this.pnlMessages);
@@ -802,6 +824,7 @@
             this.tcMain.ResumeLayout(false);
             this.tabTireSheet.ResumeLayout(false);
             this.tabSetup.ResumeLayout(false);
+            this.tabSetupView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -875,6 +898,8 @@
         private System.Windows.Forms.ToolStripButton tsbOpenTireSheet;
         private Controls.SetupView setupView1;
         private System.Windows.Forms.ToolStripMenuItem compareSetupsToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabSetupView;
+        private Controls.SetupView2 setupGroupView1;
     }
 }
 

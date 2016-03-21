@@ -75,11 +75,29 @@
     <Compile Include="Controls\LogFileView.Designer.cs">
       <DependentUpon>LogFileView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SetupGroupValueView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupGroupValueView.Designer.cs">
+      <DependentUpon>SetupGroupValueView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupGroupView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupGroupView.Designer.cs">
+      <DependentUpon>SetupGroupView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SetupView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SetupView.Designer.cs">
       <DependentUpon>SetupView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SetupView2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SetupView2.Designer.cs">
+      <DependentUpon>SetupView2.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\TireSheetView2.cs">
       <SubType>UserControl</SubType>
@@ -142,8 +160,18 @@
     <EmbeddedResource Include="Controls\LogFileView.resx">
       <DependentUpon>LogFileView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupGroupValueView.resx">
+      <DependentUpon>SetupGroupValueView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupGroupView.resx">
+      <DependentUpon>SetupGroupView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SetupView.resx">
       <DependentUpon>SetupView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SetupView2.resx">
+      <DependentUpon>SetupView2.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\TireSheetView2.resx">
       <DependentUpon>TireSheetView2.cs</DependentUpon>

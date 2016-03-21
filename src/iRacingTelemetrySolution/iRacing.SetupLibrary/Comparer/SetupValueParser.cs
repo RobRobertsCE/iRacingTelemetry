@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace TrackSession.Controls
 {
-    public class SetupViewBase
+    public class SetupValueParser
     {
         public class SetupValues
         {
