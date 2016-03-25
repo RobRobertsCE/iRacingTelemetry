@@ -20,4 +20,14 @@ namespace iRacing.TrackSession.Data
 
         }
     }
+    public class iRacingTelemetryViewDbContext : DbContext
+    {     
+        public DbSet<TelemetrySessionInfoView> TelemetrySessionInfo { get; set; }
+
+        public iRacingTelemetryViewDbContext()
+            : base("TestSessionDb")
+        {
+
+        }
+    }
 }

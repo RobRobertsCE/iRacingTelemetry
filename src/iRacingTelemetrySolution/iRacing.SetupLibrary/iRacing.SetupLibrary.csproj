@@ -59,6 +59,14 @@
   <ItemGroup>
     <Compile Include="AClassSetup.cs" />
     <Compile Include="Comparer\SetupValueParser.cs" />
+    <Compile Include="Composite\CompositeSetup.cs" />
+    <Compile Include="Composite\ILegendsSetup.cs" />
+    <Compile Include="Data\SetupDefinitionData.cs" />
+    <Compile Include="Data\SetupDefinitionDbContext.cs" />
+    <Compile Include="Data\Models\SetupParamaterDefinitionModel.cs" />
+    <Compile Include="Data\Models\SetupParamaterGroupModel.cs" />
+    <Compile Include="Data\Models\SetupParamaterSubGroupModel.cs" />
+    <Compile Include="Data\Models\VehicleModel.cs" />
     <Compile Include="ICarSetup.cs" />
     <Compile Include="KNSetup.cs" />
     <Compile Include="LegendsSetup.cs" />

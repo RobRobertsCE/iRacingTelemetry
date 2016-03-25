@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using iRacing.TrackSession.Data.Models;
+using System.Data.Entity;
 
 namespace iRacing.TrackSession.Data
 {
@@ -28,28 +29,55 @@ namespace iRacing.TrackSession.Data
         #region telemetry
         public virtual TelemetryModel SaveTelemetry(TelemetryModel telemetry)
         {
-            var existing = Context.Telemetry.FirstOrDefault(t => t.TelemetryDiskFile == telemetry.TelemetryDiskFile);
-            if (null != existing)
-                return existing;
-
             if (Guid.Empty == telemetry.TelemetryId)
             {
                 Context.Telemetry.Add(telemetry);
             }
             else
+            {
                 Context.Telemetry.Attach(telemetry);
-
+                Context.Entry(telemetry).State = EntityState.Modified;
+            }
             Context.SaveChanges();
-
             return telemetry;
         }
         public virtual TelemetryModel GetTelemetry(Guid telemetryId)
         {
             return Context.Telemetry.FirstOrDefault(t => t.TelemetryId == telemetryId);
         }
+        public virtual IList<Guid> GetTelemetryIdList()
+        {
+            using (var context = new iRacingTelemetryViewDbContext())
+            {
+                return context.TelemetrySessionInfo.Where(t => String.IsNullOrEmpty(t.YamlData)).Select(t => t.TelemetryId).ToList();
+            }
+                
+        }
+        public virtual IList<TelemetrySessionInfoView> GetTelemetryViews()
+        {
+            using (var context = new iRacingTelemetryViewDbContext())
+            {
+                return context.TelemetrySessionInfo.ToList();
+            }
+
+        }
+        public virtual void SaveTelemetryView(TelemetrySessionInfoView model)
+        {
+            using (var context = new iRacingTelemetryViewDbContext())
+            {
+                context.TelemetrySessionInfo.Attach(model);
+                context.Entry(model).State = EntityState.Modified;
+                context.SaveChanges();
+            }
+         
+        }
         public virtual IList<string> GetArchivedTelemetry()
         {
             return Context.Telemetry.Select(t => t.TelemetryDiskFile).ToList();
+        }
+        public virtual string GetTelemetryYaml(Guid telemetryId)
+        {
+            return Context.Telemetry.FirstOrDefault(t => t.TelemetryId == telemetryId).YamlData;
         }
         #endregion
 
@@ -99,6 +127,29 @@ namespace iRacing.TrackSession.Data
         public virtual IList<VehicleModel> GetVehicles()
         {
             return Context.Vehicles.ToList();
+        }
+        public virtual VehicleModel SaveVehicle(VehicleModel model)
+        {
+            try
+            {
+                if (Context.Vehicles.Any(v => v.VehicleNumber == model.VehicleNumber))
+                {
+                    Context.Vehicles.Attach(model);
+                    Context.Entry(model).State = EntityState.Modified;
+                }
+                else
+                {
+                    Context.Vehicles.Add(model);
+                }
+
+                Context.SaveChanges();
+                return model;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            return null;
         }
         #endregion
 

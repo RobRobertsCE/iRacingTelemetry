@@ -5,14 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace iRacing.TrackSession.Data.Models
 {
     [Table("Telemetry")]
-    public class TelemetryModel
+    public class TelemetrySessionInfoView
     {
         [Key(), DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid TelemetryId { get; set; }
-        public string TelemetryDiskFile { get; set; }
-        [Required]
-        public byte[] BinaryData { get; set; }
-        public DateTime Timestamp { get; set; }
         public string YamlData { get; set; }
     }
 }
