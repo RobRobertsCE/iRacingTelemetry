@@ -32,6 +32,7 @@ namespace TrackSession
         #endregion
 
         #region fields 
+        // ADD [assembly: log4net.Config.XmlConfigurator(Watch = true)] TO ASSEMBLY.INFO
         private static readonly ILog Log = LogManager.GetLogger(typeof(TrackSessionManagerForm));
         protected Size _messageDisplaySize;
         protected TrackSessionManager _manager;

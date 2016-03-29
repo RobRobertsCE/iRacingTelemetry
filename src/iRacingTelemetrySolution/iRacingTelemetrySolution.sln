@@ -88,6 +88,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupParameterLibrary", "Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SetupParameterManager", "SetupParameterManager\SetupParameterManager.csproj", "{3E042BAD-8EDE-40A8-8702-D1B86B2B6E24}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelemetryViewer", "TelemetryViewer\TelemetryViewer.csproj", "{6C1F9C7C-AD86-4E9B-9A7A-ED6BA3935EA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -138,6 +140,10 @@ Global
 		{3E042BAD-8EDE-40A8-8702-D1B86B2B6E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E042BAD-8EDE-40A8-8702-D1B86B2B6E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E042BAD-8EDE-40A8-8702-D1B86B2B6E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C1F9C7C-AD86-4E9B-9A7A-ED6BA3935EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C1F9C7C-AD86-4E9B-9A7A-ED6BA3935EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C1F9C7C-AD86-4E9B-9A7A-ED6BA3935EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C1F9C7C-AD86-4E9B-9A7A-ED6BA3935EA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -157,5 +163,6 @@ Global
 		{E519F5EA-44C0-4623-8630-7D75EF7D3BA8} = {2674E9C7-3AB7-4E2B-932D-E3E68341568B}
 		{821EC8EE-DAB7-4C46-8D4E-AF16EF1C5F1F} = {2674E9C7-3AB7-4E2B-932D-E3E68341568B}
 		{3E042BAD-8EDE-40A8-8702-D1B86B2B6E24} = {2674E9C7-3AB7-4E2B-932D-E3E68341568B}
+		{6C1F9C7C-AD86-4E9B-9A7A-ED6BA3935EA3} = {9D434983-8774-4974-8D68-08C3188C943B}
 	EndGlobalSection
 EndGlobal
