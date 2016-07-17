@@ -45,7 +45,7 @@ namespace TrackSession
         {
             try
             {
-                _manager = new TrackSessionManager();
+                _manager = new TrackSessionManager(false);
                 _manager.ManagerStatusChanged += _manager_ManagerStatusChanged;
                 _manager.EngineException += _manager_EngineException;
                 _manager.SessionRunComplete += _manager_SessionRunComplete;

@@ -50,8 +50,10 @@
             this.tsbShockAnalysis = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsbComposite = new System.Windows.Forms.ToolStripButton();
-            this.pnlTelemetryGrids = new System.Windows.Forms.Panel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.btnGpsYaw = new System.Windows.Forms.ToolStripButton();
+            this.pnlTelemetryGrids = new System.Windows.Forms.Panel();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
@@ -214,7 +216,9 @@
             this.tsbShockAnalysis,
             this.toolStripSeparator2,
             this.tsbComposite,
-            this.toolStripSeparator3});
+            this.toolStripSeparator3,
+            this.btnGpsYaw,
+            this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1107, 25);
@@ -269,6 +273,21 @@
             this.tsbComposite.Text = "Composite Lap";
             this.tsbComposite.Click += new System.EventHandler(this.tsbComposite_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
+            // btnGpsYaw
+            // 
+            this.btnGpsYaw.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.btnGpsYaw.Image = ((System.Drawing.Image)(resources.GetObject("btnGpsYaw.Image")));
+            this.btnGpsYaw.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnGpsYaw.Name = "btnGpsYaw";
+            this.btnGpsYaw.Size = new System.Drawing.Size(115, 22);
+            this.btnGpsYaw.Text = "Export GPS and Yaw";
+            this.btnGpsYaw.Click += new System.EventHandler(this.btnGpsYaw_Click);
+            // 
             // pnlTelemetryGrids
             // 
             this.pnlTelemetryGrids.Controls.Add(this.dataGridView2);
@@ -280,10 +299,15 @@
             this.pnlTelemetryGrids.Size = new System.Drawing.Size(1107, 266);
             this.pnlTelemetryGrids.TabIndex = 13;
             // 
-            // toolStripSeparator3
+            // toolStripButton1
             // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // TelemetryAnalysis
             // 
@@ -337,6 +361,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton tsbComposite;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripButton btnGpsYaw;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

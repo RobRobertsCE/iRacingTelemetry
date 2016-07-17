@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using iRacing.TelemetryParser;
 using iRacing.TelemetryAnalysis.Shocks;
 using iRacing.TelemetryAnalysis.Composite;
+using Newtonsoft.Json;
+using System.Drawing;
+using System.Linq;
+using MathNet.Numerics.LinearAlgebra;
+using System.Text;
 
 namespace ibtParser.WinApp
 {
@@ -302,5 +309,253 @@ namespace ibtParser.WinApp
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        private void btnGpsYaw_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+
+                var json = System.IO.File.ReadAllText(@"C:\Users\rroberts\Documents\iRacing\Json\GpsYawData.json");
+                var gpsYawDataSet = JsonConvert.DeserializeObject<List<GpsYawData>>(json);
+                var analysisDataSet = new List<GpsYawDataAnalysis>();
+                GpsYawDataAnalysis previousDataPoint = null;
+                var sampleSet = gpsYawDataSet.Skip(4042).Take(1347);
+                //sb.AppendLine("[Yaw], [Yaw Delta], [Heading], [Heading Delta], [LatDelta], [LonDelta], [VDelta]");
+
+                sb.Append("analysis.Yaw,");
+                sb.Append("analysis.YawDelta,");
+                sb.Append("RadianToDegree(analysis.Yaw)," );
+                sb.Append("RadianToDegree(analysis.YawDelta)," );
+                sb.Append("analysis.Heading," );
+                sb.Append("analysis.HeadingDelta," );
+                sb.Append("RadianToDegree(analysis.Heading)," );
+                sb.Append("RadianToDegree(analysis.HeadingDelta)," );
+                sb.Append("analysis.VelocityX," );
+                sb.Append("analysis.VelocityY," );
+                sb.Append("analysis.Lat," );
+                sb.Append("analysis.Lon," );
+                sb.Append("analysis.LatDelta," );
+                sb.Append("analysis.LonDelta");
+                sb.AppendLine();
+
+                foreach (GpsYawData data in sampleSet)
+                {
+                    var analysis = new GpsYawDataAnalysis()
+                    {
+                        FrameIdx = data.FrameIdx,
+                        LapNumber = data.LapNumber,
+                        Lat = data.Lat,
+                        Lon = data.Lon,
+                        YawRate = data.YawRate,
+                        SteeringAngle = data.SteeringAngle,
+                        VelocityX = data.VelocityX,
+                        VelocityY = data.VelocityY,
+                        Yaw = data.Yaw
+                    };
+
+                    if (null != previousDataPoint)
+                    {
+                        analysis.PreviousDataPoint = previousDataPoint;
+                        analysis.DistanceTravelled = distance(previousDataPoint.Lat, previousDataPoint.Lon, analysis.Lat, analysis.Lon);
+                        if (analysis.DistanceTravelled > 0)
+                        {
+                            analysis.Heading = heading(previousDataPoint.Lat, previousDataPoint.Lon, analysis.Lat, analysis.Lon);
+                            //Single[] velX = { 0, analysis.VelocityX };
+                            //Single[] velY = { 0, analysis.VelocityY };
+                            //Vector<Single> vX = Vector<Single>.Build.Dense(velX);
+                            //Vector<Single> vY = Vector<Single>.Build.Dense(velY);
+                            //var vDot = vX.DotProduct(vY);
+                            Single[] velLat = { 0, analysis.Lat };
+                            Single[] velLon = { 0, analysis.Lon };
+                            Vector<Single> vX = Vector<Single>.Build.Dense(velLat);
+                            Vector<Single> vY = Vector<Single>.Build.Dense(velLon);
+                            analysis.VectorDotProduct = vX.DotProduct(vY);
+
+                            //sb.AppendFormat("{0},{1},{2},{3},{4}\r\n", 
+                            //    String.Format("{0},{1}", 
+                            //    RadianToDegree(analysis.Yaw), 
+                            //    RadianToDegree(analysis.YawDelta)), 
+                            //    String.Format("{0},{1}", 
+                            //    RadianToDegree(analysis.Heading), 
+                            //    RadianToDegree(analysis.HeadingDelta)), 
+                            //    analysis.VelocityX, 
+                            //    analysis.VelocityY, 
+                            //    analysis.VDelta.ToVectorString());
+
+                            sb.AppendFormat("{0},", analysis.Yaw);
+                            sb.AppendFormat("{0},", analysis.YawDelta);
+                            sb.AppendFormat("{0},", RadianToDegree(analysis.Yaw));
+                            sb.AppendFormat("{0},", RadianToDegree(analysis.YawDelta));
+                            sb.AppendFormat("{0},", analysis.Heading);
+                            sb.AppendFormat("{0},", analysis.HeadingDelta);
+                            sb.AppendFormat("{0},", RadianToDegree(analysis.Heading));
+                            sb.AppendFormat("{0},", RadianToDegree(analysis.HeadingDelta));
+                            sb.AppendFormat("{0},", analysis.VelocityX);
+                            sb.AppendFormat("{0},", analysis.VelocityY);
+                            sb.AppendFormat("{0},", analysis.Lat);
+                            sb.AppendFormat("{0},", analysis.Lon);
+                            sb.AppendFormat("{0},", analysis.LatDelta);
+                            sb.AppendFormat("{0},", analysis.LonDelta);
+                            sb.AppendLine();
+                            //sb.AppendFormat("{0},{1},{2},{3},{4}\r\n",
+                            //  String.Format("{0},{1}",
+                            //  RadianToDegree(analysis.Yaw),
+                            //  RadianToDegree(analysis.YawDelta)),
+                            //  String.Format("{0},{1}",
+                            //  RadianToDegree(analysis.Heading),
+                            //  RadianToDegree(analysis.HeadingDelta)),
+                            //  analysis.LatDelta,
+                            //  analysis.LonDelta,
+                            //  );
+                        }
+                        // velocity x and velocity y are based on the car always pointing at x+, not based on earch x,y coordinates.
+                    }
+                    analysisDataSet.Add(analysis);
+                    previousDataPoint = analysis;
+
+                }
+                System.IO.File.WriteAllText(@"C:\Users\rroberts\Documents\iRacing\Json\analysis.csv", sb.ToString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+        private double RadianToDegree(double angle)
+        {
+            return angle * (180.0 / Math.PI);
+        }
+
+        private Double distance(Double lat1, Double lon1, Double lat2, Double lon2)
+        {
+            var p = 0.017453292519943295;    // Math.PI / 180
+            //var c = Math.cos;
+            var a = 0.5 - Math.Cos((lat2 - lat1) * p) / 2 +
+                    Math.Cos(lat1 * p) * Math.Cos(lat2 * p) *
+                    (1 - Math.Cos((lon2 - lon1) * p)) / 2;
+
+            return 12742 * Math.Asin(Math.Sqrt(a)); // 2 * R; R = 6371 km
+        }
+
+      
+        // φ1 = lat1
+        // λ1 = lon1
+        // φ2 = lat2
+        // λ2 = lon2
+        private Double heading(Double lat1, Double lon1, Double lat2, Double lon2)
+        {
+            //var y = Math.Sin(λ2 - λ1) * Math.Cos(φ2);
+            //var x = Math.Cos(φ1) * Math.Sin(φ2) -
+            //        Math.Sin(φ1) * Math.Cos(φ2) * Math.Cos(λ2 - λ1);
+            var y = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
+            var x = Math.Cos(lat1) * Math.Sin(lat2) -
+                    Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lon2 - lon1);
+            var brng = RadianToDegree(Math.Atan2(y, x));//.toDegrees();
+            return brng; // in radians
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            DumpGpsYawData();
+        }
+        void DumpGpsYawData()
+        {
+            try
+            {
+                var data = new List<GpsYawData>();
+                var frameIdx = 0;
+                foreach (var telemetryFrame in _session.Frames)
+                {
+                    var frameData = new GpsYawData()
+                    {
+                        FrameIdx = frameIdx,
+                        LapNumber = telemetryFrame.GetIntValue("Lap"),
+                        Lat = telemetryFrame.GetSingleValue("Lat"),
+                        Lon = telemetryFrame.GetSingleValue("Lon"),
+                        YawRate = telemetryFrame.GetSingleValue("YawRate"),
+                        Yaw = telemetryFrame.GetSingleValue("Yaw"),
+                        SteeringAngle = telemetryFrame.GetSingleValue("SteeringWheelAngle"),
+                        VelocityX = telemetryFrame.GetSingleValue("VelocityX"),
+                        VelocityY = telemetryFrame.GetSingleValue("VelocityY")
+                    };
+                    data.Add(frameData);
+                    frameIdx++;
+                }
+
+                var json = JsonConvert.SerializeObject(data, Formatting.Indented);
+                System.IO.File.WriteAllText(@"C:\Users\rroberts\Documents\iRacing\Json\GpsYawData.json", json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+    }
+
+    public class GpsYawData
+    {
+        public int FrameIdx { get; set; }
+        public int LapNumber { get; set; }
+        public Single Lat { get; set; }
+        public Single Lon { get; set; }
+        public Single Yaw { get; set; }
+        public Single YawRate { get; set; }
+        public Single SteeringAngle { get; set; }
+        public Single VelocityX { get; set; }
+        public Single VelocityY { get; set; }
+    }
+
+    public class GpsYawDataAnalysis : GpsYawData
+    {
+        public GpsYawDataAnalysis PreviousDataPoint { get; set; }
+        public PointF DirectionalVector { get; set; }
+        public Single VectorDotProduct { get; set; }
+        public double DistanceTravelled { get; set; }
+        public double Heading { get; set; }
+        public double YawDelta
+        {
+            get
+            {
+                return Yaw - PreviousDataPoint.Yaw;
+            }
+        }
+        public double HeadingDelta
+        {
+            get
+            {
+                return Heading - PreviousDataPoint.Heading;
+            }
+        }
+        public double VectorDotProductDelta
+        {
+            get
+            {
+                return VectorDotProduct - PreviousDataPoint.VectorDotProduct;
+            }
+        }
+        public Single LatDelta
+        {
+            get
+            {
+                return Lat - PreviousDataPoint.Lat;
+            }
+        }
+        public Single LonDelta
+        {
+            get
+            {
+                return Lon - PreviousDataPoint.Lon;
+            }
+        }
+        public Vector<Single> VDelta
+        {
+            get
+            {
+                Single[] velLon = { LatDelta, LonDelta };
+                return Vector<Single>.Build.Dense(velLon);
+            }
+        }
+        
     }
 }
