@@ -80,6 +80,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{9D434983-8774-4974-8D68-08C3188C943B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestJsonSerialization", "..\TestJsonSerialization\TestJsonSerialization\TestJsonSerialization.csproj", "{2AC27BC7-AFCF-440A-8618-8E0ECA83B375}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +116,10 @@ Global
 		{4BF4DADA-3F43-44D9-9D53-666090E1AE19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BF4DADA-3F43-44D9-9D53-666090E1AE19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BF4DADA-3F43-44D9-9D53-666090E1AE19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AC27BC7-AFCF-440A-8618-8E0ECA83B375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AC27BC7-AFCF-440A-8618-8E0ECA83B375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AC27BC7-AFCF-440A-8618-8E0ECA83B375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AC27BC7-AFCF-440A-8618-8E0ECA83B375}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -129,5 +135,6 @@ Global
 		{0122E32E-6779-4549-97B5-E7CAA139BF4D} = {EEC8A578-D1F2-4F81-9870-EE8343C0F5B5}
 		{4BF4DADA-3F43-44D9-9D53-666090E1AE19} = {9D434983-8774-4974-8D68-08C3188C943B}
 		{6B5352B7-CFE2-438B-B9FF-EC62113F3DB7} = {EEC8A578-D1F2-4F81-9870-EE8343C0F5B5}
+		{2AC27BC7-AFCF-440A-8618-8E0ECA83B375} = {2674E9C7-3AB7-4E2B-932D-E3E68341568B}
 	EndGlobalSection
 EndGlobal
