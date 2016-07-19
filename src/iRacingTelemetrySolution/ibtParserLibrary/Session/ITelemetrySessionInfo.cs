@@ -1,4 +1,5 @@
-﻿using iRacing.TelemetryParser.Session.Info;
+﻿using iRacing.SetupLibrary;
+using iRacing.TelemetryParser.Session.Info;
 
 namespace iRacing.TelemetryParser.Session
 {
@@ -10,6 +11,7 @@ namespace iRacing.TelemetryParser.Session
         SessionInfo SessionInfo { get; set; }
         SplitTimeInfo SplitTimeInfo { get; set; }
         WeekendInfo WeekendInfo { get; set; }
+        ICompositeSetup CarSetup { get; set; }
         string SetupJSON { get; set; }
     }
 }

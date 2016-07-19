@@ -4,8 +4,10 @@ using System.Linq;
 
 namespace iRacing.TelemetryParser
 {
-    public class TelemetryLap
+    public class TelemetryLap : ITelemetryLap
     {
+        public int LapIndex { get; set; }
+
         public int LapNumber { get; set; }
 
         public int FrameCount {  get { return Frames.Count(); } }
@@ -17,7 +19,7 @@ namespace iRacing.TelemetryParser
         {
             Frames = new List<TelemetryFrame>();
         }
-        public TelemetryLap(int lapNumber) : this()
+        public TelemetryLap(int lapNumber, int lapIndex) : this()
         {
             LapNumber = lapNumber;
         }

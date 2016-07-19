@@ -1,78 +1,43 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace iRacing.SetupLibrary
 {
-    public partial class ModifiedSetup : SetupBase, ICarSetup
+    public partial class ModifiedSetup : SetupBase, ICarSetup, ICompositeSetup
     {
+        #region properties
         [JsonProperty("UpdateCount")]
         public int UpdateCount { get; set; }
         [JsonProperty("Tires")]
         public SetupTires Tires { get; set; }
         [JsonProperty("Chassis")]
         public SetupChassis Chassis { get; set; }
+        #endregion
 
-        public class SetupTires
+        #region ICompositeSetup support
+        [JsonIgnore()]
+        ISetupChassis ICompositeSetup.Chassis
         {
-            [JsonProperty("LeftFront")]
-            public TiresLeftFront LeftFront { get; set; }
-            [JsonProperty("LeftRear")]
-            public TiresLeftRear LeftRear { get; set; }
-            [JsonProperty("RightFront")]
-            public TiresRightFront RightFront { get; set; }
-            [JsonProperty("RightRear")]
-            public TiresRightRear RightRear { get; set; }
-
-            public class TiresLeftFront
+            get
             {
-                [JsonProperty("ColdPressure")]
-                public string ColdPressure { get; set; }
-                [JsonProperty("LastHotPressure")]
-                public string LastHotPressure { get; set; }
-                [JsonProperty("LastTempsOMI")]
-                public string LastTempsOMI { get; set; }
-                [JsonProperty("TreadRemaining")]
-                public string TreadRemaining { get; set; }
-            }
-            public class TiresLeftRear
-            {
-                [JsonProperty("ColdPressure")]
-                public string ColdPressure { get; set; }
-                [JsonProperty("LastHotPressure")]
-                public string LastHotPressure { get; set; }
-                [JsonProperty("LastTempsOMI")]
-                public string LastTempsOMI { get; set; }
-                [JsonProperty("TreadRemaining")]
-                public string TreadRemaining { get; set; }
-            }
-            public class TiresRightFront
-            {
-                [JsonProperty("ColdPressure")]
-                public string ColdPressure { get; set; }
-                [JsonProperty("LastHotPressure")]
-                public string LastHotPressure { get; set; }
-                [JsonProperty("LastTempsIMO")]
-                public string LastTempsIMO { get; set; }
-                [JsonProperty("TreadRemaining")]
-                public string TreadRemaining { get; set; }
-                [JsonProperty("Stagger")]
-                public string Stagger { get; set; }
-            }
-            public class TiresRightRear
-            {
-                [JsonProperty("ColdPressure")]
-                public string ColdPressure { get; set; }
-                [JsonProperty("LastHotPressure")]
-                public string LastHotPressure { get; set; }
-                [JsonProperty("LastTempsIMO")]
-                public string LastTempsIMO { get; set; }
-                [JsonProperty("TreadRemaining")]
-                public string TreadRemaining { get; set; }
-                [JsonProperty("Stagger")]
-                public string Stagger { get; set; }
+                return (ISetupChassis)Chassis;
             }
         }
-        public class SetupChassis
+
+        [JsonIgnore()]
+        ISetupTires ICompositeSetup.Tires
         {
+            get
+            {
+                return (ISetupTires)Tires;
+            }
+        }
+        #endregion
+
+        #region classes
+        public class SetupChassis : ISetupChassis
+        {
+            #region properties
             [JsonProperty("Front")]
             public ChassisFront Front { get; set; }
             [JsonProperty("LeftFront")]
@@ -85,8 +50,61 @@ namespace iRacing.SetupLibrary
             public ChassisRightRear RightRear { get; set; }
             [JsonProperty("Rear")]
             public ChassisRear Rear { get; set; }
+            #endregion
 
-            public class ChassisFront
+            #region ICompositeSetup support
+            [JsonIgnore()]
+            IChassisFront ISetupChassis.Front
+            {
+                get
+                {
+                    return (IChassisFront)Front;
+                }
+            }
+            [JsonIgnore()]
+            IChassisLeftFront ISetupChassis.LeftFront
+            {
+                get
+                {
+                    return (IChassisLeftFront)LeftFront;
+                }
+            }
+            [JsonIgnore()]
+            IChassisLeftRear ISetupChassis.LeftRear
+            {
+                get
+                {
+                    return (IChassisLeftRear)LeftRear;
+                }
+            }
+            [JsonIgnore()]
+            IChassisRear ISetupChassis.Rear
+            {
+                get
+                {
+                    return (IChassisRear)Rear;
+                }
+            }
+            [JsonIgnore()]
+            IChassisRightFront ISetupChassis.RightFront
+            {
+                get
+                {
+                    return (IChassisRightFront)RightFront;
+                }
+            }
+            [JsonIgnore()]
+            IChassisRightRear ISetupChassis.RightRear
+            {
+                get
+                {
+                    return (IChassisRightRear)RightRear;
+                }
+            }
+            #endregion
+
+            #region classes
+            public class ChassisFront : IChassisFront
             {
                 [JsonProperty("BallastForward")]
                 public string BallastForward { get; set; }
@@ -111,7 +129,7 @@ namespace iRacing.SetupLibrary
                 [JsonProperty("AttachLeftSide")]
                 public string AttachLeftSide { get; set; }
             }
-            public class ChassisLeftFront
+            public class ChassisLeftFront : IChassisLeftFront
             {
                 [JsonProperty("CornerWeight")]
                 public string CornerWeight { get; set; }
@@ -130,7 +148,7 @@ namespace iRacing.SetupLibrary
                 [JsonProperty("Caster")]
                 public string Caster { get; set; }
             }
-            public class ChassisLeftRear
+            public class ChassisLeftRear : IChassisLeftRear
             {
                 [JsonProperty("CornerWeight")]
                 public string CornerWeight { get; set; }
@@ -147,7 +165,7 @@ namespace iRacing.SetupLibrary
                 [JsonProperty("TrackBarHeight")]
                 public string TrackBarHeight { get; set; }
             }
-            public class ChassisRightFront
+            public class ChassisRightFront : IChassisRightFront
             {
                 [JsonProperty("CornerWeight")]
                 public string CornerWeight { get; set; }
@@ -166,7 +184,7 @@ namespace iRacing.SetupLibrary
                 [JsonProperty("Caster")]
                 public string Caster { get; set; }
             }
-            public class ChassisRightRear
+            public class ChassisRightRear : IChassisRightRear
             {
                 [JsonProperty("CornerWeight")]
                 public string CornerWeight { get; set; }
@@ -183,13 +201,115 @@ namespace iRacing.SetupLibrary
                 [JsonProperty("TrackBarHeight")]
                 public string TrackBarHeight { get; set; }
             }
-            public class ChassisRear
+            public class ChassisRear : IChassisRear
             {
                 [JsonProperty("RearEndRatio")]
                 public string RearEndRatio { get; set; }
                 [JsonProperty("FuelFillTo")]
                 public string FuelFillTo { get; set; }
             }
+            #endregion
         }
+
+        public class SetupTires : ISetupTires
+        {
+            #region properties
+            [JsonProperty("LeftFront")]
+            public TiresLeftFront LeftFront { get; set; }
+            [JsonProperty("LeftRear")]
+            public TiresLeftRear LeftRear { get; set; }
+            [JsonProperty("RightFront")]
+            public TiresRightFront RightFront { get; set; }
+            [JsonProperty("RightRear")]
+            public TiresRightRear RightRear { get; set; }
+            #endregion
+
+            #region ICompositeSetup support       
+            [JsonIgnore()]
+            ILeftFrontTire ISetupTires.LeftFront
+            {
+                get
+                {
+                    return (ILeftFrontTire)LeftFront;
+                }
+            }
+            [JsonIgnore()]
+            ILeftRearTire ISetupTires.LeftRear
+            {
+                get
+                {
+                    return (ILeftRearTire)LeftRear;
+                }
+            }
+            [JsonIgnore()]
+            IRightFrontTire ISetupTires.RightFront
+            {
+                get
+                {
+                    return (IRightFrontTire)RightFront;
+                }
+            }
+            [JsonIgnore()]
+            IRightRearTire ISetupTires.RightRear
+            {
+                get
+                {
+                    return (IRightRearTire)RightRear;
+                }
+            }
+            #endregion
+
+            #region classes
+            public class TiresLeftFront : ILeftFrontTire
+            {
+                [JsonProperty("ColdPressure")]
+                public string ColdPressure { get; set; }
+                [JsonProperty("LastHotPressure")]
+                public string LastHotPressure { get; set; }
+                [JsonProperty("LastTempsOMI")]
+                public string LastTempsOMI { get; set; }
+                [JsonProperty("TreadRemaining")]
+                public string TreadRemaining { get; set; }
+            }
+            public class TiresLeftRear : ILeftRearTire
+            {
+                [JsonProperty("ColdPressure")]
+                public string ColdPressure { get; set; }
+                [JsonProperty("LastHotPressure")]
+                public string LastHotPressure { get; set; }
+                [JsonProperty("LastTempsOMI")]
+                public string LastTempsOMI { get; set; }
+                [JsonProperty("TreadRemaining")]
+                public string TreadRemaining { get; set; }
+            }
+            public class TiresRightFront : IRightFrontTire
+            {
+                [JsonProperty("ColdPressure")]
+                public string ColdPressure { get; set; }
+                [JsonProperty("LastHotPressure")]
+                public string LastHotPressure { get; set; }
+                [JsonProperty("LastTempsIMO")]
+                public string LastTempsIMO { get; set; }
+                [JsonProperty("TreadRemaining")]
+                public string TreadRemaining { get; set; }
+                [JsonProperty("Stagger")]
+                public string Stagger { get; set; }
+            }
+            public class TiresRightRear : IRightRearTire
+            {
+                [JsonProperty("ColdPressure")]
+                public string ColdPressure { get; set; }
+                [JsonProperty("LastHotPressure")]
+                public string LastHotPressure { get; set; }
+                [JsonProperty("LastTempsIMO")]
+                public string LastTempsIMO { get; set; }
+                [JsonProperty("TreadRemaining")]
+                public string TreadRemaining { get; set; }
+                [JsonProperty("Stagger")]
+                public string Stagger { get; set; }
+            }
+            #endregion
+        }
+        #endregion
     }
 }

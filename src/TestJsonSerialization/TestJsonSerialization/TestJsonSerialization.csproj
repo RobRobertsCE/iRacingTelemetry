@@ -89,6 +89,14 @@
       <Project>{2f10ffa2-4ec3-43f2-9d49-f954bab79d7d}</Project>
       <Name>iRacing.TelemetryParser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\iRacingTelemetrySolution\iRacing.Common\iRacing.Common.csproj">
+      <Project>{312dae46-1978-4ce5-8bfd-db47ba1f66a3}</Project>
+      <Name>iRacing.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\iRacingTelemetrySolution\iRacing.SetupLibrary\iRacing.SetupLibrary.csproj">
+      <Project>{f430eae0-a9a6-45bb-827c-bcb99907a8c0}</Project>
+      <Name>iRacing.SetupLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

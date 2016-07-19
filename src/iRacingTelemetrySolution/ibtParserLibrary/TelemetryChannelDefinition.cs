@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iRacing.TelemetryParser
 {
-    public class TelemetryChannelDefinition
+    public class TelemetryChannelDefinition : ITelemetryChannelDefinition
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -4,22 +4,18 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using System.Globalization;
+using iRacing.TelemetryParser.Session;
 
 namespace iRacing.TelemetryParser
 {    
-    public class TelemetrySession
+    internal class TelemetrySession : TelemetrySessionData, ITelemetrySession
     {
-        #region props
+        #region propetries
+        public ITelemetrySessionInfo SessionInfo { get; set; }
         public TelemetryLapList Laps { get; set; }
-        public Dictionary<int, Single> LapTimes { get; set; }
-        [Browsable(false)]
         public IList<TelemetryFrame> Frames { get; set; }
         public IList<TelemetryChannelDefinition> Fields { get; set; }
-        public string Yaml { get; set; }
         public string FileName { get; set; }
-        public byte[] RawHeader { get; set; }
-        public byte[] RawYaml { get; set; }
-        public byte[] RawFrames { get; set; }
         public DateTime Timestamp { get; set; }
         #endregion
 
@@ -76,5 +72,5 @@ namespace iRacing.TelemetryParser
             return sb.ToString();
         }
         #endregion
-    }
+    } 
 }

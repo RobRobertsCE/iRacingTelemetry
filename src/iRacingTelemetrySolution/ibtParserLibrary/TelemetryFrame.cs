@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace iRacing.TelemetryParser
 {
-    public class TelemetryFrame
+    public class TelemetryFrame : ITelemetryFrame
     {
         public int FrameIndex { get; set; }
 
@@ -24,19 +24,19 @@ namespace iRacing.TelemetryParser
 
         public string GetValue(string key)
         {
-            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key);
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name.ToUpper() == key.ToUpper());
             return returnValue.Value;
         }
 
         public Single GetSingleValue(string key)
         {
-            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key);
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name.ToUpper() == key.ToUpper());
             return Convert.ToSingle(returnValue.Value);
         }
 
         public int GetIntValue(string key)
         {
-            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key);
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name.ToUpper() == key.ToUpper());
             return Convert.ToInt32(returnValue.Value);
         }
 
@@ -44,7 +44,7 @@ namespace iRacing.TelemetryParser
         // TelemetryKeys
         public string GetValue(TelemetryKeys key)
         {
-            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name.ToUpper() == key.ToString().ToUpper());
             if (null == returnValue)
                 return String.Empty;
             else
@@ -53,7 +53,7 @@ namespace iRacing.TelemetryParser
 
         public Single GetSingleValue(TelemetryKeys key)
         {
-            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name.ToUpper() == key.ToString().ToUpper());
             if (null == returnValue)
                 return (Single)GetIntValue(key);
             else
@@ -62,7 +62,7 @@ namespace iRacing.TelemetryParser
 
         public int GetIntValue(TelemetryKeys key)
         {
-            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name == key.ToString());
+            var returnValue = ChannelValues.FirstOrDefault(v => v.Definition.Name.ToUpper() == key.ToString().ToUpper());
             if (null == returnValue)
                 return -9999;
             else

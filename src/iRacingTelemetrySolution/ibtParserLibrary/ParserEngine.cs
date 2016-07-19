@@ -1,4 +1,5 @@
 ﻿using iRacing.TelemetryParser.Session;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,15 @@ namespace iRacing.TelemetryParser
         #endregion
 
         #region props
-        public TelemetrySession Session { get; private set; }
+        private TelemetrySession _session;
+        public ITelemetrySession Session
+        {
+            get
+            {
+                return _session;
+            }
+        }
+        public ITelemetrySessionInfo SessionInfo { get; private set; }
         #endregion
 
         #region consts
@@ -38,16 +47,31 @@ namespace iRacing.TelemetryParser
         #endregion
 
         #region public methods
-        public TelemetrySession ParseTelemetryFile(string fileName, bool metadataOnly)
+        #region ITelemetrySession
+        /// <summary>
+        /// Parses a telemetry file
+        /// </summary>
+        /// <param name="fileName">The telemetry file</param>
+        /// <param name="metadataOnly">True = no telemetry values.</param>
+        /// <returns></returns>
+        public ITelemetrySession ParseTelemetryFile(string fileName, bool metadataOnly)
         {
             byte[] telemetryFileBytes = System.IO.File.ReadAllBytes(fileName);
             return ParseTelemetryBytes(fileName, telemetryFileBytes, metadataOnly);
         }
-        public TelemetrySession ParseTelemetryBytes(string fileName, byte[] telemetryFileBytes, bool metadataOnly)
+
+        /// <summary>
+        /// Parses a telemetry file
+        /// </summary>
+        /// <param name="fileName">The telemetry file</param>
+        /// <param name="telemetryFileBytes">the byte array of the file contents</param>
+        /// <param name="metadataOnly">True = no telemetry values.</param>
+        /// <returns></returns>
+        public ITelemetrySession ParseTelemetryBytes(string fileName, byte[] telemetryFileBytes, bool metadataOnly)
         {
             _metaOnly = metadataOnly;
             int idx = 0;
-            Session = new TelemetrySession(fileName);
+            _session = new TelemetrySession(fileName);
 
             _fieldCount = GetIntFromBytes(telemetryFileBytes, FieldCountStart, FieldCountLength);
             _frameCount = GetIntFromBytes(telemetryFileBytes, FrameCountStart, FrameCountLength);
@@ -55,62 +79,81 @@ namespace iRacing.TelemetryParser
             if (!_metaOnly)
             {
                 ParseFieldDescriptionSection(telemetryFileBytes, ref idx);
-                Session.RawHeader = new byte[idx];
-                Array.Copy(telemetryFileBytes, 0, Session.RawHeader, 0, idx);
+                _session.RawHeader = new byte[idx];
+                Array.Copy(telemetryFileBytes, 0, _session.RawHeader, 0, idx);
             }
 
             ParseYamlSection(telemetryFileBytes, ref idx);
-
-           // Session.TelemetrySessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(Session.Yaml);
-
+            
             if (!_metaOnly)
             {
                 ParseValueSection(telemetryFileBytes, ref idx);
                 ParseLaps();
             }
 
-            return Session;
+            return _session;
         }
 
+        /// <summary>
+        /// Parses the bytes from the telemetry session
+        /// </summary>
+        /// <param name="telemetryFileBytes">byte array of the telemetry session</param>
+        public ITelemetrySession ParseTelemetryBytes(byte[] telemetryFileBytes)
+        {
+            return ParseTelemetryBytes(telemetryFileBytes, false);          
+        }
+
+        /// <summary>
+        /// Parses the bytes from the telemetry session
+        /// </summary>
+        /// <param name="telemetryFileBytes">byte array of the telemetry session</param>
+        /// <param name="metadataOnly">Does not parse actual telemetry values</param>
+        public ITelemetrySession ParseTelemetryBytes(byte[] telemetryFileBytes, bool metadataOnly)
+        {
+            return ParseTelemetryBytes(string.Empty, telemetryFileBytes, metadataOnly);
+        }
+        #endregion
+
+        #region ITelemetrySessionInfo
+        /// <summary>
+        /// Parses the session information (Session YAML, lap count, frame count, setup),
+        /// but does not parse the actual telemetry values.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns></returns>
+        public ITelemetrySessionInfo ParseTelemetrySessionInfo(string fileName)
+        {
+            byte[] telemetryFileBytes = System.IO.File.ReadAllBytes(fileName);
+            this.SessionInfo = ParseTelemetrySessionInfo(fileName, telemetryFileBytes);
+            return SessionInfo;
+        }
+
+        /// <summary>
+        /// Parses the session information (Session YAML, lap count, frame count, setup),
+        /// but does not parse the actual telemetry values.
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="telemetryFileBytes"></param>
+        /// <returns></returns>
         public ITelemetrySessionInfo ParseTelemetrySessionInfo(string fileName, byte[] telemetryFileBytes)
         {
             int idx = 0;
-            Session = new TelemetrySession(fileName);
+            _session = new TelemetrySession(fileName);
 
             _fieldCount = GetIntFromBytes(telemetryFileBytes, FieldCountStart, FieldCountLength);
             _frameCount = GetIntFromBytes(telemetryFileBytes, FrameCountStart, FrameCountLength);
 
             ParseFieldDescriptionSection(telemetryFileBytes, ref idx);
-            Session.RawHeader = new byte[idx];
-            Array.Copy(telemetryFileBytes, 0, Session.RawHeader, 0, idx);
+            _session.RawHeader = new byte[idx];
+            Array.Copy(telemetryFileBytes, 0, _session.RawHeader, 0, idx);
 
             ParseYamlSection(telemetryFileBytes, ref idx);
 
-            var info = TelemetrySessionInfoFactory.GetSessionInfo(Session.Yaml);
+            this.SessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(_session.Yaml);
             
-            return info;
+            return this.SessionInfo;
         }
-
-        public TelemetrySession ParseTelemetryBytes(byte[] telemetryFileBytes)
-        {
-            Session = new TelemetrySession();
-
-            int idx = 0;
-
-            _fieldCount = GetIntFromBytes(telemetryFileBytes, FieldCountStart, FieldCountLength);
-            _frameCount = GetIntFromBytes(telemetryFileBytes, FrameCountStart, FrameCountLength);
-
-            ParseFieldDescriptionSection(telemetryFileBytes, ref idx);
-            Session.RawHeader = new byte[idx];
-            Array.Copy(telemetryFileBytes, 0, Session.RawHeader, 0, idx);
-
-            ParseYamlSection(telemetryFileBytes, ref idx);
-
-            ParseValueSection(telemetryFileBytes, ref idx);
-            ParseLaps();
-
-            return Session;
-        }
+        #endregion
         #endregion
 
         #region Field Description Section
@@ -139,7 +182,7 @@ namespace iRacing.TelemetryParser
             field.Description = GetTextFromBytes(fieldDescriptionBytes, FieldDescriptionDescriptionStart, FieldDescriptionDescriptionLength);
             field.Unit = GetTextFromBytes(fieldDescriptionBytes, FieldDescriptionUnitStart, FieldDescriptionUnitLength);
 
-            Session.Fields.Add(field);
+            _session.Fields.Add(field);
         }
 
         string GetTextFromBytes(byte[] bytes, int start, int length)
@@ -174,10 +217,12 @@ namespace iRacing.TelemetryParser
                 }
             }
             int yamlLength = idx - yamlStartIdx - 3; // exclude the three '.' characters on the end.
-            Session.Yaml = GetTextFromBytes(telemetryFileBytes, yamlStartIdx, yamlLength);
+            _session.Yaml = GetTextFromBytes(telemetryFileBytes, yamlStartIdx, yamlLength);
 
-            Session.RawYaml = new byte[yamlLength + 7];
-            Array.Copy(telemetryFileBytes, yamlStartIdx - 3, Session.RawYaml, 0, yamlLength + 7);
+            _session.RawYaml = new byte[yamlLength + 7];
+            Array.Copy(telemetryFileBytes, yamlStartIdx - 3, _session.RawYaml, 0, yamlLength + 7);
+
+            _session.SessionInfo = TelemetrySessionInfoFactory.GetSessionInfo(_session.Yaml);
         }
         #endregion
 
@@ -189,8 +234,8 @@ namespace iRacing.TelemetryParser
             byte[] frameBytes = new byte[valueLength];
             Array.Copy(telemetryFileBytes, dataStartIdx, frameBytes, 0, valueLength);
 
-            Session.RawFrames = new byte[valueLength];
-            Array.Copy(telemetryFileBytes, dataStartIdx, Session.RawFrames, 0, valueLength);
+            _session.RawFrames = new byte[valueLength];
+            Array.Copy(telemetryFileBytes, dataStartIdx, _session.RawFrames, 0, valueLength);
 
             return ParseValues(frameBytes);
         }
@@ -200,7 +245,7 @@ namespace iRacing.TelemetryParser
             var startIdx = 0;
             var frameIdx = 0;
             byte[] frameBytes;
-            var frameSize = Session.Fields.Max((f) => f.Position + f.Size);
+            var frameSize = _session.Fields.Max((f) => f.Position + f.Size);
 
             while (true)
             {
@@ -210,7 +255,7 @@ namespace iRacing.TelemetryParser
                     Array.Copy(valueSectionBytes, frameByteIndex, frameBytes, 0, frameSize);
 
                     var frame = new TelemetryFrame(frameIdx);
-                    foreach (TelemetryChannelDefinition field in Session.Fields)
+                    foreach (TelemetryChannelDefinition field in _session.Fields)
                     {
                         TelemetryChannelValue fieldValue = new TelemetryChannelValue(field);
                         fieldValue.Bytes = new byte[field.Size];
@@ -218,7 +263,7 @@ namespace iRacing.TelemetryParser
                         frame.ChannelValues.Add(fieldValue);
                     }
 
-                    Session.Frames.Add(frame);
+                    _session.Frames.Add(frame);
                     frameIdx++;
                 }
                 break;
@@ -267,17 +312,18 @@ namespace iRacing.TelemetryParser
         void ParseLaps()
         {
             TelemetryLap currentLap = new TelemetryLap();
-            int currentLapIdx = -1;
-
-            foreach (var frame in Session.Frames.OrderBy(f => f.FrameIndex))
+            int currentLapNumber = -1;
+            int currentLapIdx = 0;
+            foreach (var frame in _session.Frames.OrderBy(f => f.FrameIndex))
             {
                 var lapBuffer = frame.GetValue(TelemetryConstants.LapKey);
                 var lapNum = Convert.ToInt32(lapBuffer);
-                if (lapNum > currentLapIdx)
+                if (lapNum > currentLapNumber)
                 {
-                    currentLap = new TelemetryLap(lapNum);
-                    Session.Laps.Add(currentLap);
-                    currentLapIdx = lapNum;
+                    currentLap = new TelemetryLap(lapNum, currentLapIdx);
+                    _session.Laps.Add(currentLap);
+                    currentLapNumber = lapNum;
+                    currentLapIdx++;
                 }
                 currentLap.Frames.Add(frame);
             }

@@ -10,16 +10,18 @@ namespace iRacing.TelemetryParser
         {
             IList<TelemetryLap> telemetryLaps = new List<TelemetryLap>();
             TelemetryLap currentLap = new TelemetryLap();
-            int currentLapIdx = -1;
+            int currentLapNumber = -1;
+            int currentLapIdx = 0;
             foreach (var frame in telemetryData.Frames.OrderBy(f => f.FrameIndex))
             {
                 var lapBuffer = frame.GetValue(TelemetryConstants.LapKey);
                 var lapNum = Convert.ToInt32(lapBuffer);
-                if (lapNum > currentLapIdx)
+                if (lapNum > currentLapNumber)
                 {
-                    currentLap = new TelemetryLap(lapNum);
+                    currentLap = new TelemetryLap(lapNum, currentLapIdx);
                     telemetryLaps.Add(currentLap);
-                    currentLapIdx = lapNum;
+                    currentLapNumber = lapNum;
+                    currentLapIdx++;
                 }
                 currentLap.Frames.Add(frame);
             }

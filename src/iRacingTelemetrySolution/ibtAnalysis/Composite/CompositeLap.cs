@@ -27,7 +27,7 @@ namespace iRacing.TelemetryAnalysis.Composite
         {
             _distanceValues = new List<SingleDistanceValue>();
 
-            Lap = new TelemetryLap(0);
+            Lap = new TelemetryLap(0, 0);
             var sessionLaps = TelemetryLapsParser.ParseLaps(_telemetryData);
             foreach (var lap in sessionLaps)
             {                

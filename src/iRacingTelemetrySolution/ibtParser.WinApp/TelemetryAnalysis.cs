@@ -19,7 +19,7 @@ namespace ibtParser.WinApp
         const string DefaultDirectory = @"C:\Users\rroberts\Source\Repos\ircc\src\ibtParser\iRacing.TelemetryParser\Samples\";
 
         ParserEngine _engine;
-        TelemetrySession _session;
+        ITelemetrySession _session;
         ShockAnalysis _analysis;
         string _shockAnalysisReport;
         string _deflectionAnalysisReport;
@@ -158,14 +158,14 @@ namespace ibtParser.WinApp
                 return String.Empty;
         }
 
-        private TelemetrySession ParseTelemetryFile(string telemetryFileName)
+        private ITelemetrySession ParseTelemetryFile(string telemetryFileName)
         {
             if (null == _engine)
                 _engine = new ParserEngine();
             return _engine.ParseTelemetryFile(telemetryFileName, false);
         }
 
-        private void DisplaySessionData(TelemetrySession session)
+        private void DisplaySessionData(ITelemetrySession session)
         {
             lblFile.Text = System.IO.Path.GetFileName(session.FileName);
             lblLapCount.Text = String.Format("{0} Laps", session.Laps.Count);
@@ -178,7 +178,7 @@ namespace ibtParser.WinApp
                 DisplayLap(session, 0);
         }
 
-        void DisplayLap(TelemetrySession session, int idx)
+        void DisplayLap(ITelemetrySession session, int idx)
         {
             this.dataGridView2.AutoGenerateColumns = true;
             int currentSelectedRow = 0;

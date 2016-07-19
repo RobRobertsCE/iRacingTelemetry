@@ -59,6 +59,19 @@
   <ItemGroup>
     <Compile Include="AClassSetup.cs" />
     <Compile Include="ICarSetup.cs" />
+    <Compile Include="Composite\ICompositeSetup.cs" />
+    <Compile Include="Composite\ILeftRearTire.cs" />
+    <Compile Include="Composite\ILeftFrontTire.cs" />
+    <Compile Include="Composite\ISetupTires.cs" />
+    <Compile Include="Composite\IRightFrontTire.cs" />
+    <Compile Include="Composite\IRightRearTire.cs" />
+    <Compile Include="Composite\IChassisFront.cs" />
+    <Compile Include="Composite\IChassisLeftFront.cs" />
+    <Compile Include="Composite\IChassisLeftRear.cs" />
+    <Compile Include="Composite\IChassisRear.cs" />
+    <Compile Include="Composite\IChassisRightFront.cs" />
+    <Compile Include="Composite\IChassisRightRear.cs" />
+    <Compile Include="Composite\ISetupChassis.cs" />
     <Compile Include="KNSetup.cs" />
     <Compile Include="LegendsSetup.cs" />
     <Compile Include="LMSCSetup.cs" />

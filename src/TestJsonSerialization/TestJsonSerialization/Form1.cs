@@ -1,4 +1,5 @@
-﻿using iRacing.TelemetryParser;
+﻿using iRacing;
+using iRacing.TelemetryParser;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace TestJsonSerialization
         #region fields
         JsonSerializerSettings _settings = null;
         ParserEngine _engine;
-        TelemetrySessionEx _session;
+        //TelemetrySessionEx _session;
         #endregion
 
         #region properties
@@ -39,7 +40,7 @@ namespace TestJsonSerialization
         protected virtual string SerializedList { get; set; }
         protected virtual List<ITelemetryFieldDefinition> DeserializedList { get; set; }
         protected virtual List<ITelemetryFieldDefinition> InheritanceList { get; set; }
-        protected virtual TelemetrySessionEx Session { get; set; }
+        protected virtual ITelemetrySession Session { get; set; }
         protected virtual GraphData GraphData { get; set; }
         #endregion
 
@@ -66,7 +67,7 @@ namespace TestJsonSerialization
                 ReadLapValues();
                 ReadFrameValues();
 
-                ReadTelemetryValues();
+                //ReadTelemetryValues();
 
                 DisplayValues();
             }
@@ -75,135 +76,138 @@ namespace TestJsonSerialization
                 Console.WriteLine(ex.ToString());
             }
         }
-        private TelemetrySessionEx ParseTelemetryFile(string telemetryFileName)
+
+        private ITelemetrySession ParseTelemetryFile(string telemetryFileName)
         {
             if (null == _engine)
                 _engine = new ParserEngine();
+
             var session = _engine.ParseTelemetryFile(telemetryFileName, false);
-
-            var sessionEx = new TelemetrySessionEx();
-
-            int lapIdx = 0;
-            foreach (var sessionLap in session.Laps)
-            {
-                TelemetryLap lap = new TelemetryLap() { LapIndex = lapIdx, LapNumber = sessionLap.LapNumber };
-                lapIdx++;
-                int frameIdx = 0;
-                foreach (var sessionLapFrame in sessionLap.Frames)
-                {
-                    TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                    for (int fieldIdx = 0; fieldIdx < sessionLapFrame.ChannelValues.Count; fieldIdx++)
-                    {
-                        var channel = sessionLapFrame.ChannelValues[fieldIdx];
-                        try
-                        {
-                            Single singleValue = 0;
-                            if (channel.Value.ToString()=="True")
-                            {
-                                singleValue = 1;
-                            }
-                            else if (channel.Value.ToString() == "False")
-                            {
-                                singleValue = 0;
-                            }
-                            else
-                            {
-                                singleValue = Convert.ToSingle(channel.Value);
-                            }                               
-                            frame.Values.Add(channel.Definition.Name, singleValue);
-                        }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("Error parsing " + channel.Definition.Name + ": " + channel.Value);
-                        }                       
-                    }
-                    frameIdx++;
-                }
-            }
-
-            return sessionEx;
-        }
-
-        TelemetrySessionEx GetTelemetrySession()
-        {
-            const int lapCount = 3;
-            const int frameCount = 4;
-            //const int fieldCount = 3;
-            var rnd = new Random(DateTime.Now.Millisecond);
-            var session = new TelemetrySessionEx();
-
-            for (int lapIdx = 0; lapIdx < lapCount; lapIdx++)
-            {
-                TelemetryLap lap = new TelemetryLap() { LapIndex = lapIdx, LapNumber = lapIdx };
-                //for (int frameIdx = 0; frameIdx < frameCount; frameIdx++)
-                //{
-                //TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                //for (int fieldIdx = 0; fieldIdx < fieldCount; fieldIdx++)
-                //{
-                //    frame.Values.Add(String.Format("Field{0}", fieldIdx), fieldIdx);
-                //}                 
-                //lap.LapFrames.Add(frame);
-                //}
-
-                // front stretch
-                for (int frameIdx = 0; frameIdx < 4; frameIdx++)
-                {
-                    TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                    frame.Values.Add("LfRideHeight", (Single)(2.0 + rnd.NextDouble()));
-                    frame.Values.Add("LrRideHeight", (Single)(2.2 + rnd.NextDouble()));
-                    frame.Values.Add("RfRideHeight", (Single)(3.0 + rnd.NextDouble()));
-                    frame.Values.Add("RrRideHeight", (Single)(3.5 + rnd.NextDouble()));
-                    frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
-                    lap.LapFrames.Add(frame);
-                }
-                // turn 1-2
-                for (int frameIdx = 4; frameIdx < 14; frameIdx++)
-                {
-                    TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                    frame.Values.Add("LfRideHeight", (Single)(1.5 + rnd.NextDouble()));
-                    frame.Values.Add("LrRideHeight", (Single)(1.75 + rnd.NextDouble()));
-                    frame.Values.Add("RfRideHeight", (Single)(2.0 + rnd.NextDouble()));
-                    frame.Values.Add("RrRideHeight", (Single)(2.125 + rnd.NextDouble()));
-                    frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
-                    lap.LapFrames.Add(frame);
-                }
-                // back stretch
-                for (int frameIdx = 14; frameIdx < 22; frameIdx++)
-                {
-                    TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                    frame.Values.Add("LfRideHeight", (Single)(2.0 + rnd.NextDouble()));
-                    frame.Values.Add("LrRideHeight", (Single)(2.2 + rnd.NextDouble()));
-                    frame.Values.Add("RfRideHeight", (Single)(3.0 + rnd.NextDouble()));
-                    frame.Values.Add("RrRideHeight", (Single)(3.5 + rnd.NextDouble()));
-                    frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
-                    lap.LapFrames.Add(frame);
-                }
-                // turn 3-4
-                for (int frameIdx = 22; frameIdx < 32; frameIdx++)
-                {
-                    TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                    frame.Values.Add("LfRideHeight", (Single)(1.5 + rnd.NextDouble()));
-                    frame.Values.Add("LrRideHeight", (Single)(1.75 + rnd.NextDouble()));
-                    frame.Values.Add("RfRideHeight", (Single)(2.0 + rnd.NextDouble()));
-                    frame.Values.Add("RrRideHeight", (Single)(2.125 + rnd.NextDouble()));
-                    frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
-                    lap.LapFrames.Add(frame);
-                }
-                // fs
-                for (int frameIdx = 32; frameIdx < 36; frameIdx++)
-                {
-                    TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
-                    frame.Values.Add("LfRideHeight", (Single)(2.0 + rnd.NextDouble()));
-                    frame.Values.Add("LrRideHeight", (Single)(2.2 + rnd.NextDouble()));
-                    frame.Values.Add("RfRideHeight", (Single)(3.0 + rnd.NextDouble()));
-                    frame.Values.Add("RrRideHeight", (Single)(3.5 + rnd.NextDouble()));
-                    frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
-                    lap.LapFrames.Add(frame);
-                }
-                session.Laps.Add(lap);
-            }
             return session;
+
+            //var sessionEx = new TelemetrySessionEx();
+
+            //int lapIdx = 0;
+            //foreach (var sessionLap in session.Laps)
+            //{
+            //    TelemetryLap lap = new TelemetryLap() { LapIndex = lapIdx, LapNumber = sessionLap.LapNumber };
+            //    lapIdx++;
+            //    int frameIdx = 0;
+            //    foreach (var sessionLapFrame in sessionLap.Frames)
+            //    {
+            //        TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+            //        for (int fieldIdx = 0; fieldIdx < sessionLapFrame.ChannelValues.Count; fieldIdx++)
+            //        {
+            //            var channel = sessionLapFrame.ChannelValues[fieldIdx];
+            //            try
+            //            {
+            //                Single singleValue = 0;
+            //                if (channel.Value.ToString()=="True")
+            //                {
+            //                    singleValue = 1;
+            //                }
+            //                else if (channel.Value.ToString() == "False")
+            //                {
+            //                    singleValue = 0;
+            //                }
+            //                else
+            //                {
+            //                    singleValue = Convert.ToSingle(channel.Value);
+            //                }                               
+            //                frame.Values.Add(channel.Definition.Name, singleValue);
+            //            }
+            //            catch (Exception)
+            //            {
+            //                Console.WriteLine("Error parsing " + channel.Definition.Name + ": " + channel.Value);
+            //            }                       
+            //        }
+            //        frameIdx++;
+            //    }
+            //}
+
+            //return sessionEx;
         }
+
+        //TelemetrySessionEx GetTelemetrySession()
+        //{
+        //    const int lapCount = 3;
+        //    const int frameCount = 4;
+        //    //const int fieldCount = 3;
+        //    var rnd = new Random(DateTime.Now.Millisecond);
+        //    var session = new TelemetrySessionEx();
+
+        //    for (int lapIdx = 0; lapIdx < lapCount; lapIdx++)
+        //    {
+        //        TelemetryLap lap = new TelemetryLap() { LapIndex = lapIdx, LapNumber = lapIdx };
+        //        //for (int frameIdx = 0; frameIdx < frameCount; frameIdx++)
+        //        //{
+        //        //TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+        //        //for (int fieldIdx = 0; fieldIdx < fieldCount; fieldIdx++)
+        //        //{
+        //        //    frame.Values.Add(String.Format("Field{0}", fieldIdx), fieldIdx);
+        //        //}                 
+        //        //lap.LapFrames.Add(frame);
+        //        //}
+
+        //        // front stretch
+        //        for (int frameIdx = 0; frameIdx < 4; frameIdx++)
+        //        {
+        //            TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+        //            frame.Values.Add("LfRideHeight", (Single)(2.0 + rnd.NextDouble()));
+        //            frame.Values.Add("LrRideHeight", (Single)(2.2 + rnd.NextDouble()));
+        //            frame.Values.Add("RfRideHeight", (Single)(3.0 + rnd.NextDouble()));
+        //            frame.Values.Add("RrRideHeight", (Single)(3.5 + rnd.NextDouble()));
+        //            frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
+        //            lap.Frames.Add(frame);
+        //        }
+        //        // turn 1-2
+        //        for (int frameIdx = 4; frameIdx < 14; frameIdx++)
+        //        {
+        //            TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+        //            frame.Values.Add("LfRideHeight", (Single)(1.5 + rnd.NextDouble()));
+        //            frame.Values.Add("LrRideHeight", (Single)(1.75 + rnd.NextDouble()));
+        //            frame.Values.Add("RfRideHeight", (Single)(2.0 + rnd.NextDouble()));
+        //            frame.Values.Add("RrRideHeight", (Single)(2.125 + rnd.NextDouble()));
+        //            frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
+        //            lap.Frames.Add(frame);
+        //        }
+        //        // back stretch
+        //        for (int frameIdx = 14; frameIdx < 22; frameIdx++)
+        //        {
+        //            TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+        //            frame.Values.Add("LfRideHeight", (Single)(2.0 + rnd.NextDouble()));
+        //            frame.Values.Add("LrRideHeight", (Single)(2.2 + rnd.NextDouble()));
+        //            frame.Values.Add("RfRideHeight", (Single)(3.0 + rnd.NextDouble()));
+        //            frame.Values.Add("RrRideHeight", (Single)(3.5 + rnd.NextDouble()));
+        //            frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
+        //            lap.Frames.Add(frame);
+        //        }
+        //        // turn 3-4
+        //        for (int frameIdx = 22; frameIdx < 32; frameIdx++)
+        //        {
+        //            TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+        //            frame.Values.Add("LfRideHeight", (Single)(1.5 + rnd.NextDouble()));
+        //            frame.Values.Add("LrRideHeight", (Single)(1.75 + rnd.NextDouble()));
+        //            frame.Values.Add("RfRideHeight", (Single)(2.0 + rnd.NextDouble()));
+        //            frame.Values.Add("RrRideHeight", (Single)(2.125 + rnd.NextDouble()));
+        //            frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
+        //            lap.Frames.Add(frame);
+        //        }
+        //        // fs
+        //        for (int frameIdx = 32; frameIdx < 36; frameIdx++)
+        //        {
+        //            TelemetryFrame frame = new TelemetryFrame() { FrameIndex = frameIdx };
+        //            frame.Values.Add("LfRideHeight", (Single)(2.0 + rnd.NextDouble()));
+        //            frame.Values.Add("LrRideHeight", (Single)(2.2 + rnd.NextDouble()));
+        //            frame.Values.Add("RfRideHeight", (Single)(3.0 + rnd.NextDouble()));
+        //            frame.Values.Add("RrRideHeight", (Single)(3.5 + rnd.NextDouble()));
+        //            frame.Values.Add("LapTime", (Single)(18.0F + rnd.NextDouble()));
+        //            lap.Frames.Add(frame);
+        //        }
+        //        session.Laps.Add(lap);
+        //    }
+        //    return session;
+        //}
 
         void SerializeClasses()
         {
@@ -237,7 +241,7 @@ namespace TestJsonSerialization
                 };
 
                 SerializedList = JsonConvert.SerializeObject(InheritanceList, Settings);
-               // Console.WriteLine(SerializedList);
+                // Console.WriteLine(SerializedList);
 
             }
             catch (Exception ex)
@@ -262,7 +266,9 @@ namespace TestJsonSerialization
 
         void LoadTelemetrySessionData()
         {
-            Session = ParseTelemetryFile(@"C:\Users\rroberts\Documents\iRacing\telemetry\skmodified_irp 2016-02-25 21-09-25.ibt");//   GetTelemetrySession();
+            // Session = ParseTelemetryFile(@"C:\Users\rroberts\Documents\iRacing\telemetry\skmodified_irp 2016-02-25 21-09-25.ibt");//   GetTelemetrySession();
+            // skmodified_irp 2016-07-18 23-13-18
+            Session = ParseTelemetryFile(@"C:\Users\rroberts\Documents\iRacing\telemetry\skmodified_irp 2016-07-18 23-13-18.ibt");//   GetTelemetrySession();
         }
 
         void ReadStaticValues()
@@ -331,17 +337,19 @@ namespace TestJsonSerialization
                 foreach (var lap in Session.Laps)
                 {
                     var lapValues = new Dictionary<int, IDictionary<string, Single>>();
-                    foreach (var lapFrame in lap.LapFrames)
+                    var lapFrameIdx = 0;
+                    foreach (var lapFrame in lap.Frames)
                     {
                         var frameValues = new Dictionary<string, Single>();
                         foreach (var field in DeserializedList.Where(i => i.FieldDefinitionType == FieldDefinitionType.Frame))
                         {
                             // read the value for this series (field) from this frame.
                             var lapField = (TelemetryFrameFieldDefinition)field;
-                            var value = lapField.GetValue(GraphData, Session, lap.LapIndex, lapFrame.FrameIndex);
+                            var value = lapField.GetValue(GraphData, Session, lap.LapIndex, lapFrameIdx);
                             frameValues.Add(lapField.Name, value);
                         }
                         lapValues.Add(lapFrame.FrameIndex, frameValues);
+                        lapFrameIdx++;
                     }
                     GraphData.FrameValues.Add(lap.LapIndex, lapValues);
                 }
@@ -360,13 +368,13 @@ namespace TestJsonSerialization
                 foreach (var lap in Session.Laps)
                 {
                     var lapValues = new Dictionary<int, IDictionary<string, Single>>();
-                    foreach (var lapFrame in lap.LapFrames)
+                    foreach (var lapFrame in lap.Frames)
                     {
                         var frameValues = new Dictionary<string, Single>();
                         foreach (var field in DeserializedList.Where(i => i.FieldDefinitionType == FieldDefinitionType.Value))
                         {
                             // read the value for this series (field) from this frame.
-                            var value = lapFrame.Values[field.Name];
+                            var value = lapFrame.GetSingleValue(field.Name);
                             if (frameValues.ContainsKey(field.Name))
                             {
                                 Console.WriteLine("Already has this key..." + field.Name);
@@ -450,6 +458,7 @@ namespace TestJsonSerialization
         }
     }
 
+    #region telemetry
     public enum FieldDefinitionType
     {
         Value,
@@ -495,7 +504,7 @@ namespace TestJsonSerialization
 
         }
 
-        public virtual Single GetValue(GraphData graph, TelemetrySessionEx session, int lapIndex, int lapFrameIndex)
+        public virtual Single GetValue(GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
         {
             return 0F;
         }
@@ -507,7 +516,7 @@ namespace TestJsonSerialization
             : base(FieldDefinitionType.Lap)
         { }
 
-        public virtual Single GetValue(TelemetrySessionEx session, int lapIndex)
+        public virtual Single GetValue(ITelemetrySession session, int lapIndex)
         {
             return 0;
         }
@@ -521,9 +530,9 @@ namespace TestJsonSerialization
 
         }
 
-        public virtual Single GetValue(TelemetrySessionEx session)
+        public virtual Single GetValue(ITelemetrySession session)
         {
-            return 456;
+            return 0;
         }
     }
 
@@ -548,43 +557,9 @@ namespace TestJsonSerialization
             return _value;
         }
     }
+    #endregion
 
-    public class TelemetrySessionEx
-    {
-        public IList<TelemetryLap> Laps { get; set; }
-
-        public TelemetrySessionEx()
-        {
-            Laps = new List<TelemetryLap>();
-        }
-    }
-
-    public class TelemetryFrame
-    {
-        public int FrameIndex { get; set; }
-
-        public IDictionary<string, Single> Values { get; set; }
-
-        public TelemetryFrame()
-        {
-            Values = new Dictionary<string, Single>();
-        }
-    }
-
-    public class TelemetryLap
-    {
-        public int LapIndex { get; set; }
-        public int LapNumber { get; set; }
-
-        public IList<TelemetryFrame> LapFrames { get; set; }
-
-        public TelemetryLap()
-        {
-            LapFrames = new List<TelemetryFrame>();
-        }
-    }
-
-
+    #region graphics
     public class GraphSeries
     {
         public string Name { get; set; }
@@ -640,9 +615,10 @@ namespace TestJsonSerialization
             TelemetryValues = new Dictionary<int, IDictionary<int, IDictionary<string, Single>>>();
         }
     }
+    #endregion
 
-
-    // custom fields
+    #region custom fields
+    #region static fields
     public class MyCarNumberStaticField : TelemetryStaticFieldDefinition
     {
         const string Key = "MyCarNumber";
@@ -650,258 +626,9 @@ namespace TestJsonSerialization
 
         public MyCarNumberStaticField() : base(Key, Value) { }
     }
+    #endregion
 
-    public class LrSpringRateField : TelemetrySessionFieldDefinition
-    {
-        public LrSpringRateField() : base()
-        {
-            Name = "LrSpringRate";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 225;
-        }
-    }
-    public class RrSpringRateField : TelemetrySessionFieldDefinition
-    {
-        public RrSpringRateField() : base()
-        {
-            Name = "RrSpringRate";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 200;
-        }
-    }
-    public class LfSpringRateField : TelemetrySessionFieldDefinition
-    {
-        public LfSpringRateField() : base()
-        {
-            Name = "LfSpringRate";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 450;
-        }
-    }
-    public class RfSpringRateField : TelemetrySessionFieldDefinition
-    {
-        public RfSpringRateField() : base()
-        {
-            Name = "RfSpringRate";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 425;
-        }
-    }
-
-    public class SwayBarRateField : TelemetrySessionFieldDefinition
-    {
-        public SwayBarRateField() : base()
-        {
-            Name = "SwayBarRate";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 350;
-        }
-    }
-
-    public class LrStaticRideHeightField : TelemetrySessionFieldDefinition
-    {
-        public LrStaticRideHeightField() : base()
-        {
-            Name = "LrStaticRideHeight";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 3.0F;
-        }
-    }
-    public class RrStaticRideHeightField : TelemetrySessionFieldDefinition
-    {
-        public RrStaticRideHeightField() : base()
-        {
-            Name = "RrStaticRideHeight";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 4.0F;
-        }
-    }
-    public class LfStaticRideHeightField : TelemetrySessionFieldDefinition
-    {
-        public LfStaticRideHeightField() : base()
-        {
-            Name = "LfStaticRideHeight";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 2.0F;
-        }
-    }
-    public class RfStaticRideHeightField : TelemetrySessionFieldDefinition
-    {
-        public RfStaticRideHeightField() : base()
-        {
-            Name = "RfStaticRideHeight";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 2.5F;
-        }
-    }
-
-    public class RrStaticLoadField : TelemetrySessionFieldDefinition
-    {
-        public RrStaticLoadField() : base()
-        {
-            Name = "RrStaticLoad";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 535F;
-        }
-    }
-    public class LrStaticLoadField : TelemetrySessionFieldDefinition
-    {
-        public LrStaticLoadField() : base()
-        {
-            Name = "LrStaticLoad";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 735F;
-        }
-    }
-    public class RfStaticLoadField : TelemetrySessionFieldDefinition
-    {
-        public RfStaticLoadField() : base()
-        {
-            Name = "RfStaticLoad";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 676;
-        }
-    }
-    public class LfStaticLoadField : TelemetrySessionFieldDefinition
-    {
-        public LfStaticLoadField() : base()
-        {
-            Name = "LfStaticLoad";
-        }
-
-        public override Single GetValue(TelemetrySessionEx session)
-        {
-            return 623;
-        }
-    }
-
-    public class LrDynamicLoadField : TelemetryFrameFieldDefinition
-    {
-        public LrDynamicLoadField() : base()
-        {
-            Name = "LrDynamicLoad";
-        }
-
-        public override Single GetValue(GraphData graph, TelemetrySessionEx session, int lapIndex, int lapFrameIndex)
-        {
-            var staticLoad = (Single)graph.SessionValues["LrStaticLoad"];
-            var staticHeight = (Single)graph.SessionValues["LrStaticRideHeight"];
-            var springRate = (Single)graph.SessionValues["LrSpringRate"];
-            var dynamicHeight = (Single)session.Laps[lapIndex].LapFrames[lapFrameIndex].Values["LrRideHeight"];
-            var rideHeightDelta = dynamicHeight - staticHeight;
-            var dynamicSpringLoadDelta = -1 * (rideHeightDelta * springRate);
-            var dynamicLoad = staticLoad + dynamicSpringLoadDelta;
-            return dynamicLoad;
-        }
-    }
-    public class RrDynamicLoadField : TelemetryFrameFieldDefinition
-    {
-        public RrDynamicLoadField() : base()
-        {
-            Name = "RrDynamicLoad";
-        }
-
-        public override Single GetValue(GraphData graph, TelemetrySessionEx session, int lapIndex, int lapFrameIndex)
-        {
-            var staticLoad = (Single)graph.SessionValues["RrStaticLoad"];
-            var staticHeight = (Single)graph.SessionValues["RrStaticRideHeight"];
-            var springRate = (Single)graph.SessionValues["RrSpringRate"];
-            var dynamicHeight = (Single)session.Laps[lapIndex].LapFrames[lapFrameIndex].Values["RrRideHeight"];
-            var rideHeightDelta = dynamicHeight - staticHeight;
-            var dynamicSpringLoadDelta = -1 * (rideHeightDelta * springRate);
-            var dynamicLoad = staticLoad + dynamicSpringLoadDelta;
-            return dynamicLoad;
-        }
-    }
-    public class LfDynamicLoadField : TelemetryFrameFieldDefinition
-    {
-        public LfDynamicLoadField() : base()
-        {
-            Name = "LfDynamicLoad";
-        }
-
-        public override Single GetValue(GraphData graph, TelemetrySessionEx session, int lapIndex, int lapFrameIndex)
-        {
-            var staticLoad = (Single)graph.SessionValues["LfStaticLoad"];
-            var staticHeight = (Single)graph.SessionValues["LfStaticRideHeight"];
-            var springRate = (Single)graph.SessionValues["LfSpringRate"];
-            var dynamicHeight = (Single)session.Laps[lapIndex].LapFrames[lapFrameIndex].Values["LfRideHeight"];
-            var rideHeightDelta = dynamicHeight - staticHeight;
-            var dynamicSpringLoadDelta = -1 * (rideHeightDelta * springRate);
-
-            var oppositeDynamicHeight = (Single)session.Laps[lapIndex].LapFrames[lapFrameIndex].Values["RfRideHeight"];
-            var swayBarTwist = dynamicHeight - oppositeDynamicHeight;
-            var swayBarRate = (Single)graph.SessionValues["SwayBarRate"];
-            var dynamicBarLoadDelta = swayBarTwist * swayBarRate;
-
-            var dynamicLoad = staticLoad + dynamicSpringLoadDelta + dynamicBarLoadDelta;
-
-            return dynamicLoad;
-        }
-    }
-    public class RfDynamicLoadField : TelemetryFrameFieldDefinition
-    {
-        public RfDynamicLoadField() : base()
-        {
-            Name = "RfDynamicLoad";
-        }
-
-        public override Single GetValue(GraphData graph, TelemetrySessionEx session, int lapIndex, int lapFrameIndex)
-        {
-            var staticLoad = (Single)graph.SessionValues["RfStaticLoad"];
-            var staticHeight = (Single)graph.SessionValues["RfStaticRideHeight"];
-            var springRate = (Single)graph.SessionValues["RfSpringRate"];
-            var dynamicHeight = (Single)session.Laps[lapIndex].LapFrames[lapFrameIndex].Values["RfRideHeight"];
-            var rideHeightDelta = dynamicHeight - staticHeight;
-            var dynamicSpringLoadDelta = -1 * (rideHeightDelta * springRate);
-
-            var oppositeDynamicHeight = (Single)session.Laps[lapIndex].LapFrames[lapFrameIndex].Values["LfRideHeight"];
-            var swayBarTwist = dynamicHeight - oppositeDynamicHeight;
-            var swayBarRate = (Single)graph.SessionValues["SwayBarRate"];
-            var dynamicBarLoadDelta = swayBarTwist * swayBarRate;
-
-            var dynamicLoad = staticLoad + dynamicSpringLoadDelta + dynamicBarLoadDelta;
-
-            return dynamicLoad;
-        }
-    }
-
+    #region lap fields
     public class LapFrameCountField : TelemetryLapFieldDefinition
     {
         public LapFrameCountField() : base()
@@ -909,9 +636,9 @@ namespace TestJsonSerialization
             Name = "LapFrameCount";
         }
 
-        public override Single GetValue(TelemetrySessionEx session, int lapIndex)
+        public override Single GetValue(ITelemetrySession session, int lapIndex)
         {
-            var value = session.Laps[lapIndex].LapFrames.Count();
+            var value = session.Laps[lapIndex].Frames.Count();
             return (Single)value;
         }
     }
@@ -922,10 +649,319 @@ namespace TestJsonSerialization
             Name = "LapTime";
         }
 
-        public override Single GetValue(TelemetrySessionEx session, int lapIndex)
+        public override Single GetValue(ITelemetrySession session, int lapIndex)
         {
-            var value = session.Laps[lapIndex].LapFrames.SelectMany(f => f.Values.Where(v => v.Key == "LapTime")).Min(t => t.Value);
-            return (Single)value;
+            var value = session.Laps[lapIndex].Frames.SelectMany(f => f.ChannelValues.Where(v => v.Definition.Name == "LapTime")).Min(t => t.Value);
+            return Convert.ToSingle(value);
         }
     }
+    #endregion
+
+    #region session fields
+    public class LrSpringRateField : TelemetrySessionFieldDefinition
+    {
+        public LrSpringRateField() : base()
+        {
+            Name = "LRSpringRate";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftRear.SpringRate;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftRear.SpringRate);
+        }
+    }
+    public class RrSpringRateField : TelemetrySessionFieldDefinition
+    {
+        public RrSpringRateField() : base()
+        {
+            Name = "RRSpringRate";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.RightRear.SpringRate;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftRear.SpringRate);
+        }
+    }
+    public class LfSpringRateField : TelemetrySessionFieldDefinition
+    {
+        public LfSpringRateField() : base()
+        {
+            Name = "LFSpringRate";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftFront.SpringRate;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftRear.SpringRate);
+        }
+    }
+    public class RfSpringRateField : TelemetrySessionFieldDefinition
+    {
+        public RfSpringRateField() : base()
+        {
+            Name = "RFSpringRate";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftFront.SpringRate;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftRear.SpringRate);
+        }
+    }
+
+    public class SwayBarRateField : TelemetrySessionFieldDefinition
+    {
+        public SwayBarRateField() : base()
+        {
+            Name = "SwayBarRate";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.Front.SwayBarSize;
+            var swayBarSize = Conversions.GetValue(stringValue);
+            var stringValue2 = session.SessionInfo.CarSetup.Chassis.Front.SwayBarArmLength;
+            var swayBarArmLength = Conversions.GetValue(stringValue2);
+
+            //var swayBarSize = Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.Front.SwayBarSize);
+            //var swayBarArmLength = Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.Front.SwayBarArmLength);
+            // TODO: do magic calculation here...
+            return 350;
+        }
+    }
+
+    public class LrStaticRideHeightField : TelemetrySessionFieldDefinition
+    {
+        public LrStaticRideHeightField() : base()
+        {
+            Name = "LRStaticRideHeight";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftRear.RideHeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftRear.RideHeight);
+        }
+    }
+    public class RrStaticRideHeightField : TelemetrySessionFieldDefinition
+    {
+        public RrStaticRideHeightField() : base()
+        {
+            Name = "RRStaticRideHeight";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.RightRear.RideHeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.RightRear.RideHeight);
+        }
+    }
+    public class LfStaticRideHeightField : TelemetrySessionFieldDefinition
+    {
+        public LfStaticRideHeightField() : base()
+        {
+            Name = "LFStaticRideHeight";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftFront.RideHeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftFront.RideHeight);
+        }
+    }
+    public class RfStaticRideHeightField : TelemetrySessionFieldDefinition
+    {
+        public RfStaticRideHeightField() : base()
+        {
+            Name = "RFStaticRideHeight";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.RightFront.RideHeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.RightFront.RideHeight);
+        }
+    }
+
+    public class RrStaticLoadField : TelemetrySessionFieldDefinition
+    {
+        public RrStaticLoadField() : base()
+        {
+            Name = "RRStaticLoad";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.RightRear.CornerWeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.RightRear.CornerWeight);
+        }
+    }
+    public class LrStaticLoadField : TelemetrySessionFieldDefinition
+    {
+        public LrStaticLoadField() : base()
+        {
+            Name = "LRStaticLoad";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftRear.CornerWeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftRear.CornerWeight);
+        }
+    }
+    public class RfStaticLoadField : TelemetrySessionFieldDefinition
+    {
+        public RfStaticLoadField() : base()
+        {
+            Name = "RFStaticLoad";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.RightFront.CornerWeight;
+            return Conversions.GetValue(stringValue);
+            //return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.RightFront.CornerWeight);
+        }
+    }
+    public class LfStaticLoadField : TelemetrySessionFieldDefinition
+    {
+        public LfStaticLoadField() : base()
+        {
+            Name = "LFStaticLoad";
+        }
+
+        public override Single GetValue(ITelemetrySession session)
+        {
+            var stringValue = session.SessionInfo.CarSetup.Chassis.LeftFront.CornerWeight;
+            return Conversions.GetValue(stringValue);
+            // return Convert.ToSingle(session.SessionInfo.CarSetup.Chassis.LeftFront.CornerWeight);
+        }
+    }
+    #endregion
+
+    #region dynamic fields
+    public class LrDynamicLoadField : DynamicLoadFieldCalculator
+    {
+        public LrDynamicLoadField() : base()
+        {
+            Name = "LRDynamicLoad";
+        }
+
+        public override Single GetValue(GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
+        {
+            return CalculateDynamicLoadRear("LR", graph, session, lapIndex, lapFrameIndex);
+        }
+    }
+    public class RrDynamicLoadField : DynamicLoadFieldCalculator
+    {
+        public RrDynamicLoadField() : base()
+        {
+            Name = "RRDynamicLoad";
+        }
+
+        public override Single GetValue(GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
+        {
+            return CalculateDynamicLoadRear("RR", graph, session, lapIndex, lapFrameIndex);
+        }
+    }
+    public class LfDynamicLoadField : DynamicLoadFieldCalculator
+    {
+        public LfDynamicLoadField() : base()
+        {
+            Name = "LFDynamicLoad";
+        }
+
+        public override Single GetValue(GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
+        {
+
+            return CalculateDynamicLoadFront("LF", graph, session, lapIndex, lapFrameIndex);
+        }
+    }
+    public class RfDynamicLoadField : DynamicLoadFieldCalculator
+    {
+        public RfDynamicLoadField() : base()
+        {
+            Name = "RFDynamicLoad";
+        }
+
+        public override Single GetValue(GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
+        {
+            return CalculateDynamicLoadFront("RF", graph, session, lapIndex, lapFrameIndex);
+        }
+    }
+
+    public class DynamicLoadFieldCalculator : TelemetryFrameFieldDefinition
+    {
+        private const Single FrontMotionRatio = 0.7F;
+        private const Single RearMotionRatio = 0.9F;
+
+        // front
+        protected Single CalculateDynamicLoadFront(string cornerPrefix, GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
+        {
+            var staticLoad = (Single)graph.SessionValues[cornerPrefix + "StaticLoad"];
+            var staticHeight = (Single)graph.SessionValues[cornerPrefix + "StaticRideHeight"];
+            var springRate = (Single)graph.SessionValues[cornerPrefix + "SpringRate"];
+            var dynamicHeightMetric = (Single)session.Laps[lapIndex].Frames[lapFrameIndex].GetSingleValue(cornerPrefix + "RideHeight");
+            var dynamicHeight = Conversions.MMToInches(dynamicHeightMetric);
+
+            var oppositeDynamicHeightMetric = (Single)session.Laps[lapIndex].Frames[lapFrameIndex].GetSingleValue(cornerPrefix + "RideHeight");
+            var oppositeDynamicHeight = Conversions.MMToInches(oppositeDynamicHeightMetric);
+            var swayBarRate = (Single)graph.SessionValues["SwayBarRate"];
+
+            return CalculateDynamicLoadFront(staticLoad, springRate, staticHeight, dynamicHeight, oppositeDynamicHeight, swayBarRate);
+        }
+
+        protected Single CalculateDynamicLoadFront(Single staticLoad, Single springRate, Single staticHeight, Single dynamicHeight, Single oppositeDynamicHeight, Single swayBarRate)
+        {
+            var swayBarTwist = dynamicHeight - oppositeDynamicHeight;
+            var dynamicBarLoadDelta = swayBarTwist * swayBarRate;
+            var rideHeightDelta = dynamicHeight - staticHeight;
+            var dynamicSpringLoadDelta = -1 * (rideHeightDelta * springRate * FrontMotionRatio);
+            var dynamicLoad = staticLoad + dynamicSpringLoadDelta;
+            return dynamicLoad;
+        }
+
+        // rear
+        protected Single CalculateDynamicLoadRear(string cornerPrefix, GraphData graph, ITelemetrySession session, int lapIndex, int lapFrameIndex)
+        {
+            var staticLoad = (Single)graph.SessionValues[cornerPrefix + "StaticLoad"];
+            var staticHeight = (Single)graph.SessionValues[cornerPrefix + "StaticRideHeight"];
+            var springRate = (Single)graph.SessionValues[cornerPrefix + "SpringRate"];
+            Single dynamicHeightMetric = 0;
+            try
+            {
+                dynamicHeightMetric = (Single)session.Laps[lapIndex].Frames[lapFrameIndex].GetSingleValue(cornerPrefix + "RideHeight");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            var dynamicHeight = Conversions.MMToInches(dynamicHeightMetric);
+            return CalculateDynamicLoadRear(staticLoad, springRate, staticHeight, dynamicHeight);
+        }
+
+        protected Single CalculateDynamicLoadRear(Single staticLoad, Single springRate, Single staticHeight, Single dynamicHeight)
+        {
+            var rideHeightDelta = dynamicHeight - staticHeight;
+            var dynamicSpringLoadDelta = -1 * (rideHeightDelta * springRate * RearMotionRatio);
+            var dynamicLoad = staticLoad + dynamicSpringLoadDelta;
+            return dynamicLoad;
+        }
+
+    }
+    #endregion
+    #endregion
 }
